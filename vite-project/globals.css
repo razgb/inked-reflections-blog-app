@@ -1,0 +1,91 @@
+:root {
+  --fs-xs: 0.8rem;
+  --fs-sm: 1.2rem;
+  --fs-base: 1.6rem;
+  --fs-lg: 2rem;
+  --fs-xl: 2.4rem;
+  --fs-2xl: 3.2rem;
+  --fs-3xl: 4rem;
+  --fs-4xl: 4.8rem;
+  --fs-5xl: 5.6rem;
+
+  /* SPACING VARIABLES */
+  --space-unit: 1rem; /* 10px default size */
+  --space-xs: calc(0.4 * var(--space-unit));
+  --space-sm: calc(0.8 * var(--space-unit));
+  --space-md: calc(1.2 * var(--space-unit));
+  --space-lg: calc(2 * var(--space-unit));
+  --space-xl: calc(3.2 * var(--space-unit));
+  --space-2xl: calc(5.2 * var(--space-unit));
+  --space-3xl: calc(8.4 * var(--space-unit));
+  --space-4xl: calc(13.6 * var(--space-unit));
+
+  /* COLOR VARIABLES */
+  --color-primary-300: #fbf7f1; /* Body Color & Base Color*/
+  --color-primary-400: #f7eee0;
+  --color-primary-500: #f2e4cf;
+  --color-primary-600: #efddbd;
+  --color-primary-800: #211808;
+  --color-primary-900: #100c04;
+
+  --color-choice-1: #f8e6f6;
+  --color-choice-2: #e2eaf7;
+  --color-choice-3: #d3f3d6;
+
+  --color-gray-200: #dbdbdb;
+  --color-gray-300: #cecece;
+  --color-gray-500: #656565;
+  --color-gray-700: #454545;
+  --color-gray-900: #191919;
+
+  --ff-sans: "Roboto";
+}
+
+html {
+  font-size: 62.5%;
+}
+*,
+*:before,
+*:after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  border: none;
+}
+p {
+  line-height: 1.5;
+}
+ol,
+ul,
+menu {
+  list-style: none;
+}
+/* For images to not be able to exceed their container */
+img {
+  max-inline-size: 100%;
+  max-block-size: 100%;
+  font-size: 0;
+}
+button {
+  font-size: inherit;
+}
+
+/* ----------------------------------------------------------------------- */
+
+body {
+  background-color: var(--color-primary-300);
+  font-family: var(--ff-sans);
+}
+
+/* svg icons */
+
+/* Couldn't solve the issue, try plugging in gemini to solve. */
+.icon {
+  /* fill: var(--color-gray-500); */
+}
+/* .icon:hover {
+  fill: var(--color-gray-700);
+}
+button:hover {
+  fill: var(--color-gray-700);
+} */
