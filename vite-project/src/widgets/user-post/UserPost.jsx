@@ -26,7 +26,6 @@ export default function UserPost() {
   function handlePostClick(event) {
     if (event.target.tagName === "A") return;
     window.location.href = `/posts/${123}`; // post id instead of 123
-    // redirect(`/posts/${123}`);
   }
 
   return (

@@ -46,7 +46,7 @@
   --color-blue-700: #253042;
   --color-blue-800: #1a222e;
 
-  --color-choice-1: #f8e6f6;
+  --color-choice-1: #f8e6f3;
   --color-choice-2: #e2eaf7;
   --color-choice-3: #d3f3d6;
 
@@ -55,6 +55,10 @@
   --color-gray-500: #656565;
   --color-gray-700: #454545;
   --color-gray-900: #191919;
+}
+
+::selection {
+  background-color: var(--color-primary-400);
 }
 
 html {

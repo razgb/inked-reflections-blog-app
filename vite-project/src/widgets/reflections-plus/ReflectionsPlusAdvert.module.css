@@ -25,8 +25,8 @@
 .advert__button {
   cursor: pointer;
   font-size: var(--fs-base);
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--space-md);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--space-lg);
   color: var(--color-blue-300);
   background-color: var(--color-blue-800);
 

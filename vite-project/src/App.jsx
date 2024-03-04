@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 import RootLayout from "./pages/root-page/RootPage.jsx";
 import HomePage from "./pages/home-page/HomePage";
-import PostDetails from "./pages/post-details/PostDetails.jsx";
+import PostDetails from "./pages/post-details-page/PostDetailsPage.jsx";
 
 const router = createBrowserRouter([
   {

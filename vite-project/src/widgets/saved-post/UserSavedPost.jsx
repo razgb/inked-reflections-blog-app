@@ -24,7 +24,9 @@ export default function UserSavedPost() {
           </Link>
         </div>
 
-        <h4 className={styles["post__title"]}>Lorem ipsum dolor sit amet</h4>
+        <h4 className={styles["post__title"]}>
+          Principles of DRY {`(Don't Repeat Yourself)`} rule
+        </h4>
       </div>
     </article>
   );
