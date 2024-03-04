@@ -4,7 +4,7 @@ import {
   SearchSolidIcon,
   HamburgerSolidIcon,
   HelpSolidIcon,
-  LibrarySolidIcon,
+  BookmarksSolidIcon,
   ProfileSolidIcon,
   ReflectionsSolidIcon,
   SettingsSolidIcon,
@@ -14,7 +14,7 @@ import {
   SearchIcon,
   ProfileIcon,
   ReflectionsIcon,
-  LibraryIcon,
+  BookmarksIcon,
   SettingsIcon,
   HelpIcon,
   SunIcon,
@@ -37,7 +37,7 @@ import { toggleMenu } from "../../features/app-menu/toggle-menu";
 const ICON_SIZE = 20;
 
 export default function Menu() {
-  const [activeButton, SetActiveButton] = useState("");
+  const [activeButton, SetActiveButton] = useState("home");
   const dispatch = useDispatch();
   function handleToggleMenuState() {
     dispatch(toggleMenu());
@@ -57,6 +57,7 @@ export default function Menu() {
 
         <div className={styles["menu-actions-1"]}>
           <MenuButton
+            destination="/"
             title="Home"
             active={activeButton === "home" ? "menu-button__active" : ""}
             fn={() => handleActiveButton("home")}
@@ -69,6 +70,7 @@ export default function Menu() {
           </MenuButton>
 
           <MenuButton
+            destination="/profile"
             title="Profile"
             active={activeButton === "profile" ? true : false}
             fn={() => handleActiveButton("profile")}
@@ -81,6 +83,7 @@ export default function Menu() {
           </MenuButton>
 
           <MenuButton
+            destination="/explore"
             active={activeButton === "search" ? true : false}
             fn={() => handleActiveButton("search")}
             title="Search"
@@ -93,6 +96,7 @@ export default function Menu() {
           </MenuButton>
 
           <MenuButton
+            destination="/reflections"
             active={activeButton === "reflections" ? true : false}
             fn={() => handleActiveButton("reflections")}
             title="Reflections"
@@ -105,18 +109,20 @@ export default function Menu() {
           </MenuButton>
 
           <MenuButton
-            active={activeButton === "library" ? true : false}
-            fn={() => handleActiveButton("library")}
-            title="Library"
+            destination="/bookmarks"
+            active={activeButton === "bookmarks" ? true : false}
+            fn={() => handleActiveButton("bookmarks")}
+            title="Bookmarks"
           >
-            {activeButton === "library" ? (
-              <LibrarySolidIcon size={ICON_SIZE} />
+            {activeButton === "bookmarks" ? (
+              <BookmarksSolidIcon size={ICON_SIZE} />
             ) : (
-              <LibraryIcon size={ICON_SIZE} />
+              <BookmarksIcon size={ICON_SIZE} />
             )}
           </MenuButton>
 
           <MenuButton
+            destination="/settings"
             active={activeButton === "settings" ? true : false}
             fn={() => handleActiveButton("settings")}
             title="Settings"
@@ -129,6 +135,7 @@ export default function Menu() {
           </MenuButton>
 
           <MenuButton
+            destination="/help"
             active={activeButton === "help" ? true : false}
             fn={() => handleActiveButton("help")}
             title="Help"
@@ -147,6 +154,7 @@ export default function Menu() {
             <MoonIcon size={ICON_SIZE} />
           </MenuButton>
           <MenuButton title="Signout">
+            {/* Future me make a modal popup */}
             <SignoutIcon size={ICON_SIZE} />
           </MenuButton>
         </div>

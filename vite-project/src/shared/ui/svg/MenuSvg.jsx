@@ -64,7 +64,7 @@ const HamburgerIcon = ({ size }) => {
     </svg>
   );
 };
-const LibraryIcon = ({ size }) => {
+const BookmarksIcon = ({ size }) => {
   return (
     <svg
       fill={FILL_COLOR}
@@ -176,7 +176,7 @@ export {
   SearchIcon,
   ProfileIcon,
   HamburgerIcon,
-  LibraryIcon,
+  BookmarksIcon,
   ReflectionsIcon,
   SettingsIcon,
   HelpIcon,

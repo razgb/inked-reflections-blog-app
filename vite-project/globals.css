@@ -1,13 +1,25 @@
 :root {
-  --fs-xs: 0.8rem;
-  --fs-sm: 1.2rem;
-  --fs-base: 1.6rem;
+  --fs-2xs: 1.2rem;
+  --fs-xs: 1.4rem;
+  --fs-sm: 1.6rem;
+  --fs-base: 1.8rem;
   --fs-lg: 2rem;
   --fs-xl: 2.4rem;
   --fs-2xl: 3.2rem;
   --fs-3xl: 4rem;
   --fs-4xl: 4.8rem;
   --fs-5xl: 5.6rem;
+
+  --primary-heading: var(--fs-3xl);
+  --secondary-heading: var(--fs-xl);
+  --tertiary-heading: var(--fs-lg);
+  --small-heading: var(--fs-sm);
+  --text: var(--fs-base);
+  --text-sm: var(--fs-sm);
+  --text-xs: var(--fs-2xs);
+
+  --ff-sans: "Roboto", sans;
+  --ff-serif: "Roboto-Serif", serif;
 
   /* SPACING VARIABLES */
   --space-unit: 1rem; /* 10px default size */
@@ -21,12 +33,18 @@
   --space-4xl: calc(13.6 * var(--space-unit));
 
   /* COLOR VARIABLES */
-  --color-primary-300: #fbf7f1; /* Body Color & Base Color*/
-  --color-primary-400: #f7eee0;
-  --color-primary-500: #f2e4cf;
-  --color-primary-600: #efddbd;
+  --color-primary-200: #fbf7f1; /* Body Color & Base Color*/
+  --color-primary-300: #f9f0e4;
+  --color-primary-400: #f5ead7;
+  --color-primary-500: #f2e4cf; /* Color of icon hover on menu */
+  --color-primary-600: #efdec2;
   --color-primary-800: #211808;
   --color-primary-900: #100c04;
+
+  --color-blue-300: #e2eaf7;
+  --color-blue-500: #a5c2f4;
+  --color-blue-700: #253042;
+  --color-blue-800: #1a222e;
 
   --color-choice-1: #f8e6f6;
   --color-choice-2: #e2eaf7;
@@ -37,8 +55,6 @@
   --color-gray-500: #656565;
   --color-gray-700: #454545;
   --color-gray-900: #191919;
-
-  --ff-sans: "Roboto";
 }
 
 html {
@@ -60,6 +76,10 @@ ul,
 menu {
   list-style: none;
 }
+a:link,
+a:visited {
+  color: inherit;
+}
 /* For images to not be able to exceed their container */
 img {
   max-inline-size: 100%;
@@ -73,19 +93,6 @@ button {
 /* ----------------------------------------------------------------------- */
 
 body {
-  background-color: var(--color-primary-300);
+  background-color: var(--color-primary-200);
   font-family: var(--ff-sans);
 }
-
-/* svg icons */
-
-/* Couldn't solve the issue, try plugging in gemini to solve. */
-.icon {
-  /* fill: var(--color-gray-500); */
-}
-/* .icon:hover {
-  fill: var(--color-gray-700);
-}
-button:hover {
-  fill: var(--color-gray-700);
-} */

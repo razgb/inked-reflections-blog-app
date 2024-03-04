@@ -1,7 +1,14 @@
 import { useSelector } from "react-redux";
 import styles from "./MenuButton.module.css";
+import { Link } from "react-router-dom";
 
-export default function MenuButton({ children, fn, active, title }) {
+export default function MenuButton({
+  children,
+  fn,
+  active,
+  title,
+  destination,
+}) {
   const menuOpenState = useSelector((state) => state.menu.menuOpenState);
 
   if (!children)
@@ -22,7 +29,7 @@ export default function MenuButton({ children, fn, active, title }) {
   cssClasses += ` ${active ? styles["menu-button__active"] : undefined}`;
 
   return (
-    <button onClick={fn} className={cssClasses}>
+    <Link to={destination} onClick={fn} className={cssClasses}>
       <span>{children}</span>
       {menuOpenState && title && (
         <p
@@ -33,6 +40,6 @@ export default function MenuButton({ children, fn, active, title }) {
           {title}
         </p>
       )}
-    </button>
+    </Link>
   );
 }

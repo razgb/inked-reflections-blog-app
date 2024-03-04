@@ -1,6 +1,11 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import RootLayout from "./pages/RootPage";
-import HomePage from "./pages/HomePage";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
+import RootLayout from "./pages/root-page/RootPage.jsx";
+import HomePage from "./pages/home-page/HomePage";
+import PostDetails from "./pages/post-details/PostDetails.jsx";
 
 const router = createBrowserRouter([
   {
@@ -9,14 +14,43 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomePage />,
+        element: <Navigate to="/posts" />,
       },
       {
-        path: "/contact",
+        path: "posts",
+        children: [
+          {
+            index: true,
+            element: <HomePage />,
+          },
+          {
+            path: ":postId",
+            element: <PostDetails />,
+          },
+        ],
+      },
+      {
+        path: "explore",
         element: <></>,
       },
       {
-        path: "/about",
+        path: "profile",
+        element: <></>,
+      },
+      {
+        path: "reflections",
+        element: <></>,
+      },
+      {
+        path: "bookmarks",
+        element: <></>,
+      },
+      {
+        path: "settings",
+        element: <></>,
+      },
+      {
+        path: "help",
         element: <></>,
       },
     ],

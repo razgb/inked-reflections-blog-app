@@ -2,25 +2,30 @@
 .menu-button__no-content {
   background-color: transparent;
   padding: var(--space-md);
-  border-radius: var(--space-md);
+  border-radius: var(--space-sm);
   transition: background-color 0.15s ease-in;
   cursor: pointer;
   min-height: 5.5rem;
+  text-decoration: none;
 }
 .menu-button__no-content {
   align-self: flex-start;
 }
 .menu-button {
   display: flex;
-  gap: var(--space-lg);
+  gap: var(--space-md);
   align-items: center;
   font-size: var(--fs-lg);
+}
+.menu-button:focus {
+  outline-color: var(--color-primary-800);
+  outline-width: 2px;
 }
 .menu-button:hover {
   background-color: var(--color-primary-500);
 }
 .menu-button.menu-button__active {
-  background-color: var(--color-primary-500);
+  /* background-color: var(--color-primary-500); */
   font-weight: 700;
 }
 

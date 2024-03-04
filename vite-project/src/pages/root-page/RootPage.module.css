@@ -19,7 +19,13 @@
   grid-column: 2/3;
   grid-row: 1/2;
 }
+
+/* Contains the PageLayoutTemplate div */
 .layout__outlet {
   grid-column: 2/3;
   grid-row: 2/3;
+
+  /* Allows for PageLayout to have max width, width, and min width. */
+  width: 100%;
+  overflow: scroll;
 }

@@ -1,0 +1,43 @@
+.saved-post {
+  border-radius: var(--space-sm);
+  transition: background-color 0.15s ease-in;
+  min-width: 20rem;
+}
+.saved-post:hover {
+  background-color: var(--color-primary-600);
+  cursor: pointer;
+}
+
+.post__container {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md) var(--space-lg);
+  gap: var(--space-xs);
+}
+
+.author__container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.author__name {
+  font-size: var(--small-heading);
+}
+.author__img {
+  border-radius: 100%;
+  width: 2.4rem;
+  height: 2.4rem;
+}
+.post__title {
+  font-size: var(--small-heading);
+  font-weight: 500;
+}
+
+.author__link:link,
+.author__link:visited {
+  text-decoration: none;
+  display: block;
+}
+.author__link:hover {
+  text-decoration: underline;
+}

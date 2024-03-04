@@ -76,7 +76,7 @@ const HamburgerSolidIcon = ({ size }) => {
     </svg>
   );
 };
-const LibrarySolidIcon = ({ size }) => {
+const BookmarksSolidIcon = ({ size }) => {
   return (
     <svg
       fill={FILL_COLOR}
@@ -146,7 +146,7 @@ export {
   SearchSolidIcon,
   ProfileSolidIcon,
   HamburgerSolidIcon,
-  LibrarySolidIcon,
+  BookmarksSolidIcon,
   ReflectionsSolidIcon,
   SettingsSolidIcon,
   HelpSolidIcon,

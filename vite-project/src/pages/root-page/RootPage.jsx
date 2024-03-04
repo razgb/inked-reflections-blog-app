@@ -1,7 +1,7 @@
 import styles from "./RootPage.module.css";
 import { Outlet } from "react-router-dom";
-import MainNavigation from "../widgets/main-navigation/MainNavigation";
-import Menu from "../widgets/menu/Menu";
+import MainNavigation from "../../widgets/main-navigation/MainNavigation";
+import Menu from "../../widgets/menu/Menu";
 
 import { useSelector } from "react-redux";
 
@@ -11,7 +11,7 @@ export default function RootLayout() {
   if (menuOpenState) menuClasses += ` ${styles["layout-open"]}`;
 
   return (
-    <div className={menuClasses}>
+    <div className={`${menuClasses} layout__container`}>
       <div className={styles["layout__menu"]}>
         <Menu />
       </div>

@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-md);
-  border-bottom: 2px solid var(--color-primary-400);
+  border-bottom: 2px solid var(--color-primary-300);
 }
 
 .main-nav__logo {
@@ -24,7 +24,7 @@
   cursor: pointer;
   padding: var(--space-md);
   transition: all 0.1s ease-in;
-  border-radius: var(--space-md);
+  border-radius: var(--space-sm);
 }
 .write-button {
   display: flex;

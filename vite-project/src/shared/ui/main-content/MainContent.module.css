@@ -1,0 +1,8 @@
+.main-content {
+  /* background-color: var(--color-choice-1); */
+  border-right: 2px solid var(--color-primary-400);
+  /* padding: var(--space-lg); */
+
+  /* Please find a proper style */
+  /* padding-right: var(--space-2xl); */
+}
