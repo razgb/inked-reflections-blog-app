@@ -1,9 +1,36 @@
 import styles from "./UserPostsContainer.module.css";
 import UserPost from "./UserPost";
+import { fetchPosts } from "../../features/user-posts/fetchPosts";
 import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+let renderInitialBatch = true;
 
 export default function UserPostContainer() {
   const triggerRef = useRef();
+  const dispatch = useDispatch();
+  if (renderInitialBatch) {
+    // dispatch(fetchPosts());
+    renderInitialBatch = false;
+  }
+  const { postsFeed } = useSelector((state) => state.posts);
+  console.log(postsFeed);
+
+  const outputFeed = postsFeed.map((post) => (
+    <UserPost
+      key={post.id}
+      firstName={post.firstName}
+      lastName={post.lastName}
+      paragraphs={post.paragraphs}
+    />
+  ));
+
+  // Always at the end of the array even when new batches of posts come too!
+  if (outputFeed.length > 0) {
+    outputFeed.push(
+      <div className="target" ref={triggerRef} key={Math.random()}></div>
+    );
+  }
 
   useEffect(() => {
     const scrollContainer = document.querySelector(".scrollContainer");
@@ -12,6 +39,7 @@ export default function UserPostContainer() {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           console.log("Fetching...");
+          // dispatch(fetchPosts());
         }
       });
     }
@@ -22,22 +50,27 @@ export default function UserPostContainer() {
       threshold: 1,
     });
 
-    postsObserver.observe(triggerRef.current);
+    if (outputFeed.length > 0) {
+      postsObserver.observe(triggerRef.current);
+    }
 
     return () => postsObserver.disconnect(); // cleanup function!
-  }, []);
+  }, [dispatch, outputFeed]);
 
-  const tempArrayOfPosts = [];
-  for (let i = 0; i < 10; i++) {
-    tempArrayOfPosts.push(<UserPost key={Math.random()} />);
-  }
-  tempArrayOfPosts.push(
-    <div className="target" ref={triggerRef} key={Math.random()}>
-      hello
-    </div>
-  );
-
-  return (
-    <div className={styles["user-posts-container"]}>{tempArrayOfPosts}</div>
-  );
+  return <div className={styles["user-posts-container"]}>{outputFeed}</div>;
 }
+
+function UserPostsContainerLoader() {
+  // fetchPosts();
+}
+
+/*
+      const tempArrayOfPosts = [];
+      for (let i = 0; i < 10; i++) {
+        tempArrayOfPosts.push(<UserPost key={Math.random()} />);
+      }
+      tempArrayOfPosts.push(
+        <div className="target" ref={triggerRef} key={Math.random()}></div>
+      );
+       */
+// <div className={styles["user-posts-container"]}>{tempArrayOfPosts}</div>

@@ -44,37 +44,36 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   </React.StrictMode>
 );
 
-let lastVisibleDoc = null; // initialise
-async function getData() {
-  const postsRef = collection(db, "posts");
-  let q;
+// let lastVisibleDoc = null; // initialise
+// async function getData() {
+//   const postsRef = collection(db, "posts");
+//   let q;
 
-  if (lastVisibleDoc) {
-    q = query(
-      postsRef,
-      orderBy("createdAt", "desc"),
-      startAfter(lastVisibleDoc),
-      limit(10)
-    );
-  } else {
-    q = query(postsRef, orderBy("createdAt", "desc"), limit(10));
-  }
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => console.log(doc.data()));
+//   if (lastVisibleDoc) {
+//     q = query(
+//       postsRef,
+//       orderBy("createdAt", "desc"),
+//       startAfter(lastVisibleDoc),
+//       limit(10)
+//     );
+//   } else {
+//     q = query(postsRef, orderBy("createdAt", "desc"), limit(10));
+//   }
+//   const querySnapshot = await getDocs(q);
+//   querySnapshot.forEach((doc) => console.log(doc.data()));
 
-  lastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1]; // last document in the last received set of posts
-  console.log("-------- next batch --------");
-}
+//   lastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1]; // last document in the last received set of posts
+//   console.log("-------- next batch --------");
+// }
 
-async function getAllData() {
-  await getData();
-  await getData();
-}
+// async function getAllData() {
+//   await getData();
+//   await getData();
+// }
 // getAllData();
 
 /*
 
- */
 async function sendPostsData() {
   const postsRef = collection(db, "posts");
   try {
@@ -94,6 +93,7 @@ async function sendPostsData() {
     console.log(error);
   }
 }
+ */
 // sendPostsData();
 
 /**

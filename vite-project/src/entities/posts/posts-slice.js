@@ -11,14 +11,31 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const postsSlice = createSlice({
   name: "posts",
-  // Array of objects (posts)
   initialState: {
-    posts: [],
-    isLoading: false,
-    error: null,
+    currentPost: {},
+    postsFeed: [],
+    lastVisibleDoc: null,
   },
-  reducers: {},
+  reducers: {
+    /*  
+    Receives posts from the fetchPosts.js feature (async function).
+    The payload is an array of post objects.  
+    */
+    updatePostsFeed(state, action) {
+      state.postsFeed = [...state.postsFeed, ...action.payload];
+    },
+    // uploadPost(state, action) {},
+    // editPost(state, action) {},
+    // deletePost(state, action) {},
+  },
 });
 
-// remember to make a custom post action for adding, updating, deleting post
+export const { updatePostsFeed } = postsSlice.actions;
 export default postsSlice;
+
+/**
+ * Notes:
+ *
+ * Think of creating a UI slice for errors, upload successes, and other messages
+ * instead of setting the loading and error states here in this slice.
+ */

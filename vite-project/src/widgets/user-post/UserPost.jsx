@@ -22,10 +22,25 @@ import { ActionDotsIcon, BookmarksIcon } from "../../shared/ui/svg/PostSvg";
 }
 */
 
-export default function UserPost() {
+// YOU FUKCING FORGOT POST TITLE
+
+export default function UserPost({
+  firstName,
+  lastName,
+  datePublished,
+  paragraphs,
+}) {
   function handlePostClick(event) {
     if (event.target.tagName === "A") return;
     window.location.href = `/posts/${123}`; // post id instead of 123
+  }
+
+  function formatAbstractParagraph(p) {
+    const length = p.split("").length;
+    if (length <= 240) return p;
+    else {
+      return p.split("").splice(0, 180).join("") + "...";
+    }
   }
 
   return (
@@ -42,6 +57,68 @@ export default function UserPost() {
 
           <h3 className={styles["post__author-name"]}>
             {/* Change to author's page. */}
+            <Link to="/" className={styles["post__author-link"]}>
+              {firstName} {lastName}
+            </Link>
+          </h3>
+
+          <span className={styles["post__author-date"]}>{datePublished}</span>
+        </div>
+
+        <div className={styles["post__row--2"]}>
+          <div className={styles["post__link"]}>
+            <div className={styles["post__link-half--1"]}>
+              <h3 className={styles["post__title"]}>Lorem ipsum dolor</h3>
+              <p className={styles["post__abstract"]}>
+                {formatAbstractParagraph(paragraphs[0])}
+              </p>
+            </div>
+
+            <div className={styles["post__link-half--2"]}>
+              <img
+                className={styles["post__img"]}
+                src={coverImage}
+                alt="Post thumbnail"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className={styles["post__row--3"]}>
+          {/* Thinking of using useMemo for minutes calculation function in the future. */}
+          <span className={styles["post__minutes"]}>7 min read</span>
+
+          <button className={styles["post__action-button"]}>
+            <span className={styles["post__icon-holder"]}>
+              <BookmarksIcon size={16} />
+            </span>
+          </button>
+
+          <button className={styles["post__action-button"]}>
+            <span className={styles["post__icon-holder"]}>
+              <ActionDotsIcon size={16} />
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// DUMMY DATA SAVE
+/*
+    <div onClick={handlePostClick} className={styles["user-post"]}>
+      <div className={styles["post__container"]}>
+        <div className={styles["post__row--1"]}>
+          <Link to="123">
+            <img
+              className={styles["post__author-img"]}
+              src={profileImage}
+              alt="Profile pic of author"
+            />
+          </Link>
+
+          <h3 className={styles["post__author-name"]}>
             <Link to="/" className={styles["post__author-link"]}>
               Dilan Farman
             </Link>
@@ -89,5 +166,4 @@ export default function UserPost() {
         </div>
       </div>
     </div>
-  );
-}
+*/

@@ -110,6 +110,6 @@ body {
 }
 
 .target {
-  font-size: var(--primary-heading);
-  background-color: var(--color-choice-1);
+  /* font-size: var(--primary-heading); */
+  /* background-color: var(--color-choice-1); */
 }
