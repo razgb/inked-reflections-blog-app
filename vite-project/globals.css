@@ -38,6 +38,7 @@
   --color-primary-400: #f5ead7;
   --color-primary-500: #f2e4cf; /* Color of icon hover on menu */
   --color-primary-600: #efdec2;
+  --color-primary-700: #31240c;
   --color-primary-800: #211808;
   --color-primary-900: #100c04;
 
@@ -45,6 +46,12 @@
   --color-blue-500: #a5c2f4;
   --color-blue-700: #253042;
   --color-blue-800: #1a222e;
+
+  --color-pink-200: #faeef6;
+  --color-pink-300: #f6dfee;
+  --color-pink-400: #f2cfe6;
+  --color-pink-500: #edbfdd;
+  --color-pink-600: #e8b0d5;
 
   --color-choice-1: #f8e6f3;
   --color-choice-2: #e2eaf7;
@@ -59,6 +66,7 @@
 
 ::selection {
   background-color: var(--color-primary-400);
+  color: #000;
 }
 
 html {
@@ -99,4 +107,9 @@ button {
 body {
   background-color: var(--color-primary-200);
   font-family: var(--ff-sans);
+}
+
+.target {
+  font-size: var(--primary-heading);
+  background-color: var(--color-choice-1);
 }

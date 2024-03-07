@@ -62,8 +62,9 @@
   font-family: var(--ff-serif);
 }
 .post__img {
-  max-width: 9.6rem;
-  max-height: 9.6rem;
+  max-width: 12.8rem;
+  aspect-ratio: 1/1;
+  background-size: cover;
   border-radius: var(--space-sm);
 }
 

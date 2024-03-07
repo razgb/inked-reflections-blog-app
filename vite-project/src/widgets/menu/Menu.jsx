@@ -27,13 +27,6 @@ import { useDispatch } from "react-redux";
 
 import { toggleMenu } from "../../features/app-menu/toggle-menu";
 
-/**
- * Notes for future me
- *
- * - Remember to move the profile button to bottom like how twitter does it.
- * - Should also be an image dynamically changing if the user has a profile pic set.
- */
-
 const ICON_SIZE = 20;
 
 export default function Menu() {
@@ -70,23 +63,10 @@ export default function Menu() {
           </MenuButton>
 
           <MenuButton
-            destination="/profile"
-            title="Profile"
-            active={activeButton === "profile" ? true : false}
-            fn={() => handleActiveButton("profile")}
-          >
-            {activeButton === "profile" ? (
-              <ProfileSolidIcon size={ICON_SIZE} />
-            ) : (
-              <ProfileIcon size={ICON_SIZE} />
-            )}
-          </MenuButton>
-
-          <MenuButton
             destination="/explore"
             active={activeButton === "search" ? true : false}
             fn={() => handleActiveButton("search")}
-            title="Search"
+            title="Explore"
           >
             {activeButton === "search" ? (
               <SearchSolidIcon size={ICON_SIZE} />
@@ -118,6 +98,19 @@ export default function Menu() {
               <BookmarksSolidIcon size={ICON_SIZE} />
             ) : (
               <BookmarksIcon size={ICON_SIZE} />
+            )}
+          </MenuButton>
+
+          <MenuButton
+            destination="/profile"
+            title="Profile"
+            active={activeButton === "profile" ? true : false}
+            fn={() => handleActiveButton("profile")}
+          >
+            {activeButton === "profile" ? (
+              <ProfileSolidIcon size={ICON_SIZE} />
+            ) : (
+              <ProfileIcon size={ICON_SIZE} />
             )}
           </MenuButton>
 

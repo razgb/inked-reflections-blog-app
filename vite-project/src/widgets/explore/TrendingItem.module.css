@@ -1,0 +1,15 @@
+.link:link,
+.link:visited {
+  text-decoration: none;
+  display: block;
+  padding: var(--space-md);
+  transition: background-color 0.1s ease-in;
+}
+
+.link:hover {
+  background-color: var(--color-primary-400);
+}
+
+.title {
+  font-size: var(--text);
+}

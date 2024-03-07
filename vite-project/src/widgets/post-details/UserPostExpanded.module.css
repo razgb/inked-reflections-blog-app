@@ -64,13 +64,13 @@
   font-size: var(--fs-base);
   padding: var(--space-sm) var(--space-lg);
   border-radius: var(--space-lg);
-  background-color: var(--color-primary-900);
+  background-color: var(--color-primary-800);
   color: var(--color-primary-300);
 
   transition: background-color 0.1s ease-in;
 }
 .author__follow:hover {
-  background-color: var(--color-primary-800);
+  background-color: var(--color-primary-700);
 }
 .author__tags {
   display: flex;

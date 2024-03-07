@@ -6,6 +6,8 @@ import {
 import RootLayout from "./pages/root-page/RootPage.jsx";
 import HomePage from "./pages/home-page/HomePage";
 import PostDetails from "./pages/post-details-page/PostDetailsPage.jsx";
+import BookmarksPage from "./pages/bookmarks-page/BookmarksPage.jsx";
+import ExplorePage from "./pages/explore-page/ExplorePage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: "explore",
-        element: <></>,
+        element: <ExplorePage />,
       },
       {
         path: "profile",
@@ -43,7 +45,7 @@ const router = createBrowserRouter([
       },
       {
         path: "bookmarks",
-        element: <></>,
+        element: <BookmarksPage />,
       },
       {
         path: "settings",

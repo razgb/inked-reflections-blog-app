@@ -20,7 +20,7 @@ export default function RootLayout() {
         <MainNavigation />
       </div>
 
-      <div className={styles["layout__outlet"]}>
+      <div className={`${styles["layout__outlet"]} scrollContainer`}>
         <Outlet />
       </div>
     </div>

@@ -1,8 +1,9 @@
 import styles from "./UserPost.module.css";
-import { Link, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // Temp
 import profileImage from "../../../public/default-profile.jpeg";
+import coverImage from "../../../public/post-image.jpg";
 //
 
 import { ActionDotsIcon, BookmarksIcon } from "../../shared/ui/svg/PostSvg";
@@ -15,7 +16,6 @@ import { ActionDotsIcon, BookmarksIcon } from "../../shared/ui/svg/PostSvg";
   datePublished,
   dateUpdated,
   postTitle,
-  postAbstract,
   postImg,
   postMinutes,
   postBookmarked,
@@ -55,16 +55,17 @@ export default function UserPost() {
             <div className={styles["post__link-half--1"]}>
               <h3 className={styles["post__title"]}>Lorem ipsum dolor</h3>
               <p className={styles["post__abstract"]}>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Inventore consectetur quaerat nam aliquam harum ullam quo
-                laborum non eligendi, eius expedita ex maxime...
+                The DRY principle, which stands for &quot;Don&apos;t Repeat
+                Yourself,&quot; is a cornerstone of efficient software
+                development. It advocates for eliminating redundancy in your
+                codebase...
               </p>
             </div>
 
             <div className={styles["post__link-half--2"]}>
               <img
                 className={styles["post__img"]}
-                src={profileImage}
+                src={coverImage}
                 alt="Post thumbnail"
               />
             </div>

@@ -1,0 +1,19 @@
+.bookmarks {
+  padding: var(--space-xl);
+}
+
+.cover-image-container {
+  margin-bottom: var(--space-lg);
+}
+
+.cover-image {
+  max-height: 20rem;
+  aspect-ratio: 32/9;
+  border-radius: var(--space-md);
+}
+
+.bookmarks__heading {
+  font-size: var(--primary-heading);
+  color: var(--primary-color-800);
+  margin-bottom: var(--space-2xl);
+}
