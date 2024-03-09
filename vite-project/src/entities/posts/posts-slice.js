@@ -17,6 +17,9 @@ const postsSlice = createSlice({
     lastVisibleDoc: null,
   },
   reducers: {
+    changeCurrentPost(state, action) {
+      state.currentPost = { ...action.payload };
+    },
     /*  
     Receives posts from the fetchPosts.js feature (async function).
     The payload is an array of post objects.  
@@ -30,7 +33,7 @@ const postsSlice = createSlice({
   },
 });
 
-export const { updatePostsFeed } = postsSlice.actions;
+export const { updatePostsFeed, changeCurrentPost } = postsSlice.actions;
 export default postsSlice;
 
 /**

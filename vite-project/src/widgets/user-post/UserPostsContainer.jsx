@@ -19,9 +19,12 @@ export default function UserPostContainer() {
   const outputFeed = postsFeed.map((post) => (
     <UserPost
       key={post.id}
+      id={post.id}
+      title={post.title}
       firstName={post.firstName}
       lastName={post.lastName}
       paragraphs={post.paragraphs}
+      tags={post.tags}
     />
   ));
 
@@ -58,10 +61,6 @@ export default function UserPostContainer() {
   }, [dispatch, outputFeed]);
 
   return <div className={styles["user-posts-container"]}>{outputFeed}</div>;
-}
-
-function UserPostsContainerLoader() {
-  // fetchPosts();
 }
 
 /*

@@ -6,6 +6,8 @@ import "../globals.css";
 import { Provider } from "react-redux";
 import store from "./store/RootReducer.js";
 
+import { QueryClient, QueryClientProvider } from "react-query";
+
 import { initializeApp } from "firebase/app";
 import {
   getFirestore,
@@ -33,68 +35,158 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 export default db; // One instance exported for consistency
+
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </QueryClientProvider>
   </React.StrictMode>
 );
-
-// let lastVisibleDoc = null; // initialise
-// async function getData() {
-//   const postsRef = collection(db, "posts");
-//   let q;
-
-//   if (lastVisibleDoc) {
-//     q = query(
-//       postsRef,
-//       orderBy("createdAt", "desc"),
-//       startAfter(lastVisibleDoc),
-//       limit(10)
-//     );
-//   } else {
-//     q = query(postsRef, orderBy("createdAt", "desc"), limit(10));
-//   }
-//   const querySnapshot = await getDocs(q);
-//   querySnapshot.forEach((doc) => console.log(doc.data()));
-
-//   lastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1]; // last document in the last received set of posts
-//   console.log("-------- next batch --------");
-// }
-
-// async function getAllData() {
-//   await getData();
-//   await getData();
-// }
-// getAllData();
+/*
+const socialMediaPostTitles = [
+  "The Art of Enjoying Solitude: My Journey",
+  "Why I Started Journaling and How It Changed Me",
+  "The Little Things: Appreciating Life’s Minor Details",
+  "Finding Beauty in Chaos: My Thoughts",
+  "Coffee and Contemplation: Morning Rituals",
+  "Walking as Meditation: Thoughts from My Strolls",
+  "Decluttering the Mind: Lessons Learned",
+  "The Joy of Missing Out: Embracing Solitude",
+  "Homemade Happiness: The Comforts of Cooking",
+  "The Books That Shaped My Perspective",
+  "Rediscovering Childhood Hobbies in Adulthood",
+  "Nature’s Calm: Reflections from Hiking",
+  "The Magic of Early Mornings: My Thoughts",
+  "Learning to Say No: A Journey to Self-Care",
+  "The Soundtrack of My Life: Musical Reflections",
+  "Crafting Memories: The Joy of Scrapbooking",
+  "The Power of Pausing: Finding Stillness",
+  "Gardening as Therapy: Growth and Healing",
+  "Tea Time Tales: The Rituals That Keep Me Grounded",
+  "Chasing Sunsets: What The Sky Teaches Me",
+  "The Road Less Traveled: Lessons from Solo Trips",
+  "Binge-Watching as Self-Discovery",
+  "Dancing Alone: Finding Joy in Movement",
+  "Digital Detox: What I Learned from Unplugging",
+  "The Comfort of Strangers: Stories from Cafes",
+  "Rediscovering the Joy of Letter Writing",
+  "Window Views: The Stories They Tell",
+  "The Philosophy of Clean Spaces",
+  "Candlelit Evenings: Creating a Cozy Atmosphere",
+  "The Language of Flowers: My Floral Diary",
+  "Stargazing: Contemplations Under the Cosmos",
+  "The Warmth of a Cup of Tea: Simple Pleasures",
+  "Relearning to Sketch: Embracing Imperfections",
+  "Mindful Eating: A Journey to Conscious Consumption",
+  "The Texture of Life: Observations on Touch",
+  "Rainy Days Reflections: Finding Peace in the Storm",
+  "The Gift of Giving: Joy in Altruism",
+  "Savoring Silence: The Power of Quiet Moments",
+  "Old Photographs: Time Traveling Through Memories",
+  "The Art of Being Alone: My Path to Self-Love",
+  "Scented Memories: How Smells Invoke the Past",
+  "The Pursuit of Slow Living in a Fast World",
+  "Redefining Success: My Personal Evolution",
+  "The Ritual of Bathing: A Form of Self-Care",
+  "Cloud Watching: Imagination and Idle Thoughts",
+  "The Healing Power of Music: My Melodic Escape",
+  "Late-Night Musings: Thoughts on Creativity",
+  "The Sweetness of Doing Nothing: My Take on 'Dolce Far Niente'",
+  "Reflections on Friendship in Adulthood",
+  "Finding My Voice: The Journey of Self-Expression",
+];
+*/
+/*
+const randomTags = [
+  "self acceptance",
+  "self love",
+  "self empowerment",
+  "stress management",
+  "compassion",
+  "joyful living",
+  "overcoming obstacles",
+  "inner peace",
+  "success strategies",
+  "motivation",
+  "positivity",
+  "self love",
+  "reflection",
+  "wellbeing",
+  "happiness",
+  "goal setting",
+  "personal development",
+  "self care",
+  "habit formation",
+  "confidence building",
+  "emotional intelligence",
+  "kindness",
+  "self discovery",
+  "mindset shift",
+  "spiritual growth",
+  "healthy habits",
+  "courage",
+  "life coaching",
+  "passion finding",
+  "daily reflection",
+  "productivity",
+  "time management",
+  "self help",
+  "optimism",
+  "mindfulness",
+  "goals",
+  "reflection",
+  "personal growth",
+  "positivity",
+  "resilience",
+  "mental health",
+  "wellbeing",
+  "living intentionally",
+  "self help",
+  "forgiveness",
+  "motivation",
+  "positive thinking",
+  "gratitude",
+  "life balance",
+  "mindful living",
+];
+*/
 
 /*
-
 async function sendPostsData() {
   const postsRef = collection(db, "posts");
   try {
     const querySnapshot = await getDocs(postsRef);
-    querySnapshot.forEach((doc) => console.log(doc.data().createdAt));
 
-    // const promiseArray = querySnapshot.docs.map((doc, index) => {
-    //   const timestamp = doc.data().timestamp;
-    //   return updateDoc(doc.ref, {
-    //     timestamp: deleteField(),
-    //     createdAt: timestamp,
-    //   });
-    // });
-    // console.log(promiseArray);
-    // await Promise.all(promiseArray);
+    const promiseArray = querySnapshot.docs.map((doc) => {
+      const numberOfTags = Math.floor(Math.random() * 3) + 1;
+      console.log(numberOfTags);
+
+      const indexesToSelect = [];
+      for (let i = 0; i < numberOfTags; i++) {
+        const tagIndex = Math.floor(Math.random() * 50);
+        indexesToSelect.push(tagIndex);
+      }
+
+      return updateDoc(doc.ref, {
+        tags: indexesToSelect.map((index) => randomTags[index]),
+      });
+    });
+
+    await Promise.all(promiseArray);
+    console.log("Updated user-post tags!");
   } catch (error) {
     console.log(error);
   }
 }
- */
 // sendPostsData();
+
+ */
 
 /**
  * const dates = []; 

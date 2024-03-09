@@ -1,10 +1,82 @@
 import styles from "./UserPostExpanded.module.css";
 import postImage from "../../../public/post-image.jpg";
 import defaultProfile from "../../../public/default-profile.jpeg";
+import { useSelector } from "react-redux";
 
 export default function UserPostExpanded() {
+  const currentPost = useSelector((state) => state.posts.currentPost);
+
   return (
     <article className={styles["post"]}>
+      <div className={styles["post__container"]}>
+        <div className={styles["cover-image-container"]}>
+          <img
+            className={styles["cover-image"]}
+            src={postImage}
+            alt="Image representing user post title..."
+          />
+        </div>
+
+        <header className={styles["post__header"]}>
+          <h1 className={styles["post__title"]}>{currentPost.title}</h1>
+
+          <div className={styles["author__tags"]}>
+            {currentPost.tags &&
+              currentPost.tags.map((tag, index) => (
+                <span key={index} className={styles["author__tag"]}>
+                  {tag}
+                </span>
+              ))}
+          </div>
+        </header>
+
+        <div className={styles["author"]}>
+          <div className={styles["author__container"]}>
+            <div className={styles["author__image-container"]}>
+              <img
+                src={defaultProfile}
+                alt="Default profile img"
+                className={styles["author__image"]}
+              />
+            </div>
+            <div className={styles["author__details"]}>
+              <div className={styles["author__actions"]}>
+                <a href="#" className={styles["author__link"]}>
+                  {currentPost.firstName} {currentPost.lastName}
+                </a>
+                <button className={styles["author__follow"]}>Follow</button>
+              </div>
+            </div>
+            <span className={styles["post__minutes"]}>7-min read</span>
+            <span className={styles["date-published"]}>
+              {currentPost.datePublished}
+            </span>
+          </div>
+        </div>
+
+        <div className={styles["details"]}>
+          <div className={styles["details__container"]}>
+            {currentPost.paragraphs.map((p, index) => (
+              <p key={index} className={styles["details__paragraph"]}>
+                {p}
+              </p>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles["comments"]}>
+          <div className={styles["comments__container"]}></div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+/**
+ * Will receive paragraphs in an array of paragraphs.
+ *
+ * 
+ * <article className={styles["post"]}>
       <div className={styles["post__container"]}>
         <div className={styles["cover-image-container"]}>
           <img
@@ -82,10 +154,4 @@ export default function UserPostExpanded() {
         </div>
       </div>
     </article>
-  );
-}
-
-/**
- * Will receive paragraphs in an array of paragraphs.
- *
  * */

@@ -1,40 +1,52 @@
-import { useSelector } from "react-redux";
 import styles from "./MenuButton.module.css";
 import { Link } from "react-router-dom";
 
 export default function MenuButton({
   children,
-  fn,
-  active,
+  activeLink,
   title,
   destination,
+  toggleMenu,
+  open,
+  handleUrlChange,
 }) {
-  const menuOpenState = useSelector((state) => state.menu.menuOpenState);
-
-  if (!children)
+  if (!children) {
     return <p>Please enter button content as JSX children prop.</p>;
-
+  }
   let cssClasses = `${styles["menu-button"]}`;
 
-  // seems too excessive when it comes to the css, realised after i wrote the code.
-  if (!title) {
+  if (!title && !destination) {
+    // Code for the menu hamburger button.
     cssClasses += ` ${styles["menu-button__no-content"]}`;
     return (
-      <button onClick={fn} className={cssClasses}>
+      <button onClick={toggleMenu} className={cssClasses}>
         <span>{children}</span>
       </button>
     );
   }
-
-  cssClasses += ` ${active ? styles["menu-button__active"] : undefined}`;
+  if (!destination) {
+    // Sloppy solve for the theme and sign out button.
+    return (
+      <button className={cssClasses}>
+        <span>{children}</span>
+      </button>
+    );
+  }
+  cssClasses += ` ${
+    activeLink.includes(destination) ? styles["menu-button__active"] : undefined
+  }`;
 
   return (
-    <Link to={destination} onClick={fn} className={cssClasses}>
+    <Link
+      onClick={() => handleUrlChange(destination)}
+      to={destination}
+      className={cssClasses}
+    >
       <span>{children}</span>
-      {menuOpenState && title && (
+      {open && title && (
         <p
           className={`${styles["menu-button__title"]} ${
-            menuOpenState && styles["menu-open"]
+            open && styles["menu-open"]
           }`}
         >
           {title}

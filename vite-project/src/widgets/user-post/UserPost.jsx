@@ -1,5 +1,5 @@
 import styles from "./UserPost.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Temp
 import profileImage from "../../../public/default-profile.jpeg";
@@ -7,6 +7,9 @@ import coverImage from "../../../public/post-image.jpg";
 //
 
 import { ActionDotsIcon, BookmarksIcon } from "../../shared/ui/svg/PostSvg";
+
+import { changeCurrentPost } from "../../entities/posts/posts-slice";
+import { useDispatch } from "react-redux";
 
 /*
 {
@@ -22,17 +25,33 @@ import { ActionDotsIcon, BookmarksIcon } from "../../shared/ui/svg/PostSvg";
 }
 */
 
-// YOU FUKCING FORGOT POST TITLE
-
 export default function UserPost({
   firstName,
   lastName,
+  title,
   datePublished,
   paragraphs,
+  id,
+  tags,
 }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   function handlePostClick(event) {
     if (event.target.tagName === "A") return;
-    window.location.href = `/posts/${123}`; // post id instead of 123
+    dispatch(
+      changeCurrentPost({
+        firstName,
+        lastName,
+        title,
+        datePublished,
+        paragraphs,
+        id,
+        tags,
+      })
+    );
+
+    navigate(`/posts/${id}`);
   }
 
   function formatAbstractParagraph(p) {
@@ -68,7 +87,7 @@ export default function UserPost({
         <div className={styles["post__row--2"]}>
           <div className={styles["post__link"]}>
             <div className={styles["post__link-half--1"]}>
-              <h3 className={styles["post__title"]}>Lorem ipsum dolor</h3>
+              <h3 className={styles["post__title"]}>{title}</h3>
               <p className={styles["post__abstract"]}>
                 {formatAbstractParagraph(paragraphs[0])}
               </p>

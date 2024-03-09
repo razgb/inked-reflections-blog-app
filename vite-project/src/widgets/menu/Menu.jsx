@@ -23,26 +23,153 @@ import {
 } from "../../shared/ui/svg/MenuSvg";
 import MenuButton from "./MenuButton";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../../features/app-menu/toggle-menu";
 
 const ICON_SIZE = 20;
 
 export default function Menu() {
-  const [activeButton, SetActiveButton] = useState("home");
+  const menuOpenState = useSelector((state) => state.menu.menuOpenState);
+
   const dispatch = useDispatch();
   function handleToggleMenuState() {
     dispatch(toggleMenu());
   }
 
-  function handleActiveButton(buttonName) {
-    if (typeof activeButton !== "string") return;
-    SetActiveButton(buttonName);
+  const [activeLink, setActiveLink] = useState(window.location.pathname);
+  function handleUrlChange(destination, activeLink) {
+    if (activeLink !== destination) {
+      setActiveLink(destination);
+    }
   }
 
   return (
     <aside className={styles["menu"]}>
+      <div className={styles["menu-container"]}>
+        <MenuButton toggleMenu={handleToggleMenuState}>
+          <HamburgerSolidIcon size={ICON_SIZE} />
+        </MenuButton>
+
+        <div className={styles["menu-actions-1"]}>
+          <MenuButton
+            destination="/posts"
+            handleUrlChange={handleUrlChange}
+            activeLink={activeLink}
+            title="Home"
+            open={menuOpenState}
+          >
+            {activeLink.includes("posts") ? (
+              <HomeSolidIcon size={ICON_SIZE} />
+            ) : (
+              <HomeIcon size={ICON_SIZE} />
+            )}
+          </MenuButton>
+
+          <MenuButton
+            destination="/explore"
+            handleUrlChange={handleUrlChange}
+            activeLink={activeLink}
+            title="Explore"
+            open={menuOpenState}
+          >
+            {activeLink.includes("explore") ? (
+              <SearchSolidIcon size={ICON_SIZE} />
+            ) : (
+              <SearchIcon size={ICON_SIZE} />
+            )}
+          </MenuButton>
+
+          <MenuButton
+            destination="/reflections"
+            handleUrlChange={handleUrlChange}
+            activeLink={activeLink}
+            title="Reflections"
+            open={menuOpenState}
+          >
+            {activeLink.includes("reflections") ? (
+              <ReflectionsSolidIcon size={ICON_SIZE} />
+            ) : (
+              <ReflectionsIcon size={ICON_SIZE} />
+            )}
+          </MenuButton>
+
+          <MenuButton
+            destination="/bookmarks"
+            handleUrlChange={handleUrlChange}
+            activeLink={activeLink}
+            title="Bookmarks"
+            open={menuOpenState}
+          >
+            {activeLink.includes("bookmarks") ? (
+              <BookmarksSolidIcon size={ICON_SIZE} />
+            ) : (
+              <BookmarksIcon size={ICON_SIZE} />
+            )}
+          </MenuButton>
+
+          <MenuButton
+            destination="/profile"
+            title="Profile"
+            open={menuOpenState}
+            handleUrlChange={handleUrlChange}
+            activeLink={activeLink}
+          >
+            {activeLink.includes("profile") ? (
+              <ProfileSolidIcon size={ICON_SIZE} />
+            ) : (
+              <ProfileIcon size={ICON_SIZE} />
+            )}
+          </MenuButton>
+
+          <MenuButton
+            destination="/settings"
+            handleUrlChange={handleUrlChange}
+            activeLink={activeLink}
+            title="Settings"
+            open={menuOpenState}
+          >
+            {activeLink.includes("settings") ? (
+              <SettingsSolidIcon size={ICON_SIZE} />
+            ) : (
+              <SettingsIcon size={ICON_SIZE} />
+            )}
+          </MenuButton>
+
+          <MenuButton
+            destination="/help"
+            handleUrlChange={handleUrlChange}
+            activeLink={activeLink}
+            title="Help"
+            open={menuOpenState}
+          >
+            {activeLink.includes("help") ? (
+              <HelpSolidIcon size={ICON_SIZE} />
+            ) : (
+              <HelpIcon size={ICON_SIZE} />
+            )}
+          </MenuButton>
+        </div>
+
+        <div className={styles["menu-actions-2"]}>
+          {/* Create a new button for these instead? */}
+          <MenuButton title="Dark">
+            <MoonIcon size={ICON_SIZE} />
+          </MenuButton>
+          <MenuButton title="Signout">
+            {/* Future me make a modal popup */}
+            <SignoutIcon size={ICON_SIZE} />
+          </MenuButton>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+/*
+This is a save of the menu element incase i fuck up: 
+
+
+<aside className={styles["menu"]}>
       <div className={styles["menu-container"]}>
         <MenuButton fn={handleToggleMenuState}>
           <HamburgerSolidIcon size={ICON_SIZE} />
@@ -142,16 +269,15 @@ export default function Menu() {
         </div>
 
         <div className={styles["menu-actions-2"]}>
-          {/* Create a new button for these instead? */}
-          <MenuButton title="Dark">
-            <MoonIcon size={ICON_SIZE} />
-          </MenuButton>
-          <MenuButton title="Signout">
-            {/* Future me make a modal popup */}
-            <SignoutIcon size={ICON_SIZE} />
-          </MenuButton>
-        </div>
-      </div>
-    </aside>
-  );
-}
+    //       <MenuButton title="Dark">
+    //         <MoonIcon size={ICON_SIZE} />
+    //       </MenuButton>
+    //       <MenuButton title="Signout">
+    //         <SignoutIcon size={ICON_SIZE} />
+    //       </MenuButton>
+    //     </div>
+    //   </div>
+    // </aside>
+
+
+*/
