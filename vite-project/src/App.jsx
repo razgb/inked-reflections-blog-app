@@ -8,11 +8,13 @@ import HomePage from "./pages/home-page/HomePage";
 import PostDetails from "./pages/post-details-page/PostDetailsPage.jsx";
 import BookmarksPage from "./pages/bookmarks-page/BookmarksPage.jsx";
 import ExplorePage from "./pages/explore-page/ExplorePage.jsx";
+import ErrorMessage from "./widgets/error-message/ErrorMessage.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: <ErrorMessage />,
     children: [
       {
         index: true,

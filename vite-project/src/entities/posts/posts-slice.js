@@ -20,12 +20,15 @@ const postsSlice = createSlice({
     changeCurrentPost(state, action) {
       state.currentPost = { ...action.payload };
     },
-    /*  
-    Receives posts from the fetchPosts.js feature (async function).
-    The payload is an array of post objects.  
-    */
     updatePostsFeed(state, action) {
-      state.postsFeed = [...state.postsFeed, ...action.payload];
+      if (state.postsFeed.length > 0) {
+        // state.postsFeed.push(...action.payload);
+      } else if (state.postsFeed.length === 0) {
+        // state.postsFeed.push(...action.payload);
+      }
+
+      // Fix this later when you fix the sanitization function.
+      state.postsFeed.push(...action.payload);
     },
     // uploadPost(state, action) {},
     // editPost(state, action) {},
@@ -33,12 +36,26 @@ const postsSlice = createSlice({
   },
 });
 
-export const { updatePostsFeed, changeCurrentPost } = postsSlice.actions;
+export const { updatePostsFeed, changeUpdateState, changeCurrentPost } =
+  postsSlice.actions;
 export default postsSlice;
 
-/**
- * Notes:
- *
- * Think of creating a UI slice for errors, upload successes, and other messages
- * instead of setting the loading and error states here in this slice.
- */
+/*
+if (state.postsFeed.length > 0) {
+        console.log("Posts feed not empty");
+        const freshUniquePosts = action.payload.filter((newPost) => {
+          for (const post of state.postsFeed) {
+            if (post.id === newPost.id) return false;
+            else return true;
+          }
+        });
+
+        if (freshUniquePosts.length === 0) {
+          console.log("Sanitized repeat posts");
+          return;
+        }
+
+        console.log([...state.postsFeed, ...freshUniquePosts]);
+        // state.postsFeed = [...state.postsFeed, ...freshUniquePosts];
+      } else
+*/

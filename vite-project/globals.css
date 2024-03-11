@@ -108,8 +108,3 @@ body {
   background-color: var(--color-primary-200);
   font-family: var(--ff-sans);
 }
-
-.target {
-  /* font-size: var(--primary-heading); */
-  /* background-color: var(--color-choice-1); */
-}

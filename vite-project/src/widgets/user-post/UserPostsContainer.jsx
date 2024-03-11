@@ -3,18 +3,31 @@ import UserPost from "./UserPost";
 import { fetchPosts } from "../../features/user-posts/fetchPosts";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-let renderInitialBatch = true;
+import { useQuery } from "react-query";
+import { updatePostsFeed } from "../../entities/posts/posts-slice";
+import Spinner from "../../shared/ui/spinner/Spinner.jsx";
 
 export default function UserPostContainer() {
   const triggerRef = useRef();
   const dispatch = useDispatch();
-  if (renderInitialBatch) {
-    // dispatch(fetchPosts());
-    renderInitialBatch = false;
+  const { postsFeed, updateState } = useSelector((state) => state.posts);
+
+  async function temp() {
+    const posts = await fetchPosts();
+
+    dispatch(updatePostsFeed(posts));
+    return;
   }
-  const { postsFeed } = useSelector((state) => state.posts);
-  console.log(postsFeed);
+
+  const { isLoading, isError, error, refetch } = useQuery({
+    queryKey: ["posts"],
+    queryFn: temp,
+
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+
+  // console.log("postsFeed:", postsFeed);
 
   const outputFeed = postsFeed.map((post) => (
     <UserPost
@@ -28,7 +41,7 @@ export default function UserPostContainer() {
     />
   ));
 
-  // Always at the end of the array even when new batches of posts come too!
+  // Always at the end of the array even when new batches of posts come too
   if (outputFeed.length > 0) {
     outputFeed.push(
       <div className="target" ref={triggerRef} key={Math.random()}></div>
@@ -36,13 +49,20 @@ export default function UserPostContainer() {
   }
 
   useEffect(() => {
+    if (isLoading) return;
+
+    // if (updateState) {
+    //   dispatch(changeUpdateState(false));
+    //   // dispatch(updatePostsFeed(data));
+    // }
+
     const scrollContainer = document.querySelector(".scrollContainer");
 
     function handlePostsObserver(entries) {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          console.log("Fetching...");
-          // dispatch(fetchPosts());
+          console.log("Fetching posts...");
+          refetch();
         }
       });
     }
@@ -57,19 +77,27 @@ export default function UserPostContainer() {
       postsObserver.observe(triggerRef.current);
     }
 
-    return () => postsObserver.disconnect(); // cleanup function!
-  }, [dispatch, outputFeed]);
+    return () => {
+      if (postsObserver) {
+        postsObserver.disconnect(); // cleanup function
+      }
+    };
+  }, [dispatch, refetch, outputFeed, updateState, isLoading]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return <div className={styles["user-posts-container"]}>{outputFeed}</div>;
 }
 
-/*
-      const tempArrayOfPosts = [];
-      for (let i = 0; i < 10; i++) {
-        tempArrayOfPosts.push(<UserPost key={Math.random()} />);
-      }
-      tempArrayOfPosts.push(
-        <div className="target" ref={triggerRef} key={Math.random()}></div>
-      );
-       */
-// <div className={styles["user-posts-container"]}>{tempArrayOfPosts}</div>
+/* Dummy queryFn:  
+// queryFn: async () => {
+    //   return new Promise((resolve) => {
+    //     setTimeout(() => {
+    //       resolve();
+    //       console.log("Delayed by 3 seconds");
+    //     }, 3000);
+    //   });
+    // },
+*/
