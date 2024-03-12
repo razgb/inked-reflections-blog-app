@@ -11,6 +11,7 @@ export default function UserPostContainer() {
   const triggerRef = useRef();
   const dispatch = useDispatch();
   const { postsFeed, updateState } = useSelector((state) => state.posts);
+  // console.log("postsFeed:", postsFeed);
 
   async function temp() {
     const posts = await fetchPosts();
@@ -19,6 +20,7 @@ export default function UserPostContainer() {
     return;
   }
 
+  // Make an error state component please. 
   const { isLoading, isError, error, refetch } = useQuery({
     queryKey: ["posts"],
     queryFn: temp,
@@ -27,12 +29,11 @@ export default function UserPostContainer() {
     refetchOnWindowFocus: false,
   });
 
-  // console.log("postsFeed:", postsFeed);
-
   const outputFeed = postsFeed.map((post) => (
     <UserPost
       key={post.id}
       id={post.id}
+      datePublished={post.createdAt}
       title={post.title}
       firstName={post.firstName}
       lastName={post.lastName}
@@ -51,13 +52,7 @@ export default function UserPostContainer() {
   useEffect(() => {
     if (isLoading) return;
 
-    // if (updateState) {
-    //   dispatch(changeUpdateState(false));
-    //   // dispatch(updatePostsFeed(data));
-    // }
-
     const scrollContainer = document.querySelector(".scrollContainer");
-
     function handlePostsObserver(entries) {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {

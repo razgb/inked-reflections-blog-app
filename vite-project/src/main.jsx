@@ -158,6 +158,41 @@ const randomTags = [
 */
 
 /*
+const dates = [];
+for (let i = 0; i < 50; i++) {
+  const date = new Date();
+  let timestamp = Math.floor(date.getTime());
+
+  timestamp = Math.floor(
+    timestamp - Math.random() * 1000 * 60 * 60 * 24 * 365 * 2
+  );
+
+  dates.push(timestamp);
+}
+
+async function sendPostsData() {
+  const postsRef = collection(db, "posts");
+  try {
+    const querySnapshot = await getDocs(postsRef);
+
+    const promiseArray = querySnapshot.docs.map((doc, index) => {
+      return updateDoc(doc.ref, {
+        createdAt: dates[index],
+      });
+    });
+
+    await Promise.all(promiseArray);
+    console.log("Updated user-post createdAt values!");
+  } catch (error) {
+    console.log(`Something went wrong: ${error}`);
+  }
+}
+ */
+
+// // sendPostsData();
+
+/*
+
 async function sendPostsData() {
   const postsRef = collection(db, "posts");
   try {
@@ -186,18 +221,6 @@ async function sendPostsData() {
 }
 // sendPostsData();
 
- */
 
-/**
- * const dates = []; 
-
-for (let i = 0; i < 50; i++) {
-  const date = new Date(); 
-  let timestamp = Math.floor(date.getTime() / 1000); 
-
-  timestamp = Math.floor(timestamp - (Math.random() * 31536000 * 2)); 
-  dates.push(timestamp)
-}
-
-console.log(dates.join());
- */
+/* 
+*/

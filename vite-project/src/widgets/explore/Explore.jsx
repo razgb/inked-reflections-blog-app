@@ -1,26 +1,12 @@
 import styles from "./Explore.module.css";
 import TrendingItem from "./TrendingItem";
-import { SearchIcon } from "../../shared/ui/svg/MenuSvg";
-import { useRef } from "react";
+import SearchInput from "../../shared/ui/search-input/SearchInput";
 
 export default function Explore() {
-  const searchInputRef = useRef();
-
-  function handleSearchIconClick() {
-    searchInputRef.current.focus();
-  }
-
   return (
     <div className={styles["explore"]}>
       <div className={styles["explore__container"]}>
-        <div className={styles["search"]}>
-          <SearchIcon onClick={handleSearchIconClick} size={20} />
-          <input
-            type="search"
-            className={styles["search__input"]}
-            ref={searchInputRef}
-          />
-        </div>
+        <SearchInput />
 
         <div className={styles["trending"]}>
           <div className={styles["trending__container"]}>
@@ -44,6 +30,7 @@ export default function Explore() {
 /**
  * Notes:
  *
- * - Create an event when the user clicks the search icon,
- * the search__input gets focused on.
+ * Create an animation that moves a 20rem bar to suggest
+ * to the user that the search query is happening in the
+ * background.
  */

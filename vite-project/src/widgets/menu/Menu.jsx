@@ -22,7 +22,7 @@ import {
   SignoutIcon,
 } from "../../shared/ui/svg/MenuSvg";
 import MenuButton from "./MenuButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../../features/app-menu/toggle-menu";
 
@@ -42,6 +42,11 @@ export default function Menu() {
       setActiveLink(destination);
     }
   }
+
+  useEffect(() => {
+    // Upon initial app load, intitial url is just the base localhost:5173 without /posts
+    handleUrlChange("/posts", activeLink);
+  });
 
   return (
     <aside className={styles["menu"]}>

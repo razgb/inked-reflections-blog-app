@@ -9,6 +9,7 @@ import PostDetails from "./pages/post-details-page/PostDetailsPage.jsx";
 import BookmarksPage from "./pages/bookmarks-page/BookmarksPage.jsx";
 import ExplorePage from "./pages/explore-page/ExplorePage.jsx";
 import ErrorMessage from "./widgets/error-message/ErrorMessage.jsx";
+import ReflectionsPage from "./pages/reflections/ReflectionsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -38,16 +39,16 @@ const router = createBrowserRouter([
         element: <ExplorePage />,
       },
       {
-        path: "profile",
-        element: <></>,
-      },
-      {
         path: "reflections",
-        element: <></>,
+        element: <ReflectionsPage />,
       },
       {
         path: "bookmarks",
         element: <BookmarksPage />,
+      },
+      {
+        path: "profile",
+        element: <></>,
       },
       {
         path: "settings",

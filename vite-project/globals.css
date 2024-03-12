@@ -108,3 +108,17 @@ body {
   background-color: var(--color-primary-200);
   font-family: var(--ff-sans);
 }
+
+.button {
+  cursor: pointer;
+  font-size: var(--fs-base);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--space-md);
+  background-color: var(--color-primary-800);
+  color: var(--color-primary-300);
+
+  transition: background-color 0.1s ease-in;
+}
+.button:hover {
+  background-color: var(--color-primary-700);
+}

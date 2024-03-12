@@ -1,0 +1,44 @@
+.reflections__container {
+  padding: var(--space-xl);
+}
+
+.heading {
+  font-size: var(--secondary-heading);
+}
+
+.heading__container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.reflections__actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-sm);
+}
+.half-1 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+/* experimental */
+/* .sort-button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+
+  background-color: transparent;
+  cursor: pointer;
+  padding: var(--space-md);
+  transition: all 0.1s ease-in;
+  border-radius: var(--space-sm);
+}
+.sort-button:hover {
+  background-color: var(--color-primary-400);
+}
+.sort-button__text {
+  font-size: var(--text-sm);
+} */

@@ -18,7 +18,7 @@
   font-size: 1em;
   gap: var(--space-lg);
 }
-.bell-button,
+/* .bell-button,
 .write-button {
   background-color: transparent;
   cursor: pointer;
@@ -26,18 +26,12 @@
   transition: all 0.1s ease-in;
   border-radius: var(--space-sm);
 }
-.write-button {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  height: 100%;
-}
-/* .bell-button {
-} */
+
+
 .write-button:hover,
 .bell-button:hover {
   background-color: var(--color-primary-400);
-}
+} */
 
 .main-nav-profile {
   display: flex;

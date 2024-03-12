@@ -2,6 +2,7 @@ import styles from "./UserPostExpanded.module.css";
 import postImage from "../../../public/post-image.jpg";
 import defaultProfile from "../../../public/default-profile.jpeg";
 import { useSelector } from "react-redux";
+import { formatDate } from "../../shared/util/formatDate";
 
 export default function UserPostExpanded() {
   const currentPost = useSelector((state) => state.posts.currentPost);
@@ -49,7 +50,7 @@ export default function UserPostExpanded() {
             </div>
             <span className={styles["post__minutes"]}>7-min read</span>
             <span className={styles["date-published"]}>
-              {currentPost.datePublished}
+              {formatDate(currentPost.datePublished)}
             </span>
           </div>
         </div>

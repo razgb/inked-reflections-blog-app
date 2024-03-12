@@ -63,7 +63,7 @@
   cursor: pointer;
   font-size: var(--fs-base);
   padding: var(--space-sm) var(--space-lg);
-  border-radius: var(--space-lg);
+  border-radius: var(--space-md);
   background-color: var(--color-primary-800);
   color: var(--color-primary-300);
 

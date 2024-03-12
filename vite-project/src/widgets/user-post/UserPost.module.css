@@ -1,5 +1,5 @@
 .user-post {
-  border-radius: var(--space-sm);
+  border-radius: var(--space-lg);
   transition: all 0.3s ease;
 }
 .user-post:hover {
@@ -40,15 +40,19 @@
   text-decoration: underline;
 }
 
-/* Anchor element */
+/* Anchor/Link element */
 .post__row--2 {
   margin-bottom: var(--space-md);
 }
+/* Post image container */
 .post__link {
-  display: flex;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
   gap: var(--space-xl);
   text-decoration: none;
 }
+
+/* half 1 */
 .post__title {
   margin-bottom: var(--space-sm);
   font-size: var(--tertiary-heading);
@@ -61,11 +65,12 @@
   color: var(--color-primary-800);
   font-family: var(--ff-serif);
 }
+/* half 2 */
 .post__img {
-  max-width: 12.8rem;
-  aspect-ratio: 1/1;
-  background-size: cover;
-  border-radius: var(--space-sm);
+  object-fit: cover;
+  width: 12.8rem;
+  height: 12.8rem;
+  border-radius: var(--space-md);
 }
 
 .post__row--3 {

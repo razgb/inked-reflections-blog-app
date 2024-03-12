@@ -1,0 +1,17 @@
+.write-button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background-color: transparent;
+  cursor: pointer;
+  padding: var(--space-md);
+  transition: all 0.1s ease-in;
+  border-radius: var(--space-sm);
+}
+.write-button:hover {
+  background-color: var(--color-primary-400);
+}
+
+.write-text {
+  font-size: var(--text);
+}

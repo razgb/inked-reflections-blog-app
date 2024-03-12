@@ -1,4 +1,4 @@
-const FILL_COLOR = "#000";
+const FILL_COLOR = "#211808";
 
 const BookmarksIcon = ({ size }) => {
   return (

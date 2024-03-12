@@ -1,7 +1,7 @@
 .reflections-plus-advert {
   background-color: var(--color-choice-2);
   padding: var(--space-lg);
-  border-radius: var(--space-sm);
+  border-radius: var(--space-lg);
 
   /* box-shadow: 1px 2px 3px 0 rgb(0, 0, 0, 0.05); */
 }
@@ -26,7 +26,7 @@
   cursor: pointer;
   font-size: var(--fs-base);
   padding: var(--space-sm) var(--space-lg);
-  border-radius: var(--space-lg);
+  border-radius: var(--space-md);
   color: var(--color-blue-300);
   background-color: var(--color-blue-800);
 

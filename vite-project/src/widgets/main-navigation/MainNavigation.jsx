@@ -1,8 +1,9 @@
+import styles from "./MainNavigation.module.css";
 import appLogo from "../../../public/inked-reflections-wide-logo.jpg";
 import defaultProfileImage from "../../../public/default-profile.jpeg";
-import styles from "./MainNavigation.module.css";
 import { BellIcon, WriteIcon } from "../../shared/ui/svg/NavigationSvg";
 import { Link } from "react-router-dom";
+import WriteButton from "../../shared/ui/buttons/write-button/WriteButton";
 
 export default function MainNavigation() {
   return (
@@ -18,12 +19,7 @@ export default function MainNavigation() {
       </div>
 
       <div className={styles["main-nav-actions"]}>
-        <button className={styles["write-button"]}>
-          <span>
-            <WriteIcon size={20} className={styles["write-icon"]} />
-          </span>
-          <span>Write</span>
-        </button>
+        <WriteButton size={20} />
 
         <button className={styles["bell-button"]}>
           <span>

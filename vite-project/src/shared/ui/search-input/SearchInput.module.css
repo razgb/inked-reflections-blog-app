@@ -1,0 +1,18 @@
+.search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  padding: var(--space-md);
+  background-color: var(--color-primary-300);
+  border-radius: var(--space-md);
+}
+.search__input {
+  width: 100%;
+  padding: var(--space-xs);
+  background-color: var(--color-primary-300);
+  font-size: var(--text);
+}
+.search__input:focus {
+  outline: none;
+}

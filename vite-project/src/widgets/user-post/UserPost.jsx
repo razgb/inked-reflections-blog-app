@@ -10,6 +10,7 @@ import { ActionDotsIcon, BookmarksIcon } from "../../shared/ui/svg/PostSvg";
 
 import { changeCurrentPost } from "../../entities/posts/posts-slice";
 import { useDispatch } from "react-redux";
+import { formatDate } from "../../shared/util/formatDate";
 
 /*
 {
@@ -81,7 +82,9 @@ export default function UserPost({
             </Link>
           </h3>
 
-          <span className={styles["post__author-date"]}>{datePublished}</span>
+          <span className={styles["post__author-date"]}>
+            {formatDate(datePublished)}
+          </span>
         </div>
 
         <div className={styles["post__row--2"]}>
