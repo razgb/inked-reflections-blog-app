@@ -1,9 +1,9 @@
 .loader {
-  padding: 1em;
+  /* padding: 1em; */
+  /* margin-top: 30%; */
   display: flex;
   height: 100%;
   justify-content: center;
-  margin-top: 30%;
 }
 
 .spinner {
@@ -18,10 +18,30 @@
   height: 42px;
 }
 
+.small {
+  width: 24px;
+  height: 24px;
+}
+.medium {
+  width: 16px;
+  height: 16px;
+}
+.large {
+  width: 42px;
+  height: 42px;
+}
+
 .spinner .path {
-  stroke: var(--color-primary-700);
+  /* Hi future me figure this color out. */
   stroke-linecap: round;
   animation: dash 1.5s ease-in-out infinite;
+}
+
+.spinner .dark {
+  stroke: var(--color-primary-700);
+}
+.spinner .light {
+  stroke: var(--color-primary-300);
 }
 
 @keyframes rotate {

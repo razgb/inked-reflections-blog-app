@@ -1,7 +1,11 @@
 import styles from "./ErrorMessage.module.css";
-import { Link } from "react-router-dom";
 
-export default function ErrorMessage() {
+export default function ErrorMessage({
+  title = "Error 404",
+  message = "This page does not exist!",
+  destination = "/posts",
+  buttonText = "Back",
+}) {
   return (
     <div className={styles["error-container"]}>
       <div className={styles["error-box"]}>
@@ -14,13 +18,25 @@ export default function ErrorMessage() {
         <div className={`${styles["shadow"]} ${styles["move"]}`}></div>
 
         <div className={styles["message"]}>
-          <h1 className={styles["alert"]}>Error 404</h1>
-          <p className={styles["sub-alert"]}>This page doesn&apos;t exist!</p>
-          <Link to="/posts" className={styles["button-box"]}>
-            back
-          </Link>
+          <h1 className={styles["alert"]}>{title}</h1>
+          <p className={styles["sub-alert"]}>{message}</p>
+          <a href={destination} className={styles["button"]}>
+            {buttonText}
+          </a>
         </div>
       </div>
     </div>
   );
 }
+
+/**
+ * Notes
+ *
+ * I used <a> instead of react router's <Link> to force a page upon
+ * loading the link reload so that my menu component's useEffect
+ * function can catch the pathname being '/posts' and correct the UI
+ * error!
+ *
+ * Thinking of possible fixes...
+ *
+ * */

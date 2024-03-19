@@ -1,0 +1,33 @@
+.flow {
+}
+.flow__container {
+  height: 100dvh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.half-1 {
+  background-color: var(--color-primary-500);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 25%;
+}
+.app-logo {
+  border-radius: var(--space-md);
+}
+
+.half-2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 25%;
+}
+
+.primary-heading {
+  font-size: var(--primary-heading);
+  margin-bottom: var(--space-lg);
+}
+.secondary-heading {
+  font-size: var(--secondary-heading);
+  margin-bottom: var(--space-xl);
+}

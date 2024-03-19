@@ -16,3 +16,11 @@ export default function RecentlySavedPosts() {
     </div>
   );
 }
+
+/**
+ * Notes:
+ *
+ * Read bookmarks from the user's data.
+ * If none then make the component's display none.
+ * if there is, simple map function will do (max 3).
+ */

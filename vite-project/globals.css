@@ -53,6 +53,8 @@
   --color-pink-500: #edbfdd;
   --color-pink-600: #e8b0d5;
 
+  --color-error-500: #e44646;
+
   --color-choice-1: #f8e6f3;
   --color-choice-2: #e2eaf7;
   --color-choice-3: #d3f3d6;
@@ -65,8 +67,11 @@
 }
 
 ::selection {
-  background-color: var(--color-primary-400);
-  color: #000;
+  /* background-color: var(--color-primary-400); */
+  /* color: #000; */
+
+  background-color: var(--color-primary-800);
+  color: var(--color-primary-200);
 }
 
 html {
@@ -92,6 +97,15 @@ a:link,
 a:visited {
   color: inherit;
 }
+
+/* fucking fix this please */
+
+/* a:link:focus,
+a:visited:focus,
+button:focus {
+  outline: 2px solid var(--color-primary-800);
+} */
+
 /* For images to not be able to exceed their container */
 img {
   max-inline-size: 100%;
@@ -114,11 +128,16 @@ body {
   font-size: var(--fs-base);
   padding: var(--space-sm) var(--space-lg);
   border-radius: var(--space-md);
-  background-color: var(--color-primary-800);
-  color: var(--color-primary-300);
+  background-color: var(--color-primary-900);
+  color: var(--color-primary-200);
 
   transition: background-color 0.1s ease-in;
 }
 .button:hover {
   background-color: var(--color-primary-700);
 }
+
+/* This looks fucking disgusting. */
+/* .button:disabled {
+  background-color: var(--color-primary-600);
+} */

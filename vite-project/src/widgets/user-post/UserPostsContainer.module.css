@@ -9,5 +9,6 @@
   padding: var(--space-xl);
 }
 
-.spinner-container {
+.posts-spinner__container {
+  margin-top: 30%;
 }

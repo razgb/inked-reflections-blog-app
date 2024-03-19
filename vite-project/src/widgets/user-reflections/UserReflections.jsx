@@ -4,9 +4,6 @@ import SearchInput from "../../shared/ui/search-input/SearchInput.jsx";
 import WriteButton from "../../shared/ui/buttons/write-button/WriteButton.jsx";
 import Select from "../../shared/ui/select-element/Select.jsx";
 
-{
-  /* Button to sort by dateCreated, lastModified, name, */
-}
 export default function UserReflections() {
   return (
     <div className={styles["reflections"]}>
@@ -27,7 +24,6 @@ export default function UserReflections() {
           <DummyUserPost />
           <DummyUserPost />
           <DummyUserPost />
-          {/* <Button /> */}
         </div>
       </div>
     </div>

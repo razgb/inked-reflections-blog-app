@@ -18,6 +18,11 @@ export default function Bookmarks() {
           <DummyUserPost />
           <DummyUserPost />
           <DummyUserPost />
+          <DummyUserPost />
+          <DummyUserPost />
+          <DummyUserPost />
+          <DummyUserPost />
+          <DummyUserPost />
         </div>
       </div>
     </div>

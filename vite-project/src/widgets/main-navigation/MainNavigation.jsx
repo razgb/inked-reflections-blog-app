@@ -1,9 +1,11 @@
 import styles from "./MainNavigation.module.css";
 import appLogo from "../../../public/inked-reflections-wide-logo.jpg";
 import defaultProfileImage from "../../../public/default-profile.jpeg";
-import { BellIcon, WriteIcon } from "../../shared/ui/svg/NavigationSvg";
+import { BellIcon } from "../../shared/ui/svg/NavigationSvg";
 import { Link } from "react-router-dom";
 import WriteButton from "../../shared/ui/buttons/write-button/WriteButton";
+
+// -> Import user data from userSlice and update the profile picture.
 
 export default function MainNavigation() {
   return (
@@ -19,6 +21,9 @@ export default function MainNavigation() {
       </div>
 
       <div className={styles["main-nav-actions"]}>
+        {/* <span>No user signed in</span> */}
+        <span>Signed in as blank</span>
+
         <WriteButton size={20} />
 
         <button className={styles["bell-button"]}>

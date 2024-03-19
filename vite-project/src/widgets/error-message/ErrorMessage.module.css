@@ -14,7 +14,13 @@
   position: absolute;
   width: 35%;
   height: 100%;
-  background: linear-gradient(to bottom left, #ef8d9c 40%, #ffc39e 100%);
+  /* background: linear-gradient(to bottom left, #ef8d9c 40%, #ffc39e 100%); */
+  /* background: linear-gradient(
+    to bottom left,
+    var(--color-primary-500) 40%,
+    var(--color-primary-600) 100%
+  ); */
+  background-color: #ef8d9c;
   border-radius: 20px;
   box-shadow: 5px 5px 20px rgba(#cbcdd3, 10%);
 }
@@ -126,9 +132,10 @@
 
 .sub-alert {
   font-size: var(--tertiary-heading);
+  margin-bottom: var(--space-lg);
 }
 
-.button-box {
+.button {
   display: inline-block;
   cursor: pointer;
   font-size: var(--text);

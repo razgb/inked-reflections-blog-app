@@ -20,7 +20,7 @@ export default function UserPostContainer() {
     return;
   }
 
-  // Make an error state component please. 
+  // Make an error state component please.
   const { isLoading, isError, error, refetch } = useQuery({
     queryKey: ["posts"],
     queryFn: temp,
@@ -80,11 +80,25 @@ export default function UserPostContainer() {
   }, [dispatch, refetch, outputFeed, updateState, isLoading]);
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <div className={styles["posts-spinner__container"]}>
+        <Spinner />
+      </div>
+    );
   }
 
   return <div className={styles["user-posts-container"]}>{outputFeed}</div>;
 }
+
+/**
+ * Notes:
+ *
+ * Realised that when user finishes all the posts there are to
+ * view, firebase sends either a repeat of all the posts from the
+ * beggining or the last batch again and again...
+ *
+ * Wonder how the fuck i'll fix this.
+ */
 
 /* Dummy queryFn:  
 // queryFn: async () => {

@@ -10,8 +10,30 @@ import BookmarksPage from "./pages/bookmarks-page/BookmarksPage.jsx";
 import ExplorePage from "./pages/explore-page/ExplorePage.jsx";
 import ErrorMessage from "./widgets/error-message/ErrorMessage.jsx";
 import ReflectionsPage from "./pages/reflections/ReflectionsPage.jsx";
+import FlowPage from "./pages/flow-login-signup/FlowPage.jsx";
+import LoginAccountUI from "./widgets/login-create-account/LoginAccountUI.jsx";
+import CreateAccountUI from "./widgets/login-create-account/CreateAccountUI.jsx";
 
 const router = createBrowserRouter([
+  {
+    path: "/flow",
+    element: <FlowPage />,
+    errorElement: <ErrorMessage />,
+    children: [
+      {
+        index: true,
+        element: <Navigate to="/flow/login" />,
+      },
+      {
+        path: "login",
+        element: <LoginAccountUI />,
+      },
+      {
+        path: "signup",
+        element: <CreateAccountUI />,
+      },
+    ],
+  },
   {
     path: "/",
     element: <RootLayout />,
@@ -48,15 +70,15 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <></>,
+        element: <ErrorMessage />,
       },
       {
         path: "settings",
-        element: <></>,
+        element: <ErrorMessage />,
       },
       {
         path: "help",
-        element: <></>,
+        element: <ErrorMessage />,
       },
     ],
   },

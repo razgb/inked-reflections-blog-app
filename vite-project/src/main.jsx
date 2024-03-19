@@ -2,26 +2,24 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "../globals.css";
-
 import { Provider } from "react-redux";
 import store from "./store/RootReducer.js";
-
 import { QueryClient, QueryClientProvider } from "react-query";
-
 import { initializeApp } from "firebase/app";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import {
   getFirestore,
   collection,
   getDocs,
   addDoc,
-  query,
-  limit,
-  startAfter,
-  orderBy,
   updateDoc,
   deleteField,
 } from "firebase/firestore";
-// import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBM7ipyzLbhi8AsioPELKH_pq-bnyCNRrs",
@@ -32,13 +30,12 @@ const firebaseConfig = {
   appId: "1:181577158789:web:98ab2da655f50815f259ec",
   measurementId: "G-Z5B8XVB4WQ",
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-export default db; // One instance exported for consistency
+const auth = getAuth(app);
+export { db, auth };
 
 const queryClient = new QueryClient();
-
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
@@ -48,6 +45,44 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </QueryClientProvider>
   </React.StrictMode>
 );
+
+// TEMPORARY LOCATION FOR TESTING PURPOSES:
+
+async function signInUser(auth, email, password) {
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    const user = userCredential.user;
+    console.log("user:", user, user.email, user.uid);
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log(errorCode, errorMessage);
+  }
+}
+
+async function handleUserStateChange() {
+  // onAuthStateChanged(auth, (user) => {
+  //   if (user) {
+  //     // User is signed in
+  //   } else {
+  //     // User is signed out
+  //   }
+  // });
+}
+
+function init() {
+  const email = "raz.neaiz.official@gmail.com";
+  const password = "Razraz1$3";
+  // createUser(auth, "raz.neaiz.official@gmail.com", "Razraz1$3");
+  // signInUser(auth, email, password);
+}
+init();
+
 /*
 const socialMediaPostTitles = [
   "The Art of Enjoying Solitude: My Journey",
@@ -156,7 +191,6 @@ const randomTags = [
   "mindful living",
 ];
 */
-
 /*
 const dates = [];
 for (let i = 0; i < 50; i++) {
@@ -188,9 +222,7 @@ async function sendPostsData() {
   }
 }
  */
-
 // // sendPostsData();
-
 /*
 
 async function sendPostsData() {

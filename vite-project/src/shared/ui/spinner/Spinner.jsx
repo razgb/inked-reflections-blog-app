@@ -1,11 +1,27 @@
 import styles from "./Spinner.module.css";
 
-export default function Spinner() {
+export default function Spinner({ size = "large", color = "dark" }) {
+  let spinnerStyles = `${styles["spinner"]}`;
+  if (size === "large") {
+    spinnerStyles += ` ${styles["large"]}`;
+  } else if (size === "medium") {
+    spinnerStyles += ` ${styles["medium"]}`;
+  } else if (size === "small") {
+    spinnerStyles += ` ${styles["small"]}`;
+  }
+
+  let colorStyles = `${styles["path"]}`;
+  if (color === "dark") {
+    colorStyles += ` ${styles["dark"]}`;
+  } else if (color === "light") {
+    colorStyles += ` ${styles["light"]}`;
+  }
+
   return (
     <div className={styles["loader"]}>
-      <svg className={styles["spinner"]} viewBox="0 0 50 50">
+      <svg className={spinnerStyles} viewBox="0 0 50 50">
         <circle
-          className={styles["path"]}
+          className={colorStyles}
           cx="25"
           cy="25"
           r="20"

@@ -1,4 +1,5 @@
-.write-button {
+.write-button:link,
+.write-button:visited {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
@@ -7,6 +8,7 @@
   padding: var(--space-md);
   transition: all 0.1s ease-in;
   border-radius: var(--space-sm);
+  text-decoration: none;
 }
 .write-button:hover {
   background-color: var(--color-primary-400);

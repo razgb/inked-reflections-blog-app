@@ -44,9 +44,11 @@ export default function Menu() {
   }
 
   useEffect(() => {
-    // Upon initial app load, intitial url is just the base localhost:5173 without /posts
-    handleUrlChange("/posts", activeLink);
-  });
+    // Intitial url is the base localhost:5173 without /posts
+    if (activeLink === "/") {
+      setActiveLink("/posts");
+    }
+  }, [activeLink]);
 
   return (
     <aside className={styles["menu"]}>
