@@ -15,12 +15,11 @@ export default function UserPostContainer() {
 
   async function temp() {
     const posts = await fetchPosts();
-
     dispatch(updatePostsFeed(posts));
     return;
   }
 
-  // Make an error state component please.
+  // If error the global error component should dispatched with it's own message too.
   const { isLoading, isError, error, refetch } = useQuery({
     queryKey: ["posts"],
     queryFn: temp,

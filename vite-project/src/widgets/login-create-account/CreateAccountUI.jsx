@@ -32,11 +32,11 @@ export default function CreateAccountUI() {
   const [loading, setLoading] = useState(null);
   const [strength, setStrength] = useState("");
 
-  async function dummyFunction() {
-    return new Promise((resolve) => {
-      setTimeout(resolve, 2000);
-    });
-  }
+  // async function dummyFunction() {
+  //   return new Promise((resolve) => {
+  //     setTimeout(resolve, 2000);
+  //   });
+  // }
 
   async function handleSignup(event, email, password, confirmPassword) {
     event.preventDefault();
@@ -49,7 +49,7 @@ export default function CreateAccountUI() {
     );
 
     if (!validationState.valid) {
-      console.log("Validation state not valid");
+      console.log("Validation state not false");
       setError({
         emailError: validationState.emailError,
         emailMessage: validationState.emailMessage,
@@ -61,28 +61,29 @@ export default function CreateAccountUI() {
     }
 
     try {
-      // const user = await signupUser(email, password);
-      // dispatch(
-      //   addUserToState({
-      //     email: user.email,
-      //     username: user.displayName,
-      //     uid: user.uid,
-      //     photoURL: user.providerData[0].photoURL,
-      //     isVerified: user.emailVerified,
-      //     accessToken: user.stsTokenManage.accessToken,
-      //     refreshToken: user.stsTokenManage.refreshToken,
-      //   })
-      // );
-      await dummyFunction();
+      const user = await signupUser(email, password);
+      const accessToken = await user.getIdToken(); // why?
+      dispatch(
+        addUserToState({
+          email: user.email,
+          username: user.displayName,
+          uid: user.uid,
+          photoURL: user.providerData[0].photoURL,
+          isVerified: user.emailVerified,
+          // accessToken: user.accessToken,
+          accessToken: accessToken,
+          refreshToken: user.refreshToken,
+        })
+      );
     } catch (error) {
       // Edge case error: What if the user has already signed up? Need UI for this.
       // -> Maybe reuseable error component like a modal towards the top of the app?
       console.log(error);
     }
-    // Reset everything upon success.
+
     setLoading(false);
     setStrength("");
-    navigate("/posts");
+    navigate("/flow/login");
   }
 
   function onEmailClick(event) {

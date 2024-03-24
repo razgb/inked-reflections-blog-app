@@ -1,9 +1,7 @@
-const FILL_COLOR = "#211808";
-
 const BookmarksIcon = ({ size }) => {
   return (
     <svg
-      fill={FILL_COLOR}
+      className="icon"
       xmlns="http://www.w3.org/2000/svg"
       id="Outline"
       viewBox="0 0 24 24"
@@ -18,7 +16,7 @@ const BookmarksIcon = ({ size }) => {
 const BookmarksSolidIcon = ({ size }) => {
   return (
     <svg
-      fill={FILL_COLOR}
+      className="icon"
       xmlns="http://www.w3.org/2000/svg"
       id="Filled"
       viewBox="0 0 24 24"
@@ -33,7 +31,7 @@ const BookmarksSolidIcon = ({ size }) => {
 const ActionDotsIcon = ({ size }) => {
   return (
     <svg
-      fill={FILL_COLOR}
+      className="icon"
       xmlns="http://www.w3.org/2000/svg"
       id="Outline"
       viewBox="0 0 24 24"

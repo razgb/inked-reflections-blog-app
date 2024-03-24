@@ -1,8 +1,7 @@
-const FILL_COLOR = "#211808";
-
 const EyeIcon = ({ size }) => {
   return (
     <svg
+      className="icon"
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
       id="Capa_1"
@@ -10,7 +9,6 @@ const EyeIcon = ({ size }) => {
       y="0px"
       viewBox="0 0 512.19 512.19"
       style="enable-background:new 0 0 512.19 512.19;"
-      fill={FILL_COLOR}
       width={size}
       height={size}
     >
@@ -25,6 +23,7 @@ const EyeIcon = ({ size }) => {
 const EyeCrossedIcon = ({ size }) => {
   return (
     <svg
+      className="icon"
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
       id="Capa_1"
@@ -32,7 +31,6 @@ const EyeCrossedIcon = ({ size }) => {
       y="0px"
       viewBox="0 0 512.19 512.19"
       style="enable-background:new 0 0 512.19 512.19;"
-      fill={FILL_COLOR}
       width={size}
       height={size}
     >

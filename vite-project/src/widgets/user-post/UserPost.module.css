@@ -27,6 +27,7 @@
 }
 .post__author-date {
   font-size: var(--text-xs);
+  color: var(--color-primary-800);
 }
 .post__author-name {
   color: var(--color-primary-800);
@@ -80,11 +81,19 @@
 }
 .post__minutes {
   font-size: var(--text-xs);
-  /* margin-right: auto; */
+  color: var(--color-primary-800);
 }
 .post__action-button {
   cursor: pointer;
   background-color: transparent;
 }
 .post__icon-holder {
+}
+
+.bot {
+  padding: var(--space-xs);
+  border-radius: var(--space-xs);
+  background-color: var(--color-primary-600);
+  color: var(--color-primary-800);
+  font-weight: 600;
 }

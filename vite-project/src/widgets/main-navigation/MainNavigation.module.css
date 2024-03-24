@@ -6,6 +6,8 @@
   justify-content: space-between;
   padding: var(--space-md);
   border-bottom: 2px solid var(--color-primary-300);
+
+  position: relative;
 }
 
 .main-nav__logo {
@@ -26,8 +28,6 @@
   transition: all 0.1s ease-in;
   border-radius: var(--space-sm);
 }
-
-
 .write-button:hover,
 .bell-button:hover {
   background-color: var(--color-primary-400);
@@ -45,4 +45,8 @@
 .main-nav-profile__button {
   background-color: transparent;
   cursor: pointer;
+}
+
+.email {
+  color: var(--color-primary-800);
 }

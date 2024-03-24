@@ -1,5 +1,6 @@
 .bookmarks {
   padding: var(--space-xl);
+  /* color: var(--primary-color-800); */
 }
 
 .bookmarks__actions {
@@ -11,7 +12,7 @@
 
 .bookmarks__heading {
   font-size: var(--secondary-heading);
-  color: var(--primary-color-800);
+  color: var(--color-primary-800);
 }
 
 /* .cover-image-container {

@@ -12,6 +12,7 @@
   padding: var(--space-xs);
   background-color: var(--color-primary-300);
   font-size: var(--text);
+  color: var(--color-primary-800);
 }
 .search__input:focus {
   outline: none;

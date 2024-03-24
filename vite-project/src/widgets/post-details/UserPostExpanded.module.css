@@ -1,5 +1,6 @@
 .post {
   padding: var(--space-xl);
+  color: var(--color-primary-800);
 }
 .post__container {
   display: flex;
@@ -75,6 +76,7 @@
 .author__tags {
   display: flex;
   gap: var(--space-xs);
+  color: #000;
 }
 .author__tag {
   font-size: var(--text-xs);
@@ -92,7 +94,6 @@
 
 .details__paragraph {
   font-size: var(--fs-lg);
-  color: var(--color-primary-800);
   line-height: 2;
   font-family: var(--ff-serif);
   margin-bottom: var(--space-xl);

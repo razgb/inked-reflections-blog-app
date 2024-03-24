@@ -1,0 +1,26 @@
+.error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  min-width: 30rem;
+  background-color: var(--color-error-300);
+  border-radius: var(--space-md);
+  box-shadow: 2px 2px 10px 5px rgb(0, 0, 0, 0.1);
+}
+
+.error-container {
+  padding: var(--space-lg);
+  color: var(--color-primary-800);
+}
+
+.heading {
+  font-size: var(--secondary-heading);
+  margin-bottom: var(--space-xs);
+}
+
+.message {
+  font-size: var(--text);
+  margin-bottom: var(--space-md);
+}

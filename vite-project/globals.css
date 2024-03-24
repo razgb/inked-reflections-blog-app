@@ -41,6 +41,15 @@
   --color-primary-700: #31240c;
   --color-primary-800: #211808;
   --color-primary-900: #100c04;
+  /* 
+  --color-primary-200: #101828; 
+  --color-primary-300: #182030; 
+  --color-primary-400: #202838; 
+  --color-primary-500: #2d394d; 
+  --color-primary-600: #35465e; 
+  --color-primary-700: #90a1bc; 
+  --color-primary-800: #b3c2d8; 
+  --color-primary-900: #d6dee9;  */
 
   --color-blue-300: #e2eaf7;
   --color-blue-500: #a5c2f4;
@@ -53,6 +62,7 @@
   --color-pink-500: #edbfdd;
   --color-pink-600: #e8b0d5;
 
+  --color-error-300: #ef8d9c;
   --color-error-500: #e44646;
 
   --color-choice-1: #f8e6f3;
@@ -134,10 +144,22 @@ body {
   transition: background-color 0.1s ease-in;
 }
 .button:hover {
-  background-color: var(--color-primary-700);
+  background-color: var(--color-primary-800);
 }
 
-/* This looks fucking disgusting. */
-/* .button:disabled {
-  background-color: var(--color-primary-600);
-} */
+/* NO WHERE NEAR DONE. PLEASE FIX THIS.  */
+
+/* General scrollbar track */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Scrollbar handle */
+::-webkit-scrollbar-thumb {
+  background-color: #555; /* Darker gray */
+  border-radius: 8px;
+}
+
+.icon {
+  fill: var(--color-primary-800);
+}

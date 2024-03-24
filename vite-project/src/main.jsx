@@ -57,13 +57,14 @@ async function signInUser(auth, email, password) {
     );
 
     const user = userCredential.user;
-    console.log("user:", user, user.email, user.uid);
+    // console.log(user);
   } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
     console.log(errorCode, errorMessage);
   }
 }
+// signInUser(auth, "raz.neaiz.official@gmail.com", "RazRaz123");
 
 async function handleUserStateChange() {
   // onAuthStateChanged(auth, (user) => {

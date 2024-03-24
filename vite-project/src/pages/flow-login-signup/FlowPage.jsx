@@ -1,18 +1,18 @@
 import styles from "./FlowPage.module.css";
 import appLogo from "../../../public/inked-reflections-logo-w-heading.png";
-import { Outlet } from "react-router-dom";
-import { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export default function FlowPage() {
-  // const [page, setPage] = useState("login");
-  // const subHeading = page === "login" ? "Start reflecting" : "Join today";
-
-  // useEffect(() => {
-  //   const url = window.location.pathname;
-  //   if (url.includes("signup")) {
-  //     setPage("sign up");
-  //   }
-  // }, [page]);
+  const navigate = useNavigate();
+  const userInfo = useSelector((state) => state.user.info);
+  useEffect(() => {
+    // So user doesn't have login option when already logged in.
+    if (userInfo.loginState) {
+      navigate("/posts");
+    }
+  });
 
   return (
     <div className={styles["flow"]}>

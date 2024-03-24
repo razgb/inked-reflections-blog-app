@@ -1,22 +1,25 @@
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./MenuButton.module.css";
 import { Link } from "react-router-dom";
+import { changeLocationState } from "../../entities/url-location/location-slice";
 
 export default function MenuButton({
   children,
-  activeLink,
   title,
   destination,
   toggleMenu,
   open,
-  handleUrlChange,
 }) {
-  if (!children) {
-    return <p>Please enter button content as JSX children prop.</p>;
-  }
-  let cssClasses = `${styles["menu-button"]}`;
+  const dispatch = useDispatch();
+  const locationName = useSelector((state) => state.location.locationName);
 
+  function handleLocationChange() {
+    dispatch(changeLocationState(destination));
+  }
+
+  let cssClasses = `${styles["menu-button"]}`;
   if (!title && !destination) {
-    // Code for the menu hamburger button.
+    // Code for the menu hamburger button. SHOULD HAVE IT'S OWN COMPONENT.
     cssClasses += ` ${styles["menu-button__no-content"]}`;
     return (
       <button onClick={toggleMenu} className={cssClasses}>
@@ -24,21 +27,16 @@ export default function MenuButton({
       </button>
     );
   }
-  if (!destination) {
-    // Sloppy solve for the theme and sign out button.
-    return (
-      <button className={cssClasses}>
-        <span>{children}</span>
-      </button>
-    );
-  }
+
   cssClasses += ` ${
-    activeLink.includes(destination) ? styles["menu-button__active"] : undefined
+    locationName.includes(destination)
+      ? styles["menu-button__active"]
+      : undefined
   }`;
 
   return (
     <Link
-      onClick={() => handleUrlChange(destination)}
+      onClick={handleLocationChange}
       to={destination}
       className={cssClasses}
     >

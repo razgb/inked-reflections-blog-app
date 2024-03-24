@@ -10,7 +10,7 @@ export default function UserReflections() {
       <div className={styles["reflections__container"]}>
         <div className={styles["reflections__actions"]}>
           <div className={styles["half-1"]}>
-            <h2 className={styles["heading"]}>Your reflections</h2>
+            <h2 className={styles["heading"]}>Your Reflections</h2>
             <Select />
           </div>
           <div className={styles["half-2"]}>
@@ -24,15 +24,15 @@ export default function UserReflections() {
           <DummyUserPost />
           <DummyUserPost />
           <DummyUserPost />
+          <DummyUserPost />
+          <DummyUserPost />
+          <DummyUserPost />
+          <DummyUserPost />
+          <DummyUserPost />
+          <DummyUserPost />
+          <DummyUserPost />
         </div>
       </div>
     </div>
   );
 }
-
-/*
-<button className={styles["sort-button"]}>
-  <SortIcon size={16} />
-  <span className={styles["sort-button__text"]}>Sort by</span>
-</button>
-*/

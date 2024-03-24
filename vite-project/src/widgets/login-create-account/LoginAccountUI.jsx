@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { validateEmail } from "../../shared/util/loginFlowUtil";
 import Spinner from "../../shared/ui/spinner/Spinner";
-// import { useQuery } from "react-query";
 
 export default function LoginAccountUI() {
   const emailRef = useRef(null); // used to auto focus email input (UX)
@@ -13,21 +12,13 @@ export default function LoginAccountUI() {
     email: "",
     password: "",
   });
-
-  // Do we really want this?
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
-    emailError: false,
+    emailError: false, // email doesn't exist, if error
+    emailMessage: "",
     passwordError: false,
-    errorMessage: "",
+    passwordMessage: "", // wrong password, if error
   });
-
-  function handleAuthSuccess() {
-    // 1. Change the app user state with username, email, displayName, and profile picture.
-    // 2. Navigate user to /posts so they can start scrolling.
-    // 3. Send/show (not sure which one yet) notification to user that if they don't verify email,
-    // they will not be able to interact with anything and only view. (one day expiry date)
-  }
-  // function handleAuthError() {}
 
   function onEmailClick(event) {
     setLoginDetails((prev) => ({ ...prev, email: event.target.value }));
@@ -83,9 +74,8 @@ export default function LoginAccountUI() {
             </Link>
           </div>
 
-          <Button disabled>
-            Sign in
-            {/* <Spinner size="small" color="light" /> */}
+          <Button disabled={!loading}>
+            {loading ? <Spinner size="small" color="light" /> : "Sign in"}
           </Button>
 
           <div>
@@ -98,7 +88,6 @@ export default function LoginAccountUI() {
           </div>
         </form>
       </div>
-      {/*  */}
     </div>
   );
 }

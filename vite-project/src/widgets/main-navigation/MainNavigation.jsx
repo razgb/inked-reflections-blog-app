@@ -4,14 +4,24 @@ import defaultProfileImage from "../../../public/default-profile.jpeg";
 import { BellIcon } from "../../shared/ui/svg/NavigationSvg";
 import { Link } from "react-router-dom";
 import WriteButton from "../../shared/ui/buttons/write-button/WriteButton";
-
-// -> Import user data from userSlice and update the profile picture.
+import { useDispatch, useSelector } from "react-redux";
+import AppError from "../app-error/AppError";
+import { changeLocationState } from "../../entities/url-location/location-slice";
 
 export default function MainNavigation() {
+  const appErrorObj = useSelector((state) => state.error);
+  const email = useSelector((state) => state.user.info.email);
+  const dispatch = useDispatch();
+
+  // no idea what to name this. does the job.
+  function handleLocationChange() {
+    dispatch(changeLocationState("/posts"));
+  }
+
   return (
     <nav className={styles["main-nav"]}>
       <div className={styles["main-nav-logo"]}>
-        <Link to="/">
+        <Link to="/posts" onClick={handleLocationChange}>
           <img
             className={styles["main-nav__logo"]}
             src={appLogo}
@@ -21,8 +31,11 @@ export default function MainNavigation() {
       </div>
 
       <div className={styles["main-nav-actions"]}>
-        {/* <span>No user signed in</span> */}
-        <span>Signed in as blank</span>
+        {email ? (
+          <span className={styles["email"]}>{email}</span>
+        ) : (
+          <span className={styles["email"]}>No user signed in</span>
+        )}
 
         <WriteButton size={20} />
 
@@ -40,6 +53,8 @@ export default function MainNavigation() {
           />
         </button>
       </div>
+
+      {appErrorObj.errorState && <AppError />}
     </nav>
   );
 }

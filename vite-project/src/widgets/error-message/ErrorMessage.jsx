@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styles from "./ErrorMessage.module.css";
 
 export default function ErrorMessage({
@@ -6,6 +7,11 @@ export default function ErrorMessage({
   destination = "/posts",
   buttonText = "Back",
 }) {
+  const navigate = useNavigate();
+  function handleBackButton() {
+    navigate("/posts");
+  }
+
   return (
     <div className={styles["error-container"]}>
       <div className={styles["error-box"]}>
@@ -20,7 +26,7 @@ export default function ErrorMessage({
         <div className={styles["message"]}>
           <h1 className={styles["alert"]}>{title}</h1>
           <p className={styles["sub-alert"]}>{message}</p>
-          <a href={destination} className={styles["button"]}>
+          <a onClick={handleBackButton} className={styles["button"]}>
             {buttonText}
           </a>
         </div>

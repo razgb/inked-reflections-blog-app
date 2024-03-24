@@ -22,33 +22,21 @@ import {
   SignoutIcon,
 } from "../../shared/ui/svg/MenuSvg";
 import MenuButton from "./MenuButton";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleMenu } from "../../features/app-menu/toggle-menu";
+import { useState } from "react";
+import MenuActionButton from "./MenuActionButton";
+import SignoutModal from "../login-create-account/SignoutModal";
+import { useSelector } from "react-redux";
 
 const ICON_SIZE = 20;
 
-export default function Menu() {
-  const menuOpenState = useSelector((state) => state.menu.menuOpenState);
+export default function Menu({ menuOpenState, handleToggleMenuState }) {
+  const urlLocationName = useSelector((state) => state.location.locationName);
+  const [openLogout, setOpenLogout] = useState(false);
 
-  const dispatch = useDispatch();
-  function handleToggleMenuState() {
-    dispatch(toggleMenu());
+  function handleOpenLogout(action) {
+    if (action === "open") setOpenLogout(true);
+    else setOpenLogout(false);
   }
-
-  const [activeLink, setActiveLink] = useState(window.location.pathname);
-  function handleUrlChange(destination, activeLink) {
-    if (activeLink !== destination) {
-      setActiveLink(destination);
-    }
-  }
-
-  useEffect(() => {
-    // Intitial url is the base localhost:5173 without /posts
-    if (activeLink === "/") {
-      setActiveLink("/posts");
-    }
-  }, [activeLink]);
 
   return (
     <aside className={styles["menu"]}>
@@ -58,14 +46,8 @@ export default function Menu() {
         </MenuButton>
 
         <div className={styles["menu-actions-1"]}>
-          <MenuButton
-            destination="/posts"
-            handleUrlChange={handleUrlChange}
-            activeLink={activeLink}
-            title="Home"
-            open={menuOpenState}
-          >
-            {activeLink.includes("posts") ? (
+          <MenuButton destination="/posts" title="Home" open={menuOpenState}>
+            {urlLocationName.includes("posts") ? (
               <HomeSolidIcon size={ICON_SIZE} />
             ) : (
               <HomeIcon size={ICON_SIZE} />
@@ -74,12 +56,10 @@ export default function Menu() {
 
           <MenuButton
             destination="/explore"
-            handleUrlChange={handleUrlChange}
-            activeLink={activeLink}
             title="Explore"
             open={menuOpenState}
           >
-            {activeLink.includes("explore") ? (
+            {urlLocationName.includes("explore") ? (
               <SearchSolidIcon size={ICON_SIZE} />
             ) : (
               <SearchIcon size={ICON_SIZE} />
@@ -88,12 +68,10 @@ export default function Menu() {
 
           <MenuButton
             destination="/reflections"
-            handleUrlChange={handleUrlChange}
-            activeLink={activeLink}
             title="Reflections"
             open={menuOpenState}
           >
-            {activeLink.includes("reflections") ? (
+            {urlLocationName.includes("reflections") ? (
               <ReflectionsSolidIcon size={ICON_SIZE} />
             ) : (
               <ReflectionsIcon size={ICON_SIZE} />
@@ -102,12 +80,10 @@ export default function Menu() {
 
           <MenuButton
             destination="/bookmarks"
-            handleUrlChange={handleUrlChange}
-            activeLink={activeLink}
             title="Bookmarks"
             open={menuOpenState}
           >
-            {activeLink.includes("bookmarks") ? (
+            {urlLocationName.includes("bookmarks") ? (
               <BookmarksSolidIcon size={ICON_SIZE} />
             ) : (
               <BookmarksIcon size={ICON_SIZE} />
@@ -118,10 +94,8 @@ export default function Menu() {
             destination="/profile"
             title="Profile"
             open={menuOpenState}
-            handleUrlChange={handleUrlChange}
-            activeLink={activeLink}
           >
-            {activeLink.includes("profile") ? (
+            {urlLocationName.includes("profile") ? (
               <ProfileSolidIcon size={ICON_SIZE} />
             ) : (
               <ProfileIcon size={ICON_SIZE} />
@@ -130,26 +104,18 @@ export default function Menu() {
 
           <MenuButton
             destination="/settings"
-            handleUrlChange={handleUrlChange}
-            activeLink={activeLink}
             title="Settings"
             open={menuOpenState}
           >
-            {activeLink.includes("settings") ? (
+            {urlLocationName.includes("settings") ? (
               <SettingsSolidIcon size={ICON_SIZE} />
             ) : (
               <SettingsIcon size={ICON_SIZE} />
             )}
           </MenuButton>
 
-          <MenuButton
-            destination="/help"
-            handleUrlChange={handleUrlChange}
-            activeLink={activeLink}
-            title="Help"
-            open={menuOpenState}
-          >
-            {activeLink.includes("help") ? (
+          <MenuButton destination="/help" title="Help" open={menuOpenState}>
+            {urlLocationName.includes("help") ? (
               <HelpSolidIcon size={ICON_SIZE} />
             ) : (
               <HelpIcon size={ICON_SIZE} />
@@ -158,133 +124,21 @@ export default function Menu() {
         </div>
 
         <div className={styles["menu-actions-2"]}>
-          {/* Create a new button for these instead? */}
-          <MenuButton title="Dark">
+          <MenuActionButton title="Theme" menuOpenState={menuOpenState}>
             <MoonIcon size={ICON_SIZE} />
-          </MenuButton>
-          <MenuButton title="Signout">
-            {/* Future me make a modal popup */}
+          </MenuActionButton>
+          <MenuActionButton
+            title="Sign out"
+            onClick={() => handleOpenLogout("open")}
+            menuOpenState={menuOpenState}
+          >
             <SignoutIcon size={ICON_SIZE} />
-          </MenuButton>
+          </MenuActionButton>
         </div>
+
+        {openLogout && <SignoutModal onClose={handleOpenLogout} />}
+        {openLogout && <div className={styles["menu-overlay"]}></div>}
       </div>
     </aside>
   );
 }
-
-/*
-This is a save of the menu element incase i fuck up: 
-
-
-<aside className={styles["menu"]}>
-      <div className={styles["menu-container"]}>
-        <MenuButton fn={handleToggleMenuState}>
-          <HamburgerSolidIcon size={ICON_SIZE} />
-        </MenuButton>
-
-        <div className={styles["menu-actions-1"]}>
-          <MenuButton
-            destination="/"
-            title="Home"
-            active={activeButton === "home" ? "menu-button__active" : ""}
-            fn={() => handleActiveButton("home")}
-          >
-            {activeButton === "home" ? (
-              <HomeSolidIcon size={ICON_SIZE} />
-            ) : (
-              <HomeIcon size={ICON_SIZE} />
-            )}
-          </MenuButton>
-
-          <MenuButton
-            destination="/explore"
-            active={activeButton === "search" ? true : false}
-            fn={() => handleActiveButton("search")}
-            title="Explore"
-          >
-            {activeButton === "search" ? (
-              <SearchSolidIcon size={ICON_SIZE} />
-            ) : (
-              <SearchIcon size={ICON_SIZE} />
-            )}
-          </MenuButton>
-
-          <MenuButton
-            destination="/reflections"
-            active={activeButton === "reflections" ? true : false}
-            fn={() => handleActiveButton("reflections")}
-            title="Reflections"
-          >
-            {activeButton === "reflections" ? (
-              <ReflectionsSolidIcon size={ICON_SIZE} />
-            ) : (
-              <ReflectionsIcon size={ICON_SIZE} />
-            )}
-          </MenuButton>
-
-          <MenuButton
-            destination="/bookmarks"
-            active={activeButton === "bookmarks" ? true : false}
-            fn={() => handleActiveButton("bookmarks")}
-            title="Bookmarks"
-          >
-            {activeButton === "bookmarks" ? (
-              <BookmarksSolidIcon size={ICON_SIZE} />
-            ) : (
-              <BookmarksIcon size={ICON_SIZE} />
-            )}
-          </MenuButton>
-
-          <MenuButton
-            destination="/profile"
-            title="Profile"
-            active={activeButton === "profile" ? true : false}
-            fn={() => handleActiveButton("profile")}
-          >
-            {activeButton === "profile" ? (
-              <ProfileSolidIcon size={ICON_SIZE} />
-            ) : (
-              <ProfileIcon size={ICON_SIZE} />
-            )}
-          </MenuButton>
-
-          <MenuButton
-            destination="/settings"
-            active={activeButton === "settings" ? true : false}
-            fn={() => handleActiveButton("settings")}
-            title="Settings"
-          >
-            {activeButton === "settings" ? (
-              <SettingsSolidIcon size={ICON_SIZE} />
-            ) : (
-              <SettingsIcon size={ICON_SIZE} />
-            )}
-          </MenuButton>
-
-          <MenuButton
-            destination="/help"
-            active={activeButton === "help" ? true : false}
-            fn={() => handleActiveButton("help")}
-            title="Help"
-          >
-            {activeButton === "help" ? (
-              <HelpSolidIcon size={ICON_SIZE} />
-            ) : (
-              <HelpIcon size={ICON_SIZE} />
-            )}
-          </MenuButton>
-        </div>
-
-        <div className={styles["menu-actions-2"]}>
-    //       <MenuButton title="Dark">
-    //         <MoonIcon size={ICON_SIZE} />
-    //       </MenuButton>
-    //       <MenuButton title="Signout">
-    //         <SignoutIcon size={ICON_SIZE} />
-    //       </MenuButton>
-    //     </div>
-    //   </div>
-    // </aside>
-
-
-*/

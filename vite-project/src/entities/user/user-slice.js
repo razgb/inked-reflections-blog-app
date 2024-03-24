@@ -1,54 +1,44 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { auth } from "../../main";
-import {
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-} from "firebase/auth";
-
-// function handleUserAuthStateChange() {
-//   onAuthStateChanged(auth, (user) => {
-//     if (user) {
-//       // Code for sign in.
-//       userSlice.addUserToState({
-//       });
-//     } else {
-//       // Code for sign out
-//     }
-//   });
-// }
 
 const initialState = {
-  email: "",
-  username: "",
-  displayName: "",
-  // Restricts most app features except viewing posts util verification by email.
-  isValidated: false,
-  // Link to photo saved in firebase storage.
-  photoURL: "",
+  info: {
+    loginState: false,
+    email: "",
+    displayName: "",
+    // Restricts most app features except viewing posts until verification by email.
+    emailVerified: false,
+    // Link to photo saved in firebase storage.
+    photoURL: "",
+  },
+  // extraInfo: {
+  //   username: '',
+  //
+  // },
   // Would be a list of bookmarked post ids.
   bookmarks: [],
   // Would be a list of post ids. -> Dynamically fetched through api using unfinished function.
   posts: [],
 };
 
-export const userSlice = createSlice({
+const userSlice = createSlice({
   name: "user",
   initialState: { ...initialState },
   reducers: {
     addUserToState(state, action) {
-      state = {
-        ...state,
+      state.info = {
         ...action.payload,
       };
     },
-    removeUserFromState(state) {
-      state = initialState;
+    removeUserFromState() {
+      return {
+        ...initialState,
+      };
     },
   },
 });
 
 export const { addUserToState, removeUserFromState } = userSlice.actions;
+export default userSlice;
 
 /**
  * Notes :
@@ -75,3 +65,21 @@ export const { addUserToState, removeUserFromState } = userSlice.actions;
     // deleteUser(state, action) {},
  * 
  * */
+
+// const userSlice = createSlice({
+//   name: "user",
+//   initialState: { ...initialState },
+//   reducers: {
+//     addUserToState(state, action) {
+//       // console.log(action.payload);
+//       // state = {
+//       //   ...action.payload,
+//       // };
+
+//       // state = action.payload;
+//       state.info = {
+//         ...action.payload,
+//       };
+//     },
+//   },
+// });

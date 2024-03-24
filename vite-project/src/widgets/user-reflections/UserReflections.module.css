@@ -1,5 +1,6 @@
 .reflections__container {
   padding: var(--space-xl);
+  color: var(--color-primary-800);
 }
 
 .heading {

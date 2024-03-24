@@ -34,6 +34,7 @@ export default function UserPost({
   paragraphs,
   id,
   tags,
+  email,
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -55,6 +56,7 @@ export default function UserPost({
     navigate(`/posts/${id}`);
   }
 
+  // Needs fine tuning.
   function formatAbstractParagraph(p) {
     const length = p.split("").length;
     if (length <= 240) return p;
@@ -85,6 +87,8 @@ export default function UserPost({
           <span className={styles["post__author-date"]}>
             {formatDate(datePublished)}
           </span>
+
+          <span className={styles["bot"]}>{email ? null : "BOT"}</span>
         </div>
 
         <div className={styles["post__row--2"]}>

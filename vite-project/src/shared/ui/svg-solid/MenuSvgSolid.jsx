@@ -1,9 +1,7 @@
-const FILL_COLOR = "#211808";
-
 const HomeSolidIcon = ({ size }) => {
   return (
     <svg
-      fill={FILL_COLOR}
+      className="icon"
       xmlns="http://www.w3.org/2000/svg"
       id="Layer_1"
       data-name="Layer 1"
@@ -18,7 +16,7 @@ const HomeSolidIcon = ({ size }) => {
 const SearchSolidIcon = ({ size }) => {
   return (
     <svg
-      fill={FILL_COLOR}
+      className="icon"
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
       id="Capa_1"
@@ -37,7 +35,7 @@ const SearchSolidIcon = ({ size }) => {
 const ProfileSolidIcon = ({ size }) => {
   return (
     <svg
-      fill={FILL_COLOR}
+      className="icon"
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
       id="Capa_1"
@@ -58,7 +56,7 @@ const ProfileSolidIcon = ({ size }) => {
 const HamburgerSolidIcon = ({ size }) => {
   return (
     <svg
-      fill={FILL_COLOR}
+      className="icon"
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
       id="Capa_1"
@@ -79,7 +77,7 @@ const HamburgerSolidIcon = ({ size }) => {
 const BookmarksSolidIcon = ({ size }) => {
   return (
     <svg
-      fill={FILL_COLOR}
+      className="icon"
       xmlns="http://www.w3.org/2000/svg"
       id="Filled"
       viewBox="0 0 24 24"
@@ -93,7 +91,7 @@ const BookmarksSolidIcon = ({ size }) => {
 const ReflectionsSolidIcon = ({ size }) => {
   return (
     <svg
-      fill={FILL_COLOR}
+      className="icon"
       id="Layer_1"
       height={size}
       viewBox="0 0 24 24"
@@ -108,7 +106,7 @@ const ReflectionsSolidIcon = ({ size }) => {
 const SettingsSolidIcon = ({ size }) => {
   return (
     <svg
-      fill={FILL_COLOR}
+      className="icon"
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
       id="Capa_1"
@@ -129,7 +127,7 @@ const SettingsSolidIcon = ({ size }) => {
 const HelpSolidIcon = ({ size }) => {
   return (
     <svg
-      fill={FILL_COLOR}
+      className="icon"
       xmlns="http://www.w3.org/2000/svg"
       id="Filled"
       viewBox="0 0 24 24"

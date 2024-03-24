@@ -1,5 +1,5 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../main";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export async function signupUser(email, password) {
   try {
@@ -12,7 +12,9 @@ export async function signupUser(email, password) {
     const user = userCredential.user;
     console.log(user);
 
-    return user;
+    return {
+      isValidated: user.emailVerified,
+    };
   } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
