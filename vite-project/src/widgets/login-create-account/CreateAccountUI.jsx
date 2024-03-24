@@ -1,11 +1,7 @@
 import styles from "./CreateAccountUI.module.css";
 import Button from "../../shared/ui/buttons/default-button/Button";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  validateEmail,
-  validatePassword,
-  validateSignupDetails,
-} from "../../shared/util/loginFlowUtil";
+import { validateSignupDetails } from "../../shared/util/loginFlowUtil";
 import { useState, useEffect, useRef } from "react";
 import { signupUser } from "../../features/user-auth/signupUser";
 import { addUserToState } from "../../entities/user/user-slice";
@@ -184,7 +180,6 @@ export default function CreateAccountUI() {
                 type="password"
                 value={signupDetails.password}
                 onChange={onPasswordClick}
-                onBlur={() => validatePassword(signupDetails.password)}
               />
             </div>
 
@@ -198,7 +193,6 @@ export default function CreateAccountUI() {
                 type="password"
                 value={signupDetails.confirmPassword}
                 onChange={onConfirmPasswordClick}
-                onBlur={() => validatePassword(signupDetails.password)}
               />
             </div>
 

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { validateEmail } from "../../shared/util/loginFlowUtil";
 import Spinner from "../../shared/ui/spinner/Spinner";
+import { loginUser } from "../../features/user-auth/loginUser";
 
 export default function LoginAccountUI() {
   const emailRef = useRef(null); // used to auto focus email input (UX)
@@ -13,12 +14,7 @@ export default function LoginAccountUI() {
     password: "",
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({
-    emailError: false, // email doesn't exist, if error
-    emailMessage: "",
-    passwordError: false,
-    passwordMessage: "", // wrong password, if error
-  });
+  const [error, setError] = useState(false);
 
   function onEmailClick(event) {
     setLoginDetails((prev) => ({ ...prev, email: event.target.value }));
@@ -26,20 +22,36 @@ export default function LoginAccountUI() {
   function onPasswordClick(event) {
     setLoginDetails((prev) => ({ ...prev, password: event.target.value }));
   }
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setError(false);
+    setLoading(true);
+    const loginState = await loginUser(
+      loginDetails.email,
+      loginDetails.password
+    );
+    if (loginState.success) {
+      console.log("Login successful");
+    } else {
+      setError(true);
+    }
+
+    setLoading(false);
+  }
 
   useEffect(() => {
     if (loginDetails.initialEmailFocus) {
       setLoginDetails((prev) => ({ ...prev, initialEmailFocus: false }));
       emailRef.current.focus();
     }
-  }, [loginDetails]);
+  }, [loginDetails.initialEmailFocus]);
 
   return (
     <div>
       <h2 className={styles["login__heading"]}>Start reflecting</h2>
 
       <div className={styles["login"]}>
-        <form className={styles["login__container"]}>
+        <form onSubmit={handleSubmit} className={styles["login__container"]}>
           <div className={styles["label-input-container"]}>
             <label className={styles["label-email"]} htmlFor="email">
               Email / Username
@@ -68,13 +80,21 @@ export default function LoginAccountUI() {
             />
           </div>
 
-          <div className={styles["forgot-password"]}>
-            <Link className={styles["forgot-password-text"]}>
-              Forgot password?
-            </Link>
+          <div className={styles["forgot-password__container"]}>
+            {error && (
+              <p className={styles["invalid-credentials"]}>
+                Invalid Credentials, try again
+              </p>
+            )}
+
+            <div className={styles["forgot-password"]}>
+              <Link className={styles["forgot-password-text"]}>
+                Forgot password?
+              </Link>
+            </div>
           </div>
 
-          <Button disabled={!loading}>
+          <Button disabled={loading}>
             {loading ? <Spinner size="small" color="light" /> : "Sign in"}
           </Button>
 

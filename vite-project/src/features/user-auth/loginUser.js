@@ -3,22 +3,25 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 
 export async function loginUser(email, password) {
   try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    const user = userCredential.user;
+    await signInWithEmailAndPassword(auth, email, password);
 
-    // Making it an object so that in the future I can add more data if needed.
     return {
-      loginState: true,
+      success: true,
     };
   } catch (error) {
-    return {
-      loginState: false,
-      error: error,
-    };
+    console.log(error.code);
+    if (error.code === "auth/invalid-credential") {
+      return {
+        success: false,
+        message: "Incorrect password",
+      };
+    }
+    // if (error.code === 'auth/invalid-credential') {
+    //   return {
+    //     success: false,
+    //     message: 'Incorrect password',
+    //   }
+    // }
   }
 }
 

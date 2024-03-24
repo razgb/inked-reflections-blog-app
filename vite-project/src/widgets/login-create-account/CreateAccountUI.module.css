@@ -35,6 +35,7 @@ looks like before submission. */
 
 .input-email,
 .input-password {
+  color: var(--color-primary-800);
   padding: var(--space-xs);
   font-size: var(--text);
   border-radius: var(--space-xs);
@@ -46,20 +47,27 @@ looks like before submission. */
   outline: 1px solid var(--color-primary-800);
 }
 
+.label-email-error,
+.label-password-error {
+  color: var(--color-error-500);
+}
 .strength-forgot-box {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--space-md);
 }
-
-.strength-text.weak {
+.strength.weak {
+  color: var(--color-error-500);
 }
-.strength-text.good {
+.strength.good {
+  /* temp color */
+  color: orange;
 }
-.strength-text.strong {
+.strength.strong {
+  /* this looks fucking disgusting */
+  color: green;
 }
-
 .forgot-password-text,
 .no-account-text:link,
 .no-account-link:link {
@@ -81,44 +89,18 @@ looks like before submission. */
 
 .rules {
 }
-
 .rules__container {
   height: 100%;
 }
-
 .rules__heading {
   font-size: var(--text-sm);
   margin-bottom: var(--space-sm);
 }
-
 .rules__list {
   padding-left: var(--space-md);
   list-style: disc;
 }
-
 .rules__item {
   font-size: var(--text-sm);
   margin-bottom: var(--space-xs);
-}
-
-/* .safety-note {
-  margin-top: var(--space-md);
-  font-size: var(--text-sm);
-} */
-
-.label-email-error,
-.label-password-error {
-  color: var(--color-error-500);
-}
-
-.strength.weak {
-  color: var(--color-error-500);
-}
-.strength.good {
-  /* temp color */
-  color: orange;
-}
-.strength.strong {
-  /* this looks fucking disgusting */
-  color: green;
 }

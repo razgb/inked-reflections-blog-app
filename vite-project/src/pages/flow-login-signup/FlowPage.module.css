@@ -1,4 +1,5 @@
 .flow {
+  color: var(--color-primary-800);
 }
 .flow__container {
   height: 100dvh;
