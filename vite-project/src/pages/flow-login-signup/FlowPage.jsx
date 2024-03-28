@@ -10,7 +10,7 @@ export default function FlowPage() {
   useEffect(() => {
     // So user doesn't have login option when already logged in.
     if (userInfo.loginState) {
-      navigate("/posts");
+      // navigate("/posts");
     }
   });
 

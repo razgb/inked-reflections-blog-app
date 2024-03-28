@@ -23,6 +23,7 @@ import CreateAccountUI from "./widgets/login-create-account/CreateAccountUI.jsx"
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import ProfilePage from "./pages/profile-page/ProfilePage.jsx";
+import ProfileUploadUI from "./widgets/login-create-account/ProfileUploadUI.jsx";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "signup",
         element: <CreateAccountUI />,
+      },
+      {
+        path: "userinfo",
+        element: <ProfileUploadUI />,
       },
     ],
   },

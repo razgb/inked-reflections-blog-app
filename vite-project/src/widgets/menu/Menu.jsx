@@ -22,14 +22,16 @@ import {
   SignoutIcon,
 } from "../../shared/ui/svg/MenuSvg";
 import MenuButton from "./MenuButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuActionButton from "./MenuActionButton";
 import SignoutModal from "../login-create-account/SignoutModal";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { changeLocationState } from "../../entities/url-location/location-slice";
 
 const ICON_SIZE = 20;
 
 export default function Menu({ menuOpenState, handleToggleMenuState }) {
+  const dispatch = useDispatch();
   const urlLocationName = useSelector((state) => state.location.locationName);
   const [openLogout, setOpenLogout] = useState(false);
 
@@ -37,6 +39,21 @@ export default function Menu({ menuOpenState, handleToggleMenuState }) {
     if (action === "open") setOpenLogout(true);
     else setOpenLogout(false);
   }
+
+  useEffect(() => {
+    function handlePopState() {
+      const location = window.location.pathname;
+      if (urlLocationName !== location) {
+        console.log("Corrected back button bug.");
+        dispatch(changeLocationState(location));
+      }
+    }
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  });
 
   return (
     <aside className={styles["menu"]}>

@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import styles from "./ErrorMessage.module.css";
+import { changeLocationState } from "../../entities/url-location/location-slice";
 
 export default function ErrorMessage({
   title = "Error 404",
@@ -8,7 +10,9 @@ export default function ErrorMessage({
   buttonText = "Back",
 }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   function handleBackButton() {
+    dispatch(changeLocationState("/posts"));
     navigate("/posts");
   }
 
