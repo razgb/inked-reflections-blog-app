@@ -28,7 +28,11 @@ export default function ProfileUploadUI() {
     event.preventDefault();
     setLoading(true);
     // Code to send to firebase after validation...
-    setLoading(false);
+
+    // Dummy testing function.
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
   }
 
   function handleFileChange(event) {
@@ -69,7 +73,7 @@ export default function ProfileUploadUI() {
   }
 
   return (
-    <div className={styles["userinfo"]}>
+    <form onSubmit={handleSubmit} className={styles["userinfo"]}>
       <div className={styles["image-container"]}>
         <img
           src={fileInput || defaultProfile}
@@ -129,11 +133,14 @@ export default function ProfileUploadUI() {
 
       <div className={styles["save-button-container"]}></div>
 
-      <Button>Save and continue</Button>
-      {/* <Button>
-        <Spinner size="small" color="light" />
-      </Button> */}
-    </div>
+      {loading ? (
+        <Button>
+          <Spinner size="small" color="light" />
+        </Button>
+      ) : (
+        <Button>Save and continue</Button>
+      )}
+    </form>
   );
 }
 

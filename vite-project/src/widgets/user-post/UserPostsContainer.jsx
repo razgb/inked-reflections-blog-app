@@ -6,12 +6,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "react-query";
 import { updatePostsFeed } from "../../entities/posts/posts-slice";
 import Spinner from "../../shared/ui/spinner/Spinner.jsx";
+import ErrorMessage from "../error-message/ErrorMessage.jsx";
+import { useState } from "react";
 
 export default function UserPostContainer() {
+  const [tempIsError, setTempIsError] = useState(true);
   const triggerRef = useRef();
   const dispatch = useDispatch();
   const { postsFeed, updateState } = useSelector((state) => state.posts);
   // console.log("postsFeed:", postsFeed);
+
+  // console.log(triggerRef.current);
 
   async function temp() {
     const posts = await fetchPosts();
@@ -23,7 +28,6 @@ export default function UserPostContainer() {
   const { isLoading, isError, error, refetch } = useQuery({
     queryKey: ["posts"],
     queryFn: temp,
-
     staleTime: Infinity,
     refetchOnWindowFocus: false,
   });
@@ -44,10 +48,16 @@ export default function UserPostContainer() {
   // Always at the end of the array even when new batches of posts come too
   if (outputFeed.length > 0) {
     outputFeed.push(
-      <div className="target" ref={triggerRef} key={Math.random()}></div>
+      <div className="target" ref={triggerRef} key={"trigger-element"}></div>
     );
   }
 
+  /*
+    THIS NEEDS SOME REFACTORING: 
+
+    context: some issues when switching between tabs e.g.
+    posts to explore to posts. 
+   */
   useEffect(() => {
     if (isLoading) return;
 
@@ -67,6 +77,7 @@ export default function UserPostContainer() {
       threshold: 1,
     });
 
+    // Future me: Try and see why this is causing some ref problems.
     if (outputFeed.length > 0) {
       postsObserver.observe(triggerRef.current);
     }
@@ -77,6 +88,10 @@ export default function UserPostContainer() {
       }
     };
   }, [dispatch, refetch, outputFeed, updateState, isLoading]);
+
+  // if (tempIsError) {
+  //   return <p>There is an error.</p>;
+  // }
 
   if (isLoading) {
     return (
