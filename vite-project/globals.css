@@ -62,8 +62,9 @@
   --color-pink-500: #edbfdd;
   --color-pink-600: #e8b0d5;
 
-  --color-error-300: #ef8d9c;
-  --color-error-500: #e44646;
+  --color-error-300: rgb(239, 141, 156);
+  --color-error-shadow-300: rgb(239, 141, 156, 0.3);
+  --color-error-500: rgb(228, 70, 70);
 
   --color-choice-1: #f8e6f3;
   --color-choice-2: #e2eaf7;
@@ -146,9 +147,12 @@ body {
 .button:hover {
   background-color: var(--color-primary-800);
 }
+.button.error {
+  background-color: var(--color-gray-900);
+  color: var(--color-gray-200);
+}
 
 /* NO WHERE NEAR DONE. PLEASE FIX THIS.  */
-
 /* General scrollbar track */
 ::-webkit-scrollbar {
   width: 12px;

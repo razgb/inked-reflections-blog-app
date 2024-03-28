@@ -1,33 +1,45 @@
 import styles from "./UserPostsContainer.module.css";
 import UserPost from "./UserPost";
-import { fetchPosts } from "../../features/user-posts/fetchPosts";
+import Spinner from "../../shared/ui/spinner/Spinner.jsx";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "react-query";
 import { updatePostsFeed } from "../../entities/posts/posts-slice";
-import Spinner from "../../shared/ui/spinner/Spinner.jsx";
-import ErrorMessage from "../error-message/ErrorMessage.jsx";
-import { useState } from "react";
+import { fetchPosts } from "../../features/user-posts/fetchPosts";
+import {
+  activateAppError,
+  resetAppError,
+} from "../../entities/app-error/app-error-slice.js";
+import { ErrorTriangleIcon } from "../../shared/ui/svg/PostSvg.jsx";
 
 export default function UserPostContainer() {
-  const [tempIsError, setTempIsError] = useState(true);
   const triggerRef = useRef();
   const dispatch = useDispatch();
   const { postsFeed, updateState } = useSelector((state) => state.posts);
   // console.log("postsFeed:", postsFeed);
 
-  // console.log(triggerRef.current);
-
-  async function temp() {
-    const posts = await fetchPosts();
-    dispatch(updatePostsFeed(posts));
-    return;
+  async function handleFetchingPosts() {
+    try {
+      const posts = await fetchPosts();
+      dispatch(updatePostsFeed(posts));
+      // throw new Error("Testing error");
+      dispatch(resetAppError());
+    } catch (error) {
+      dispatch(
+        activateAppError({
+          errorState: true,
+          title: "Error getting your posts",
+          message:
+            "Please check your internet connection and refresh the page.",
+        })
+      );
+      throw error; // So useQuery receives error.
+    }
   }
 
-  // If error the global error component should dispatched with it's own message too.
   const { isLoading, isError, error, refetch } = useQuery({
     queryKey: ["posts"],
-    queryFn: temp,
+    queryFn: handleFetchingPosts,
     staleTime: Infinity,
     refetchOnWindowFocus: false,
   });
@@ -51,15 +63,11 @@ export default function UserPostContainer() {
       <div className="target" ref={triggerRef} key={"trigger-element"}></div>
     );
   }
+  /*Error: some issues when switching between tabs e.g.
+    posts to explore to posts. */
 
-  /*
-    THIS NEEDS SOME REFACTORING: 
-
-    context: some issues when switching between tabs e.g.
-    posts to explore to posts. 
-   */
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading || isError) return;
 
     const scrollContainer = document.querySelector(".scrollContainer");
     function handlePostsObserver(entries) {
@@ -87,16 +95,21 @@ export default function UserPostContainer() {
         postsObserver.disconnect(); // cleanup function
       }
     };
-  }, [dispatch, refetch, outputFeed, updateState, isLoading]);
-
-  // if (tempIsError) {
-  //   return <p>There is an error.</p>;
-  // }
+  }, [dispatch, refetch, outputFeed, updateState, isLoading, isError]);
 
   if (isLoading) {
     return (
       <div className={styles["posts-spinner__container"]}>
         <Spinner />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className={styles["error-icon-container"]}>
+        <ErrorTriangleIcon size={48} />
+        <p className={styles["error-icon-message"]}>{error.message}</p>
       </div>
     );
   }
@@ -113,14 +126,3 @@ export default function UserPostContainer() {
  *
  * Wonder how the fuck i'll fix this.
  */
-
-/* Dummy queryFn:  
-// queryFn: async () => {
-    //   return new Promise((resolve) => {
-    //     setTimeout(() => {
-    //       resolve();
-    //       console.log("Delayed by 3 seconds");
-    //     }, 3000);
-    //   });
-    // },
-*/

@@ -1,30 +1,14 @@
 import styles from "./UserPost.module.css";
 import { Link, useNavigate } from "react-router-dom";
+import { ActionDotsIcon, BookmarksIcon } from "../../shared/ui/svg/PostSvg";
+import { changeCurrentPost } from "../../entities/posts/posts-slice";
+import { useDispatch } from "react-redux";
+import { formatDate } from "../../shared/util/formatDate";
 
 // Temp
 import profileImage from "../../../public/default-profile.jpeg";
 import coverImage from "../../../public/post-image.jpg";
 //
-
-import { ActionDotsIcon, BookmarksIcon } from "../../shared/ui/svg/PostSvg";
-
-import { changeCurrentPost } from "../../entities/posts/posts-slice";
-import { useDispatch } from "react-redux";
-import { formatDate } from "../../shared/util/formatDate";
-
-/*
-{
-  postId,
-  authorName,
-  authorImg,
-  datePublished,
-  dateUpdated,
-  postTitle,
-  postImg,
-  postMinutes,
-  postBookmarked,
-}
-*/
 
 export default function UserPost({
   firstName,
