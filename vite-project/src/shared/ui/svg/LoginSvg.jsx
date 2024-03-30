@@ -41,10 +41,15 @@ const EyeCrossedIcon = ({ size }) => {
   );
 };
 
-const AtSymbolIcon = ({ size }) => {
+const AtSymbolIcon = ({ size, extraStyles }) => {
+  let styles = "icon ";
+  if (extraStyles && extraStyles === "opaque") {
+    styles += extraStyles;
+  }
+
   return (
     <svg
-      className="icon"
+      className={styles}
       xmlns="http://www.w3.org/2000/svg"
       id="Layer_1"
       data-name="Layer 1"

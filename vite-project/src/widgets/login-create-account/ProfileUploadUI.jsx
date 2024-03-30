@@ -6,10 +6,18 @@ import { useRef, useState } from "react";
 import { AtSymbolIcon } from "../../shared/ui/svg/LoginSvg.jsx";
 import { ProfileIcon } from "../../shared/ui/svg/MenuSvg.jsx";
 import { validateFile } from "../../features/user-auth/imageAuth.js";
+import { uploadImageToFirebase } from "../../features/user-auth/uploadImageToFirebase.js";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfileUploadUI() {
+  const navigate = useNavigate();
+  const [fileInput, setFileInput] = useState({
+    src: null,
+    file: null,
+  });
   const fileInputRef = useRef();
-  const [fileInput, setFileInput] = useState("");
+  const nameRef = useRef();
+  const usernameRef = useRef();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
     uploadError: false,
@@ -19,20 +27,31 @@ export default function ProfileUploadUI() {
     username: false,
     usernameMessage: "",
   });
-
   function handleUploadButtonRefClick() {
     fileInputRef.current.click();
   }
+  function handleContainerClick(containerName) {
+    if (containerName === "name") {
+      nameRef.current.focus();
+    } else {
+      usernameRef.current.focus();
+    }
+  }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     setLoading(true);
-    // Code to send to firebase after validation...
+    const success = await uploadImageToFirebase(fileInput.file);
 
-    // Dummy testing function.
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    // -> Function to validate both displayName & username.
+
+    if (success) {
+      console.log("success");
+      // navigate("/posts");
+    } else {
+      //
+    }
+    setLoading(false);
   }
 
   function handleFileChange(event) {
@@ -48,24 +67,44 @@ export default function ProfileUploadUI() {
         const validator = validateFile(file, image);
         console.log("Validator result: ", validator.valid);
 
-        if (!validator.valid) {
+        if (validator.valid === false) {
           setError((prevError) => ({
             ...prevError,
             uploadError: true,
             uploadMessage: validator.message,
           }));
-        } else {
-          setError((prevError) => ({
-            ...prevError,
-            uploadError: false,
-            uploadMessage: "",
-          }));
-          setFileInput(imageURL);
-          // -> update fileInput state here.
+          setLoading(false);
+          return;
         }
+
+        setError((prevError) => ({
+          ...prevError,
+          uploadError: false,
+          uploadMessage: "",
+        }));
+
+        const cleanFile = new File([file], validator.name, {
+          type: file.type,
+          lastModified: file.lastModified,
+        });
+
+        setFileInput({
+          src: imageURL,
+          file: cleanFile,
+        });
+        setLoading(false);
       };
 
-      // If image is validated.
+      image.onerror = function () {
+        setError((prevError) => ({
+          ...prevError,
+          uploadError: true,
+          uploadMessage:
+            "There was an error in setting the image, please try again.",
+        }));
+        setLoading(false);
+      };
+
       image.src = imageURL;
     };
 
@@ -76,7 +115,7 @@ export default function ProfileUploadUI() {
     <form onSubmit={handleSubmit} className={styles["userinfo"]}>
       <div className={styles["image-container"]}>
         <img
-          src={fileInput || defaultProfile}
+          src={fileInput.src || defaultProfile}
           alt="Default user profile image."
           className={styles["image"]}
         />
@@ -91,7 +130,9 @@ export default function ProfileUploadUI() {
       />
 
       <div className={styles["upload-button-container"]}>
-        <Button onClick={handleUploadButtonRefClick}>Upload image</Button>
+        <Button onClick={handleUploadButtonRefClick} type="button">
+          Set image
+        </Button>
       </div>
 
       {error.uploadError ? (
@@ -99,33 +140,36 @@ export default function ProfileUploadUI() {
           {error.uploadMessage}
         </p>
       ) : (
-        <p className={styles["image-disclaimer"]}>
-          Max image size: 400 x 400 {"(2MB)"}
-        </p>
+        <p className={styles["image-disclaimer"]}>Max image size: 5MB</p>
       )}
 
-      <div className={styles["name-username-box"]}>
-        <div className={styles["label-input-container"]}>
-          <label className={styles["name-label"]}>Your name</label>
-          <div className={styles["icon-input-container"]}>
+      <div className={styles["userinfo__inputs"]}>
+        <div className={styles["name__container"]}>
+          <label className={styles["name__label"]}>Your name</label>
+          <div
+            className={styles["name__input-container"]}
+            onClick={() => handleContainerClick("name")}
+          >
             <ProfileIcon size={20} />
             <input
-              required
               type="text"
-              placeholder="e.g. Yahya Jawad"
-              className={styles["name-input"]}
+              className={styles["name__input"]}
+              ref={nameRef}
             />
           </div>
         </div>
-        <div className={styles["label-input-container"]}>
-          <label className={styles["name-label"]}>Your Username</label>
-          <div className={styles["icon-input-container"]}>
+
+        <div className={styles["username__container"]}>
+          <label className={styles["username__label"]}>Your username</label>
+          <div
+            className={styles["username__input-container"]}
+            onClick={() => handleContainerClick("username")}
+          >
             <AtSymbolIcon size={20} />
             <input
-              required
-              placeholder="e.g. yahyaj123"
               type="text"
-              className={styles["name-input"]}
+              className={styles["username__input"]}
+              ref={usernameRef}
             />
           </div>
         </div>

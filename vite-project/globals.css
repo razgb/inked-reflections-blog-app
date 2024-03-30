@@ -142,7 +142,11 @@ body {
   background-color: var(--color-primary-900);
   color: var(--color-primary-200);
 
-  transition: background-color 0.1s ease-in;
+  transition: all 0.2s ease;
+}
+.button:hover {
+  transform: scale(1.02);
+  transition: all 0.2s ease;
 }
 .button:hover {
   background-color: var(--color-primary-800);
@@ -166,4 +170,7 @@ body {
 
 .icon {
   fill: var(--color-primary-800);
+}
+.icon.opaque {
+  opacity: 0.5;
 }

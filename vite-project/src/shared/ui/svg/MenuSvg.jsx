@@ -29,10 +29,14 @@ const SearchIcon = ({ size, ...props }) => {
   );
 };
 
-const ProfileIcon = ({ size }) => {
+const ProfileIcon = ({ size, extraStyles }) => {
+  let styles = "icon ";
+  if (extraStyles && extraStyles === "opaque") {
+    styles += extraStyles;
+  }
   return (
     <svg
-      className="icon"
+      className={styles}
       xmlns="http://www.w3.org/2000/svg"
       id="Outline"
       viewBox="0 0 24 24"

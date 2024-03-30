@@ -6,12 +6,7 @@ import { Provider } from "react-redux";
 import store from "./store/RootReducer.js";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { initializeApp } from "firebase/app";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import {
   getFirestore,
   collection,
@@ -20,12 +15,13 @@ import {
   updateDoc,
   deleteField,
 } from "firebase/firestore";
+import { getStorage, ref } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBM7ipyzLbhi8AsioPELKH_pq-bnyCNRrs",
   authDomain: "inked-reflections.firebaseapp.com",
   projectId: "inked-reflections",
-  storageBucket: "inked-reflections.appspot.com",
+  storageBucket: "gs://inked-reflections.appspot.com",
   messagingSenderId: "181577158789",
   appId: "1:181577158789:web:98ab2da655f50815f259ec",
   measurementId: "G-Z5B8XVB4WQ",
@@ -33,7 +29,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-export { db, auth };
+const storage = getStorage(app);
+const profileRef = ref(storage, "profile/");
+export { db, auth, profileRef };
 
 const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -45,44 +43,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </QueryClientProvider>
   </React.StrictMode>
 );
-
-// TEMPORARY LOCATION FOR TESTING PURPOSES:
-
-async function signInUser(auth, email, password) {
-  try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-    const user = userCredential.user;
-    // console.log(user);
-  } catch (error) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(errorCode, errorMessage);
-  }
-}
-// signInUser(auth, "raz.neaiz.official@gmail.com", "RazRaz123");
-
-async function handleUserStateChange() {
-  // onAuthStateChanged(auth, (user) => {
-  //   if (user) {
-  //     // User is signed in
-  //   } else {
-  //     // User is signed out
-  //   }
-  // });
-}
-
-function init() {
-  const email = "raz.neaiz.official@gmail.com";
-  const password = "Razraz1$3";
-  // createUser(auth, "raz.neaiz.official@gmail.com", "Razraz1$3");
-  // signInUser(auth, email, password);
-}
-init();
 
 /*
 const socialMediaPostTitles = [

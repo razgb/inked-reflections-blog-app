@@ -30,7 +30,17 @@ export function validateFile(file, image) {
     return {
       valid: true,
       message: "Success",
-      filename: sanitizedFilename,
+      name: sanitizedFilename,
+    };
+  } else if (!mimeValidated || !extensionValidated || !contentValidated) {
+    return {
+      valid: false,
+      message: "File uploaded is not a valid image. Please try again.",
+    };
+  } else if (!dimensionsValidated || !fileSizeValidated) {
+    return {
+      valid: false,
+      message: "File uploaded is too large. Please try again.",
     };
   } else {
     return {

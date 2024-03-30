@@ -117,15 +117,8 @@ export default function LoginAccountUI() {
  *
  * Import eye and crossed-eye icons for the password section.
  *
- * After sign up, make sure that the user owns the email.
- *  -> Send verification email.
- *  -> Upon verification, allow user to use appliction features.
- *  -> If not verified, disable any feature such as bookmarks,
- *      commenting, applying for subscriptions...etc.
- *
- *
- * Spinner/button notes:
- *
- * upon async requests, toggle spinner.
+ * If user doesn't have a username -> send user to flow/userinfo.
+ * If user tries to navigate to another tab -> navigate user on every component page
+ * towards flow/userinfo.
  *
  */
