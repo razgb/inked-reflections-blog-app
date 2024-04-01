@@ -7,13 +7,20 @@ import WriteButton from "../../shared/ui/buttons/write-button/WriteButton";
 import { useDispatch, useSelector } from "react-redux";
 import AppError from "../app-error/AppError";
 import { changeLocationState } from "../../entities/url-location/location-slice";
+import useImageURL from "../../shared/hooks/useImageURL";
+
+const theme = "dark";
 
 export default function MainNavigation() {
+  const logoURL = useImageURL(
+    "assets",
+    `${theme}/logo_with_heading_horizontal.jpg`
+  );
   const appErrorObj = useSelector((state) => state.error);
-  const email = useSelector((state) => state.user.info.email);
+  const { email, displayName, photoURL } = useSelector(
+    (state) => state.user.info
+  );
   const dispatch = useDispatch();
-
-  // no idea what to name this. does the job.
   function handleLocationChange() {
     dispatch(changeLocationState("/posts"));
   }
@@ -24,15 +31,15 @@ export default function MainNavigation() {
         <Link to="/posts" onClick={handleLocationChange}>
           <img
             className={styles["main-nav__logo"]}
-            src={appLogo}
+            src={logoURL}
             alt="Application Logo & link to home page."
           />
         </Link>
       </div>
 
       <div className={styles["main-nav-actions"]}>
-        {email ? (
-          <span className={styles["email"]}>{email}</span>
+        {displayName ? (
+          <span className={styles["email"]}>{displayName}</span>
         ) : (
           <span className={styles["email"]}>No user signed in</span>
         )}

@@ -2,7 +2,7 @@ import Button from "../../shared/ui/buttons/default-button/Button";
 import styles from "./LoginAccountUI.module.css";
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { validateEmail } from "../../shared/util/loginFlowUtil";
+import { validateEmail } from "../../features/user-auth/loginFlowUtil";
 import Spinner from "../../shared/ui/spinner/Spinner";
 import { loginUser } from "../../features/user-auth/loginUser";
 
@@ -54,7 +54,7 @@ export default function LoginAccountUI() {
         <form onSubmit={handleSubmit} className={styles["login__container"]}>
           <div className={styles["label-input-container"]}>
             <label className={styles["label-email"]} htmlFor="email">
-              Email / Username
+              Email
             </label>
             <input
               required

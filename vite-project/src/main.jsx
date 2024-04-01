@@ -30,8 +30,9 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 const storage = getStorage(app);
+const assetsRef = ref(storage, "assets/");
 const profileRef = ref(storage, "profile/");
-export { db, auth, profileRef };
+export { db, auth, assetsRef, profileRef };
 
 const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -182,6 +183,12 @@ async function sendPostsData() {
     console.log(`Something went wrong: ${error}`);
   }
 }
+
+
+git commit -m "Devlopment Version 1.2.0:       
+dquote> - Functional image validation & upload to firebase servers with UI error handling
+dquote> - Update to Button.jsx that slowly scales 1.02x 
+dquote> - Large restructure to input elements in UploadProfileUI.jsx
  */
 // // sendPostsData();
 /*

@@ -1,3 +1,10 @@
+/**
+ * Validates and Sanitizes user file ensuring it matches all rules disclosed to the user in the UI.
+ * Validation includes size, MIME, extension ending, width and height.
+ * @param {File} file File API object
+ * @param {Image} image Image object processed from file param
+ * @returns {Object} success Boolean & message string
+ */
 export function validateFile(file, image) {
   const maxSizeBytes = 5 * 1024 * 1024; // 5MB
   const minWidth = 100;

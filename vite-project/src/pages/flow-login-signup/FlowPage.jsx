@@ -17,13 +17,13 @@ export default function FlowPage() {
   return (
     <div className={styles["flow"]}>
       <div className={styles["flow__container"]}>
-        <div className={styles["half-1"]}>
+        {/* <div className={styles["half-1"]}>
           <img
             src={appLogo}
             alt="Inked Reflections App Logo"
             className={styles["app-logo"]}
           />
-        </div>
+        </div> */}
         <div className={styles["half-2"]}>
           <h1 className={styles["primary-heading"]}>Express yourself</h1>
           <Outlet />

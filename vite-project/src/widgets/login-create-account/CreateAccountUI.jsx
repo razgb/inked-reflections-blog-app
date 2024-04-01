@@ -1,7 +1,7 @@
 import styles from "./CreateAccountUI.module.css";
 import Button from "../../shared/ui/buttons/default-button/Button";
 import { Link, useNavigate } from "react-router-dom";
-import { validateSignupDetails } from "../../shared/util/loginFlowUtil";
+import { validateSignupDetails } from "../../features/user-auth/loginFlowUtil";
 import { useState, useEffect, useRef } from "react";
 import { signupUser } from "../../features/user-auth/signupUser";
 import { addUserToState } from "../../entities/user/user-slice";
@@ -202,9 +202,14 @@ export default function CreateAccountUI() {
                 {strength}
               </p>
 
-              <Link className={styles["forgot-password-text"]}>
+              {/* <form>
+                <button>tick button</button>
+                <p>I agree with <a href="#">terms and conditions</a> </p>
+              </form> */}
+
+              {/* <Link className={styles["forgot-password-text"]}>
                 Forgot password?
-              </Link>
+              </Link> */}
             </div>
 
             <Button type="submit">

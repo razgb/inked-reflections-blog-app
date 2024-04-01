@@ -5,28 +5,37 @@ import defaultProfile from "../../../public/default-profile.jpeg";
 import { useRef, useState } from "react";
 import { AtSymbolIcon } from "../../shared/ui/svg/LoginSvg.jsx";
 import { ProfileIcon } from "../../shared/ui/svg/MenuSvg.jsx";
-import { validateFile } from "../../features/user-auth/imageAuth.js";
+import { validateFile } from "../../features/user-auth/validateFile.js";
 import { uploadImageToFirebase } from "../../features/user-auth/uploadImageToFirebase.js";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { validateName } from "../../features/user-auth/validateName.js";
+import { validateUsername } from "../../features/user-auth/validateUsername.js";
+import { updateDisplayNameAndProfile } from "../../features/user-auth/updateDisplayName.js";
+
+const initialErrorState = {
+  imageError: false,
+  imageMessage: "",
+  nameError: false,
+  nameMessage: "",
+  username: false,
+  usernameMessage: "",
+};
 
 export default function ProfileUploadUI() {
+  const fileInputRef = useRef();
+  const nameRef = useRef();
+  const usernameRef = useRef();
+
+  const uid = useSelector((state) => state.user.info.uid);
   const navigate = useNavigate();
   const [fileInput, setFileInput] = useState({
     src: null,
     file: null,
   });
-  const fileInputRef = useRef();
-  const nameRef = useRef();
-  const usernameRef = useRef();
+
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({
-    uploadError: false,
-    uploadMessage: "",
-    nameError: false,
-    nameMessage: "",
-    username: false,
-    usernameMessage: "",
-  });
+  const [error, setError] = useState({ ...initialErrorState });
   function handleUploadButtonRefClick() {
     fileInputRef.current.click();
   }
@@ -36,22 +45,6 @@ export default function ProfileUploadUI() {
     } else {
       usernameRef.current.focus();
     }
-  }
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-    setLoading(true);
-    const success = await uploadImageToFirebase(fileInput.file);
-
-    // -> Function to validate both displayName & username.
-
-    if (success) {
-      console.log("success");
-      // navigate("/posts");
-    } else {
-      //
-    }
-    setLoading(false);
   }
 
   function handleFileChange(event) {
@@ -70,8 +63,8 @@ export default function ProfileUploadUI() {
         if (validator.valid === false) {
           setError((prevError) => ({
             ...prevError,
-            uploadError: true,
-            uploadMessage: validator.message,
+            imageError: true,
+            imageMessage: validator.message,
           }));
           setLoading(false);
           return;
@@ -79,8 +72,8 @@ export default function ProfileUploadUI() {
 
         setError((prevError) => ({
           ...prevError,
-          uploadError: false,
-          uploadMessage: "",
+          imageError: false,
+          imageMessage: "",
         }));
 
         const cleanFile = new File([file], validator.name, {
@@ -98,9 +91,9 @@ export default function ProfileUploadUI() {
       image.onerror = function () {
         setError((prevError) => ({
           ...prevError,
-          uploadError: true,
-          uploadMessage:
-            "There was an error in setting the image, please try again.",
+          imageError: true,
+          imageMessage:
+            "There was an error in processing the image, please try again.",
         }));
         setLoading(false);
       };
@@ -109,6 +102,61 @@ export default function ProfileUploadUI() {
     };
 
     reader.readAsDataURL(file);
+  }
+
+  /**
+   * Async function that validates the user's image, name, and username on submission. The name and username inputs are required. The image upload is optional as users aren't required to upload an image if they don't want to.
+   *
+   * Username upload is not available yet as firestore needs restructuring.
+   * @param {event} event Prevents default refresh of page.
+   */
+  async function handleSubmit(event) {
+    event.preventDefault();
+    // if (!nameRef.current.value || !usernameRef.current.value) return; // guard
+    if (!nameRef.current.value) return; // guard
+    setLoading(true);
+
+    let imageUploadState = null;
+    if (fileInput.file) {
+      try {
+        imageUploadState = await uploadImageToFirebase(fileInput.file, uid);
+      } catch (error) {
+        setError((prev) => ({
+          ...prev,
+          imageError: true,
+          imageMessage: imageUploadState.message,
+        }));
+        setLoading(false);
+        return;
+      }
+    }
+
+    const nameValidator = validateName(nameRef.current.value);
+    if (!nameValidator.success) {
+      setError((prev) => ({
+        ...prev,
+        nameError: true,
+        nameMessage: nameValidator.message,
+      }));
+      setLoading(false);
+      return;
+    }
+
+    try {
+      await updateDisplayNameAndProfile(
+        nameRef.current.value,
+        imageUploadState ? imageUploadState.fileName : null
+      );
+    } catch (error) {
+      console.log(
+        "Raz temporary error: updating name and profile resulted in error."
+      );
+    }
+
+    // const usernameValidator = await validateUsername("");
+    console.log("Passed everything");
+    navigate("/posts");
+    setLoading(false);
   }
 
   return (
@@ -135,10 +183,8 @@ export default function ProfileUploadUI() {
         </Button>
       </div>
 
-      {error.uploadError ? (
-        <p className={styles["image-disclaimer-error"]}>
-          {error.uploadMessage}
-        </p>
+      {error.imageError ? (
+        <p className={styles["image-disclaimer-error"]}>{error.imageMessage}</p>
       ) : (
         <p className={styles["image-disclaimer"]}>Max image size: 5MB</p>
       )}
@@ -152,6 +198,7 @@ export default function ProfileUploadUI() {
           >
             <ProfileIcon size={20} />
             <input
+              required
               type="text"
               className={styles["name__input"]}
               ref={nameRef}
@@ -195,5 +242,14 @@ export default function ProfileUploadUI() {
   - The handleSubmit function should also check username. 
   - DisplayName must be min 3 letters, can include 2 words, lower & uppercase letters only. 
   no numbers. 
+
+
+  git commit -m "Development Version 1.2.1: 
+dquote> - Created working handleSubmission function for ProfileUploadUI.jsx
+dquote>   -> Huge restructure and cleanup of component. 
+dquote>   -> Function is structured so that image can be optional upon uploading.
+dquote>   -> Provided jsDocs for the 2 async functions used in the component.
+dquote>   -> uploadedImage gets a unique name comprised of uid, timestamp, and sanitized image name.
+dquote> - Created highly resusable useImageURL custom hook. 
 
  */
