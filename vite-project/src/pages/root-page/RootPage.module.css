@@ -4,10 +4,10 @@
   grid-template-rows: 1fr 19fr;
 
   height: 100dvh;
-  /* transition: all 0.1s ease-in-out; */
+  /* transition: all 0.2s ease-in-out; */
 }
 .layout.layout-open {
-  /* transition: all 0.1s ease-in-out; */
+  /* transition: all 0.05s ease-in-out; */
   grid-template-columns: 3fr 17fr;
 }
 

@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { ref, getDownloadURL } from "firebase/storage";
-import { assetsRef, profileRef } from "../../main";
+import { assetsRef, profileRef, postsRef } from "../../main";
 
 /**
  * Receives folderName and path url as a string and gets public path to image from firebase.
  * @param {string} folderName folder name in firebase storage where image path is stored (e.g. assets, profile, posts)
  * @param {string} path image ref path in firebase storage
- * @returns {string|null} public path to image
+ * @returns {object} public path to image and loading state
  */
 const useImageURL = function (folderName, path) {
-  const [logoURL, setLogoURL] = useState(null);
+  const [imageURL, setimageURL] = useState(null);
+  const [loading, setLoading] = useState(false);
   let folderRef = null;
   switch (folderName) {
     case "assets":
@@ -19,7 +20,7 @@ const useImageURL = function (folderName, path) {
       folderRef = profileRef;
       break;
     case "posts":
-      folderRef = profileRef;
+      folderRef = postsRef;
       break;
     default:
       break;
@@ -27,18 +28,20 @@ const useImageURL = function (folderName, path) {
 
   useEffect(() => {
     if (!folderRef) return; // guard
-    async function getLogoUrl() {
+    setLoading(true);
+    async function getimageURL() {
       try {
         const url = await getDownloadURL(ref(folderRef, path));
-        setLogoURL(url);
+        setimageURL(url);
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
     }
-    getLogoUrl();
+    getimageURL();
   }, [folderRef, folderName, path]);
 
-  return logoURL;
+  return { imageURL, loading };
 };
 
 export default useImageURL;

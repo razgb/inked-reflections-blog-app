@@ -8,10 +8,11 @@ import { ProfileIcon } from "../../shared/ui/svg/MenuSvg.jsx";
 import { validateFile } from "../../features/user-auth/validateFile.js";
 import { uploadImageToFirebase } from "../../features/user-auth/uploadImageToFirebase.js";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { validateName } from "../../features/user-auth/validateName.js";
 import { validateUsername } from "../../features/user-auth/validateUsername.js";
 import { updateDisplayNameAndProfile } from "../../features/user-auth/updateDisplayName.js";
+import { addUserToState } from "../../entities/user/user-slice.js";
 
 const initialErrorState = {
   imageError: false,
@@ -23,6 +24,7 @@ const initialErrorState = {
 };
 
 export default function ProfileUploadUI() {
+  const dispatch = useDispatch();
   const fileInputRef = useRef();
   const nameRef = useRef();
   const usernameRef = useRef();
@@ -113,7 +115,7 @@ export default function ProfileUploadUI() {
   async function handleSubmit(event) {
     event.preventDefault();
     // if (!nameRef.current.value || !usernameRef.current.value) return; // guard
-    if (!nameRef.current.value) return; // guard
+    if (!nameRef.current.value) return; // temp guard
     setLoading(true);
 
     let imageUploadState = null;
@@ -127,6 +129,7 @@ export default function ProfileUploadUI() {
           imageMessage: imageUploadState.message,
         }));
         setLoading(false);
+        console.log("image upload error");
         return;
       }
     }
@@ -139,6 +142,7 @@ export default function ProfileUploadUI() {
         nameMessage: nameValidator.message,
       }));
       setLoading(false);
+      console.log("name error");
       return;
     }
 
@@ -156,6 +160,12 @@ export default function ProfileUploadUI() {
     // const usernameValidator = await validateUsername("");
     console.log("Passed everything");
     navigate("/posts");
+    dispatch(
+      addUserToState({
+        displayName: nameRef.current.value,
+        photoURL: imageUploadState ? imageUploadState.fileName : null,
+      })
+    );
     setLoading(false);
   }
 
@@ -186,7 +196,7 @@ export default function ProfileUploadUI() {
       {error.imageError ? (
         <p className={styles["image-disclaimer-error"]}>{error.imageMessage}</p>
       ) : (
-        <p className={styles["image-disclaimer"]}>Max image size: 5MB</p>
+        <p className={styles["image-disclaimer"]}>Max image size: 2MB</p>
       )}
 
       <div className={styles["userinfo__inputs"]}>

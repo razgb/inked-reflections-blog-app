@@ -4,7 +4,9 @@ import App from "./App.jsx";
 import "../globals.css";
 import { Provider } from "react-redux";
 import store from "./store/RootReducer.js";
+import { ThemeContextProvider } from "./entities/theme/ThemeContext.jsx";
 import { QueryClient, QueryClientProvider } from "react-query";
+
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import {
@@ -32,18 +34,46 @@ const auth = getAuth(app);
 const storage = getStorage(app);
 const assetsRef = ref(storage, "assets/");
 const profileRef = ref(storage, "profile/");
-export { db, auth, assetsRef, profileRef };
+const postsRef = ref(storage, "posts/");
+export { db, auth, assetsRef, profileRef, postsRef };
 
 const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
-        <App />
+        <ThemeContextProvider>
+          <App />
+        </ThemeContextProvider>
       </Provider>
     </QueryClientProvider>
   </React.StrictMode>
 );
+
+//
+// EXPERIMENTAL FUNCTIONS WILL BE USED BELOW THIS COMMENT:
+//
+
+// -> Sending experimental user data to 'users' collection.
+
+// async function sendPostsData() {
+//   const postsRef = collection(db, "posts");
+//   try {
+//     const querySnapshot = await getDocs(postsRef);
+
+//     querySnapshot.docs.map(async (doc, index) => {
+//       const randomNumber = Math.floor(Math.random() * 10) + 1;
+//       await updateDoc(doc.ref, {
+//         photoURL: `/bot/bot_post__${randomNumber}.jpg`,
+//       });
+//     });
+
+//     console.log("All updates complete.");
+//   } catch (error) {
+//     console.log(`Something went wrong: ${error}`);
+//   }
+// }
+// sendPostsData();
 
 /*
 const socialMediaPostTitles = [
@@ -166,23 +196,7 @@ for (let i = 0; i < 50; i++) {
   dates.push(timestamp);
 }
 
-async function sendPostsData() {
-  const postsRef = collection(db, "posts");
-  try {
-    const querySnapshot = await getDocs(postsRef);
 
-    const promiseArray = querySnapshot.docs.map((doc, index) => {
-      return updateDoc(doc.ref, {
-        createdAt: dates[index],
-      });
-    });
-
-    await Promise.all(promiseArray);
-    console.log("Updated user-post createdAt values!");
-  } catch (error) {
-    console.log(`Something went wrong: ${error}`);
-  }
-}
 
 
 git commit -m "Devlopment Version 1.2.0:       
@@ -190,7 +204,6 @@ dquote> - Functional image validation & upload to firebase servers with UI error
 dquote> - Update to Button.jsx that slowly scales 1.02x 
 dquote> - Large restructure to input elements in UploadProfileUI.jsx
  */
-// // sendPostsData();
 /*
 
 async function sendPostsData() {
@@ -222,5 +235,4 @@ async function sendPostsData() {
 // sendPostsData();
 
 
-/* 
 */

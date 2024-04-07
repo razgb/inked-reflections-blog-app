@@ -8,8 +8,8 @@ import {
   orderBy,
 } from "firebase/firestore";
 
-let lastVisibleDoc = null; // initialise
-
+let lastVisibleDoc = null;
+let fetchCount = 0;
 export async function fetchPosts() {
   const postsRef = collection(db, "posts");
   let q;
@@ -32,7 +32,8 @@ export async function fetchPosts() {
     id: doc.id,
   }));
 
-  console.log("fetchPosts function invoked.");
+  ++fetchCount;
+  console.log(`fetchPosts function invoked: ${fetchCount}x`);
 
   return postsData;
 }

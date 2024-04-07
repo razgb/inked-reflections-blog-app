@@ -6,18 +6,14 @@ const initialState = {
     loginState: false,
     email: "",
     displayName: "",
-    // Restricts most app features except viewing posts until verification by email.
     emailVerified: false,
-    // Link to photo saved in firebase storage.
     photoURL: "",
   },
   // extraInfo: {
   //   username: '',
   //
   // },
-  // Would be a list of bookmarked post ids.
   bookmarks: [],
-  // Would be a list of post ids. -> Dynamically fetched through api using unfinished function.
   posts: [],
 };
 
@@ -27,6 +23,7 @@ const userSlice = createSlice({
   reducers: {
     addUserToState(state, action) {
       state.info = {
+        ...state.info,
         ...action.payload,
       };
     },
@@ -49,7 +46,7 @@ export default userSlice;
  * -> We have to create an entire collection in the firestore database just for 
  * users. With their own UIDs that store information such as posts bookmarks, posts 
  * they have created, posts in drafts (incomplete posts)...etc. And for efficiency 
- * we want them all to be saved in IDs so that then we can use another functio to 
+ * we want them all to be saved in IDs so that then we can use another function to 
  * fetch the data upon the user either searching for it using the URL or in their 
  * bookmarks page.   
  * 
@@ -58,7 +55,6 @@ export default userSlice;
  * 
  *  These functions should not be in the state slice. Create feature functions instead: 
  *   
-    // updateUserProfile(state, action) {},
     // sendVerificationEmail(state, action) {},
     // resetUserEmail(state, action) {},
     // resetUserPassword(state, action) {},

@@ -1,16 +1,24 @@
 import styles from "./UserProfile.module.css";
 import { useSelector } from "react-redux";
-import userProfile from "../../../public/default-profile.jpeg";
+// import userProfile from "../../../public/default-profile.jpeg";
+import useImageURL from "../../shared/hooks/useImageURL";
+import Spinner from "../../shared/ui/spinner/Spinner";
 
 export default function UserProfile() {
   const userInfo = useSelector((state) => state.user.info);
+  const { imageURL: profilePhotoURL, loading } = useImageURL(
+    "profile",
+    userInfo.photoURL
+  );
 
   return (
-    <article className={styles["user"]}>
+    <article
+      className={`${styles["user"]} ${profilePhotoURL ? undefined : "hide"}`}
+    >
       <div className={styles["user__container"]}>
         <div className={styles["user__photo-container"]}>
           <img
-            src={userInfo.profileURL || userProfile}
+            src={profilePhotoURL}
             alt="User Profile Photo"
             className={styles["user__photo"]}
           />

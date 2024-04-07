@@ -59,6 +59,20 @@ const router = createBrowserRouter([
         element: <Navigate to="/posts" />,
       },
       {
+        path: "reflect",
+        element: <Navigate to="/reflect/create" />,
+        children: [
+          {
+            path: "create",
+            element: <></>,
+          },
+          {
+            path: "edit",
+            element: <></>,
+          },
+        ],
+      },
+      {
         path: "posts",
         children: [
           {
@@ -103,7 +117,7 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         dispatch(
           addUserToState({
@@ -115,6 +129,13 @@ export default function App() {
             photoURL: user.photoURL,
           })
         );
+        // await createUserToFirestore({
+        //   uid: user.uid,
+        //   email: user.email,
+        //   displayName: user.displayName,
+        //   emailVerified: user.emailVerified,
+        //   photoURL: user.photoURL,
+        // });
       } else {
         dispatch(removeUserFromState());
       }
@@ -127,15 +148,3 @@ export default function App() {
 
   return <RouterProvider router={router} />;
 }
-
-/*
-
-- Added locationSlice for application wide url pathname tracking
-dquote> - Completely redesigned Menu.jsx to be more lean and readable (uses locationSlice redux state)
-dquote> - Changed Menu and MainNav structure to support modals.        
-dquote> - Added application wide error state messages (e.g. network issues) in errorSlice.js
-dquote> - Added beta support for dark theme (not available throught UI yet) 
-dquote> - Fixed a lot of CSS issues regarding the color property (some elements simply inherited color)  
-dquote> - Added onAuthStateChanged observer to App.jsx that also dispatches redux action functions"   
-
-*/

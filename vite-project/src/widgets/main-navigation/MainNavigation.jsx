@@ -8,11 +8,13 @@ import { useDispatch, useSelector } from "react-redux";
 import AppError from "../app-error/AppError";
 import { changeLocationState } from "../../entities/url-location/location-slice";
 import useImageURL from "../../shared/hooks/useImageURL";
+import Spinner from "../../shared/ui/spinner/Spinner";
 
-const theme = "dark";
+// const theme = "dark";
+const theme = "light";
 
 export default function MainNavigation() {
-  const logoURL = useImageURL(
+  const { imageURL: logoURL, loading } = useImageURL(
     "assets",
     `${theme}/logo_with_heading_horizontal.jpg`
   );
@@ -27,13 +29,18 @@ export default function MainNavigation() {
 
   return (
     <nav className={styles["main-nav"]}>
-      <div className={styles["main-nav-logo"]}>
+      <div className={styles["logo__container"]}>
         <Link to="/posts" onClick={handleLocationChange}>
-          <img
-            className={styles["main-nav__logo"]}
-            src={logoURL}
-            alt="Application Logo & link to home page."
-          />
+          {/* Fix the CSS of the logo to be centered please */}
+          {loading ? (
+            <Spinner />
+          ) : (
+            <img
+              className={styles["main-nav__logo"]}
+              src={logoURL}
+              alt="Application Logo & link to home page."
+            />
+          )}
         </Link>
       </div>
 

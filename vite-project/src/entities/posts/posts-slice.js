@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// Basic structure of user posts.
+// Basic structure of an user post
 // {
 //   createAt: 0,
 //   firstName: "",

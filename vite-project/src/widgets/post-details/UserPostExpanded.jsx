@@ -4,19 +4,29 @@ import defaultProfile from "../../../public/default-profile.jpeg";
 import { useSelector } from "react-redux";
 import { formatDate } from "../../shared/util/formatDate";
 import Button from "../../shared/ui/buttons/default-button/Button";
+import useImageURL from "../../shared/hooks/useImageURL";
+import Spinner from "../../shared/ui/spinner/Spinner";
 
 export default function UserPostExpanded() {
   const currentPost = useSelector((state) => state.posts.currentPost);
+  const { imageURL: coverPostURL, loading } = useImageURL(
+    "posts",
+    `${currentPost.photoURL}`
+  );
 
   return (
     <article className={styles["post"]}>
       <div className={styles["post__container"]}>
         <div className={styles["cover-image-container"]}>
-          <img
-            className={styles["cover-image"]}
-            src={postImage}
-            alt="Image representing user post title..."
-          />
+          {loading ? (
+            <Spinner />
+          ) : (
+            <img
+              className={styles["cover-image"]}
+              src={coverPostURL}
+              alt="Image representing user post title..."
+            />
+          )}
         </div>
 
         <header className={styles["post__header"]}>

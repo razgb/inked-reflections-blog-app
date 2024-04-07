@@ -4,10 +4,12 @@ import { ActionDotsIcon, BookmarksIcon } from "../../shared/ui/svg/PostSvg";
 import { changeCurrentPost } from "../../entities/posts/posts-slice";
 import { useDispatch } from "react-redux";
 import { formatDate } from "../../shared/util/formatDate";
+import useImageURL from "../../shared/hooks/useImageURL";
 
 // Temp
 import profileImage from "../../../public/default-profile.jpeg";
 import coverImage from "../../../public/post-image.jpg";
+import Spinner from "../../shared/ui/spinner/Spinner";
 //
 
 export default function UserPost({
@@ -19,9 +21,12 @@ export default function UserPost({
   id,
   tags,
   email,
+  photoURL,
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // Add a filler image before the actual one loads later.
+  const { imageURL: postImageURL, loading } = useImageURL("posts", photoURL);
 
   function handlePostClick(event) {
     if (event.target.tagName === "A") return;
@@ -34,9 +39,9 @@ export default function UserPost({
         paragraphs,
         id,
         tags,
+        photoURL,
       })
     );
-
     navigate(`/posts/${id}`);
   }
 
@@ -48,7 +53,6 @@ export default function UserPost({
       return p.split("").splice(0, 180).join("") + "...";
     }
   }
-
   return (
     <div onClick={handlePostClick} className={styles["user-post"]}>
       <div className={styles["post__container"]}>
@@ -85,11 +89,15 @@ export default function UserPost({
             </div>
 
             <div className={styles["post__link-half--2"]}>
-              <img
-                className={styles["post__img"]}
-                src={coverImage}
-                alt="Post thumbnail"
-              />
+              {loading ? (
+                <Spinner size="small" />
+              ) : (
+                <img
+                  className={styles["post__img"]}
+                  src={postImageURL || coverImage}
+                  alt="Post thumbnail"
+                />
+              )}
             </div>
           </div>
         </div>

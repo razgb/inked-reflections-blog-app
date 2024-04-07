@@ -54,6 +54,7 @@ export default function UserPostContainer() {
       lastName={post.lastName}
       paragraphs={post.paragraphs}
       tags={post.tags}
+      photoURL={post.photoURL}
     />
   ));
 
@@ -73,7 +74,7 @@ export default function UserPostContainer() {
     function handlePostsObserver(entries) {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          console.log("Fetching posts...");
+          // console.log("Fetching posts...");
           refetch();
         }
       });

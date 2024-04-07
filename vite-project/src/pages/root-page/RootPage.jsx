@@ -3,8 +3,13 @@ import { Outlet } from "react-router-dom";
 import MainNavigation from "../../widgets/main-navigation/MainNavigation";
 import Menu from "../../widgets/menu/Menu";
 import { useState } from "react";
+import { useContext } from "react";
+import { ThemeContext } from "../../entities/theme/ThemeContext";
 
 export default function RootLayout() {
+  // Causes issues with css conflicting with body element.
+  const { theme } = useContext(ThemeContext);
+
   const [menuOpenState, setMenuOpenState] = useState(false);
   function handleToggleMenuState() {
     setMenuOpenState((prev) => !prev);
@@ -13,7 +18,7 @@ export default function RootLayout() {
   if (menuOpenState) menuClasses += ` ${styles["layout-open"]}`;
 
   return (
-    <div className={`${menuClasses} layout__container`}>
+    <div className={`${""} ${menuClasses} layout__container`}>
       <div className={styles["layout__menu"]}>
         <Menu
           menuOpenState={menuOpenState}

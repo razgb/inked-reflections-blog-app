@@ -1,5 +1,8 @@
 .user {
 }
+.user.hide {
+  display: none;
+}
 
 .user__container {
   display: flex;

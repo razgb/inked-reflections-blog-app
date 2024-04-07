@@ -6,7 +6,7 @@
  * @returns {Object} success Boolean & message string
  */
 export function validateFile(file, image) {
-  const maxSizeBytes = 5 * 1024 * 1024; // 5MB
+  const maxSizeBytes = 2 * 1024 * 1024; // 5MB
   const minWidth = 100;
   const minHeight = 100;
   const maxWidth = 2000;
@@ -24,7 +24,6 @@ export function validateFile(file, image) {
     image.width <= maxWidth &&
     image.height <= maxHeight;
 
-  // Sanitize the filename
   const sanitizedFilename = file.name.replace(/[^a-zA-Z0-9.]/g, "_");
 
   if (
