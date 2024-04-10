@@ -1,0 +1,212 @@
+:root {
+  --fs-2xs: 1.2rem;
+  --fs-xs: 1.4rem;
+  --fs-sm: 1.6rem;
+  --fs-base: 1.8rem;
+  --fs-lg: 2rem;
+  --fs-xl: 2.4rem;
+  --fs-2xl: 3.2rem;
+  --fs-3xl: 4rem;
+  --fs-4xl: 4.8rem;
+  --fs-5xl: 5.6rem;
+
+  --primary-heading: var(--fs-2xl);
+  --secondary-heading: var(--fs-xl);
+  --tertiary-heading: var(--fs-lg);
+  --small-heading: var(--fs-sm);
+  --text: var(--fs-base);
+  --text-sm: var(--fs-sm);
+  --text-xs: var(--fs-2xs);
+
+  --ff-sans: "Roboto", sans;
+  --ff-serif: "Roboto-Serif", serif;
+
+  /* SPACING VARIABLES */
+  --space-unit: 1rem; /* 10px default size */
+  --space-xs: calc(0.4 * var(--space-unit));
+  --space-sm: calc(0.8 * var(--space-unit));
+  --space-md: calc(1.2 * var(--space-unit));
+  --space-lg: calc(2 * var(--space-unit));
+  --space-xl: calc(3.2 * var(--space-unit));
+  --space-2xl: calc(5.2 * var(--space-unit));
+  --space-3xl: calc(8.4 * var(--space-unit));
+  --space-4xl: calc(13.6 * var(--space-unit));
+
+  /* COLOR VARIABLES */
+  --color-primary-200: #fbf7f1; /* Body Color & Base Color*/
+  --color-primary-300: #f9f0e4;
+  --color-primary-400: #f5ead7;
+  --color-primary-500: #f2e4cf; /* Color of icon hover on menu */
+  --color-primary-600: #efdec2;
+  --color-primary-700: #3b2c0f;
+  --color-primary-800: #211808;
+  --color-primary-900: #100c04;
+
+  /* --color-primary-200: #101828;
+  --color-primary-300: #182030;
+  --color-primary-400: #202838;
+  --color-primary-500: #2d394d;
+  --color-primary-600: #35465e;
+  --color-primary-700: #90a1bc;
+  --color-primary-800: #b3c2d8;
+  --color-primary-900: #d6dee9; */
+
+  --color-primary-200: #0c121e;
+  --color-primary-300: #121a26;
+  --color-primary-400: #181f2c;
+  --color-primary-500: #22293d;
+  --color-primary-600: #2a364c;
+  --color-primary-700: #828fa5;
+  --color-primary-800: #9daec0;
+  --color-primary-900: #c1ceda;
+
+  --color-blue-300: #e2eaf7;
+  --color-blue-500: #a5c2f4;
+  --color-blue-700: #253042;
+  --color-blue-800: #1a222e;
+
+  --color-pink-200: #faeef6;
+  --color-pink-300: #f6dfee;
+  --color-pink-400: #f2cfe6;
+  --color-pink-500: #edbfdd;
+  --color-pink-600: #e8b0d5;
+
+  --color-error-300: rgb(239, 141, 156);
+  --color-error-shadow-300: rgb(239, 141, 156, 0.3);
+  --color-error-500: rgb(228, 70, 70);
+
+  --color-choice-1: #f8e6f3;
+  --color-choice-2: #e2eaf7;
+  --color-choice-3: #d3f3d6;
+
+  --color-gray-200: #dbdbdb;
+  --color-gray-300: #cecece;
+  --color-gray-500: #656565;
+  --color-gray-700: #454545;
+  --color-gray-900: #191919;
+}
+
+::selection {
+  /* background-color: var(--color-primary-400); */
+  /* color: #000; */
+
+  background-color: var(--color-primary-800);
+  color: var(--color-primary-200);
+}
+
+html {
+  font-size: 62.5%;
+}
+*,
+*:before,
+*:after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  border: none;
+}
+p {
+  line-height: 1.5;
+}
+ol,
+ul,
+menu {
+  list-style: none;
+}
+a:link,
+a:visited {
+  color: inherit;
+}
+
+/* fucking fix this please */
+
+/* a:link:focus,
+a:visited:focus,
+button:focus {
+  outline: 2px solid var(--color-primary-800);
+} */
+
+/* For images to not be able to exceed their container */
+img {
+  max-inline-size: 100%;
+  max-block-size: 100%;
+  font-size: 0;
+}
+button {
+  font-size: inherit;
+}
+
+/* ----------------------------------------------------------------------- */
+
+.dark {
+  --color-primary-200: #0c121e;
+  --color-primary-300: #121a26;
+  --color-primary-400: #181f2c;
+  --color-primary-500: #22293d;
+  --color-primary-600: #2a364c;
+  --color-primary-700: #7d8da6;
+  --color-primary-800: #9daec0;
+  --color-primary-900: #c1ceda;
+}
+
+body {
+  background-color: var(--color-primary-200);
+  font-family: var(--ff-sans);
+}
+
+.button {
+  cursor: pointer;
+  font-size: var(--fs-base);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--space-md);
+  background-color: var(--color-primary-900);
+  color: var(--color-primary-200);
+
+  transition: all 0.2s ease;
+}
+.button:hover {
+  transform: scale(1.03);
+  transition: all 0.2s ease;
+}
+.button:hover {
+  background-color: var(--color-primary-800);
+}
+.button.error {
+  background-color: var(--color-gray-900);
+  color: var(--color-gray-200);
+}
+
+/* Scale doesn't work. */
+.button:link,
+.button:visited {
+  text-decoration: none;
+  color: var(--color-primary-200);
+}
+
+/* NO WHERE NEAR DONE. PLEASE FIX THIS.  */
+/* General scrollbar track */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Scrollbar handle */
+::-webkit-scrollbar-thumb {
+  background-color: #555; /* Darker gray */
+  border-radius: 8px;
+}
+
+.icon,
+.add-icon {
+  fill: var(--color-primary-800);
+}
+.icon.opaque {
+  opacity: 0.5;
+}
+
+.add-icon {
+  transition: transform 0.15s ease-in;
+}
+.rotate45 {
+  transform: rotate(45deg);
+  transition: transform 0.15s ease-in;
+}

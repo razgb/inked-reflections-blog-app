@@ -1,0 +1,26 @@
+.bookmarks {
+  padding: var(--space-xl);
+  /* color: var(--primary-color-800); */
+}
+
+.bookmarks__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.bookmarks__heading {
+  font-size: var(--secondary-heading);
+  color: var(--color-primary-800);
+}
+
+/* .cover-image-container {
+  margin-bottom: var(--space-lg);
+}
+
+.cover-image {
+  max-height: 20rem;
+  aspect-ratio: 32/9;
+  border-radius: var(--space-md);
+} */

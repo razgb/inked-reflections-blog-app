@@ -1,0 +1,24 @@
+.button {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  justify-content: flex-start;
+
+  min-height: 5.5rem;
+  font-size: var(--fs-lg);
+  padding: var(--space-md);
+  background-color: transparent;
+  color: var(--color-primary-800);
+  border-radius: var(--space-sm);
+
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease-in;
+}
+.button:focus {
+  outline-color: var(--color-primary-800);
+  outline-width: 2px;
+}
+.button:hover {
+  background-color: var(--color-primary-500);
+}

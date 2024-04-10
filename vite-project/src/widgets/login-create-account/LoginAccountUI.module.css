@@ -1,0 +1,77 @@
+.login__heading {
+  font-size: var(--secondary-heading);
+  text-align: center;
+  margin-bottom: var(--space-lg);
+  color: var(--color-primary-800);
+}
+.login {
+  background-color: var(--color-primary-500);
+  padding: var(--space-xl);
+  border-radius: var(--space-md);
+  color: var(--color-primary-800);
+}
+.login__container {
+  font-size: var(--text);
+  min-width: 35rem;
+  color: var(--color-primary-700);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+.label-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.label-email,
+.label-password {
+}
+.input-email,
+.input-password {
+  padding: var(--space-sm);
+  font-size: var(--text);
+  border-radius: var(--space-xs);
+  outline: 0.5px solid var(--color-primary-800);
+  background-color: var(--color-primary-200);
+  color: var(--color-primary-800);
+}
+.input-email:focus,
+.input-password:focus {
+  outline: 1px solid var(--color-primary-800);
+}
+
+.forgot-password__container {
+  display: flex;
+  justify-content: space-between;
+}
+.invalid-credentials {
+  font-size: var(--text-sm);
+  color: var(--color-error-500);
+}
+.forgot-password {
+  text-align: right;
+  margin-bottom: var(--space-md);
+  justify-self: right;
+  margin-left: auto;
+}
+
+.forgot-password-text,
+.no-account-text:link,
+.no-account-link:link {
+  font-size: var(--text-sm);
+}
+.forgot-password-text:active,
+.no-account-text:active,
+.no-account-link:active {
+  text-decoration: none;
+}
+
+.button__container {
+  margin-bottom: var(--space-sm);
+}
+.no-account-text {
+  font-size: var(--text-sm);
+  margin-right: var(--space-sm);
+}

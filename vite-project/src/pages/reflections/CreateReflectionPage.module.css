@@ -1,0 +1,137 @@
+.heading {
+  font-size: var(--secondary-heading);
+}
+.heading-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+
+  /* test */
+  padding-bottom: var(--space-sm);
+  border-bottom: 0.5px solid var(--color-primary-700);
+}
+
+.canvas {
+  color: var(--color-primary-900);
+  margin-block: var(--space-3xl);
+}
+.canvas-container {
+  /* background-color: var(--color-primary-400); */
+  width: 60%;
+  margin: 0 auto;
+}
+.canvas-actions {
+  display: flex;
+  gap: var(--space-xs);
+}
+.preview-save-container {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+/* Tooltip START */
+.tooltip-container {
+  display: flex;
+  gap: var(--space-xs);
+
+  visibility: visible;
+  opacity: 1;
+  transition: all 0.15s ease-in;
+}
+.tooltip-container.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.15s ease-in;
+}
+.tooltip-button {
+  cursor: pointer;
+  fill: var(--color-primary-200);
+  padding: var(--space-md);
+  background-color: var(--color-primary-900);
+  border-radius: var(--space-sm);
+
+  transition: background-color 0.15s ease-in;
+}
+.tooltip-button:hover {
+  background-color: var(--color-primary-700);
+}
+/* Tooltip END */
+
+.add-button-container {
+  cursor: pointer;
+  display: inline-block;
+  padding: var(--space-md);
+  background-color: var(--color-primary-400);
+  border-radius: var(--space-sm);
+  font-size: var(--text);
+
+  transition: background-color 0.15s ease-in;
+}
+.add-button-container:hover {
+}
+
+/* Shared input styles START */
+.title-input,
+.paragraph-input,
+.block-quote-input {
+  font-family: var(--ff-serif);
+
+  padding: var(--space-sm);
+  border-radius: var(--space-sm);
+
+  background-color: var(--color-primary-400);
+  color: var(--color-primary-900);
+  transition: background-color 0.15s ease-in;
+}
+.title-input:hover,
+.paragraph-input:hover,
+.add-button-container:hover,
+.block-quote-input:hover {
+  background-color: var(--color-primary-500);
+}
+/* Shared input styles END */
+
+/* Title Start */
+.title-input {
+  font-size: var(--secondary-heading);
+  padding: var(--space-md);
+  width: 100%;
+  margin-bottom: var(--space-md);
+}
+.title-input:focus,
+.paragraph-input:focus,
+.block-quote-input:focus {
+  outline: none;
+  background-color: var(--color-primary-500);
+}
+/* Title End */
+
+/* Paragraph Start */
+.paragraph-input {
+  font-size: var(--tertiary-heading);
+  margin-bottom: var(--space-md);
+  width: 100%;
+
+  padding: var(--space-md) var(--space-md);
+  min-height: 35rem;
+  resize: none;
+  line-height: 1.5;
+}
+/* Paragraph End */
+
+/* Image Start */
+/* Image End */
+
+/* Block Quote Start */
+.block-quote-input {
+  font-size: var(--tertiary-heading);
+  padding: var(--space-md);
+  width: 100%;
+  margin-bottom: var(--space-md);
+}
+/* Block Quote End */
+
+/* Link Start */
+
+/* Link End */

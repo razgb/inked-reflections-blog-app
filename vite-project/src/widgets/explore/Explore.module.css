@@ -1,0 +1,20 @@
+.explore {
+  padding: var(--space-xl);
+  color: var(--color-primary-800);
+}
+
+.trending {
+  background-color: var(--color-primary-300);
+  border-radius: var(--space-md);
+}
+
+.trending__heading {
+  font-size: var(--secondary-heading);
+  margin-bottom: var(--space-lg);
+  padding-left: var(--space-md);
+  padding-top: var(--space-md);
+  font-weight: 800;
+}
+
+.trending__list {
+}

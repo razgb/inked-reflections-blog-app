@@ -1,0 +1,106 @@
+.signup__heading {
+  font-size: var(--secondary-heading);
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+.signup {
+  background-color: var(--color-primary-500);
+  padding: var(--space-xl);
+  border-radius: var(--space-md);
+}
+.signup__container {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: var(--space-xl);
+}
+
+.signup__form {
+  font-size: var(--text);
+  min-width: 30rem;
+  color: var(--color-primary-700);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+.label-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+/* Future me create a input password container that includes both 
+the input and the eye icon that shows the user what their password 
+looks like before submission. */
+
+.input-email,
+.input-password {
+  color: var(--color-primary-800);
+  padding: var(--space-xs);
+  font-size: var(--text);
+  border-radius: var(--space-xs);
+  outline: 0.5px solid var(--color-primary-800);
+  background-color: var(--color-primary-200);
+}
+.input-email:focus,
+.input-password:focus {
+  outline: 1px solid var(--color-primary-800);
+}
+
+.label-email-error,
+.label-password-error {
+  color: var(--color-error-500);
+}
+.strength-forgot-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+.strength.weak {
+  color: var(--color-error-500);
+}
+.strength.good {
+  /* temp color */
+  color: orange;
+}
+.strength.strong {
+  /* this looks fucking disgusting */
+  color: green;
+}
+.forgot-password-text,
+.no-account-text:link,
+.no-account-link:link {
+  font-size: var(--text-sm);
+}
+.forgot-password-text:active,
+.no-account-text:active,
+.no-account-link:active {
+  text-decoration: none;
+}
+
+.button__container {
+  margin-bottom: var(--space-sm);
+}
+.no-account-text {
+  font-size: var(--text-sm);
+  margin-right: var(--space-sm);
+}
+
+.rules {
+}
+.rules__container {
+  height: 100%;
+}
+.rules__heading {
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-sm);
+}
+.rules__list {
+  padding-left: var(--space-md);
+  list-style: disc;
+}
+.rules__item {
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-xs);
+}

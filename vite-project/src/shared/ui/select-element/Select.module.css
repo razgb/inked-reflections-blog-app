@@ -1,0 +1,13 @@
+.select {
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--space-xs);
+  background-color: var(--color-primary-500);
+  color: var(--color-primary-800);
+  cursor: pointer;
+}
+.select:hover {
+  background-color: var(--color-primary-600);
+}
+.select:focus {
+  outline: none;
+}

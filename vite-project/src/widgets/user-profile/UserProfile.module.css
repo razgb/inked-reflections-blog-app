@@ -1,0 +1,23 @@
+.user {
+}
+.user.hide {
+  display: none;
+}
+
+.user__container {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+}
+.user__photo-container {
+  width: 24rem;
+  height: 24rem;
+  align-self: center;
+}
+.user__photo {
+  border-radius: var(--space-xl);
+  border: 2px solid var(--color-primary-400);
+}
+.user__display-name {
+  font-size: var(--tertiary-heading);
+}

@@ -1,0 +1,38 @@
+.flow {
+  color: var(--color-primary-800);
+}
+.flow__container {
+  height: 100dvh;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+
+  /* grid-template-rows: 1fr 4fr;
+  gap: var(--space-lg); */
+}
+/* .half-1 {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.app-logo {
+  border-radius: var(--space-md);
+  width: 100%;
+  max-width: 20rem;
+  height: auto;
+} */
+
+.half-2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.primary-heading {
+  font-size: var(--primary-heading);
+  margin-bottom: var(--space-lg);
+}
+.secondary-heading {
+  font-size: var(--secondary-heading);
+  margin-bottom: var(--space-xl);
+}
