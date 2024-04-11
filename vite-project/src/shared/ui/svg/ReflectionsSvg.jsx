@@ -1,3 +1,5 @@
+import styles from "../../../pages/reflections/CreateReflectionPage.module.css";
+
 const SortIcon = ({ size }) => {
   return (
     <svg
@@ -18,7 +20,9 @@ const SortIcon = ({ size }) => {
 const AddIcon = ({ size, hidden }) => {
   return (
     <svg
-      className={`add-icon ${hidden ? undefined : "rotate45"}`}
+      className={`${styles["add-icon"]} add-icon ${
+        hidden ? undefined : "rotate45"
+      }`}
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
       id="Capa_1"
@@ -37,6 +41,7 @@ const AddIcon = ({ size, hidden }) => {
 const TextIcon = ({ size }) => {
   return (
     <svg
+      className="icon"
       xmlns="http://www.w3.org/2000/svg"
       id="Layer_1"
       data-name="Layer 1"
@@ -51,6 +56,7 @@ const TextIcon = ({ size }) => {
 const ImageIcon = ({ size }) => {
   return (
     <svg
+      className="icon"
       xmlns="http://www.w3.org/2000/svg"
       id="Layer_1"
       data-name="Layer 1"
@@ -65,6 +71,7 @@ const ImageIcon = ({ size }) => {
 const QuoteIcon = ({ size }) => {
   return (
     <svg
+      className="icon"
       xmlns="http://www.w3.org/2000/svg"
       id="Layer_1"
       data-name="Layer 1"

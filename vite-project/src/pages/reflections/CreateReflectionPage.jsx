@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { AddIcon } from "../../shared/ui/svg/ReflectionsSvg";
+import { useMemo, useState } from "react";
 import ReflectionTitle from "../../widgets/create-reflection-widgets/ReflectionTitle";
 import styles from "./CreateReflectionPage.module.css";
-import ReflectionsToolTip from "../../widgets/create-reflection-widgets/ReflectionsToolTip";
+import ReflectionsTools from "../../widgets/create-reflection-widgets/ReflectionsToolTip";
 import ReflectionParagraph from "../../widgets/create-reflection-widgets/ReflectionParagraph";
 import Button from "../../shared/ui/buttons/Button.jsx";
 import validateText from "../../features/reflections/validateText.js";
 import ReflectionBlockQuote from "../../widgets/create-reflection-widgets/ReflectionBlockQuote.jsx";
+import ReflectionsImage from "../../widgets/create-reflection-widgets/ReflectionsImage.jsx";
 
 export default function CreateReflectionPage() {
   const [toolsHidden, setToolsHidden] = useState(true);
@@ -22,15 +22,6 @@ export default function CreateReflectionPage() {
       id: "paragraph-1",
     },
   ]);
-
-  const [error, setError] = useState({
-    titleError: false,
-    titleMessage: "",
-    paragraphError: false,
-    paragraphMessage: "",
-    imageError: false,
-    imageMessage: "",
-  });
 
   /**
    * Takes widget as a value and creates a unique input name based on unix date.
@@ -51,6 +42,14 @@ export default function CreateReflectionPage() {
         ]);
         break;
       case "image":
+        setUserContent((prev) => [
+          ...prev,
+          {
+            component: "image",
+            value: "",
+            id: inputId,
+          },
+        ]);
         break;
       case "block-quote":
         setUserContent((prev) => [
@@ -94,10 +93,9 @@ export default function CreateReflectionPage() {
 
     console.log(data);
     const textToValidate = [data.title, ...data.paragraphs];
-    const paragraphsValidated = textToValidate.every((p) => validateText(p));
+    const textValidated = textToValidate.every((p) => validateText(p));
   }
 
-  // use Memo can definitely be used here in cases (userContent) doesn't change.
   const output = userContent.map((item) => {
     const id = item.id;
     switch (item.component) {
@@ -107,24 +105,18 @@ export default function CreateReflectionPage() {
         return <ReflectionParagraph key={id} id={id} />;
       case "block-quote":
         return <ReflectionBlockQuote key={id} id={id} />;
+      case "image":
+        return <ReflectionsImage key={id} id={id} />;
     }
   });
 
   output.push(
-    <div className={styles["canvas-actions"]} key={"canvas-actions"}>
-      <div
-        className={styles["add-button-container"]}
-        onClick={handleToggleTools}
-      >
-        <AddIcon size={20} hidden={toolsHidden} />
-      </div>
-
-      <ReflectionsToolTip
-        handleAddWidget={handleAddWidget}
-        handleClose={handleToggleTools}
-        hidden={toolsHidden}
-      />
-    </div>
+    <ReflectionsTools
+      key="reflection-tools"
+      addWidget={handleAddWidget}
+      toggleTools={handleToggleTools}
+      hidden={toolsHidden}
+    />
   );
 
   return (
@@ -133,13 +125,11 @@ export default function CreateReflectionPage() {
         <form onSubmit={handleSubmit} className={styles["canvas-container"]}>
           <div className={styles["heading-container"]}>
             <h2 className={styles["heading"]}>Write a reflection</h2>
-
             <div className={styles["preview-save-container"]}>
               <Button type="button">Preview</Button>
               <Button>Save</Button>
             </div>
           </div>
-
           {output}
         </form>
       </div>

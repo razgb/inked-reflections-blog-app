@@ -1,4 +1,6 @@
 import styles from "../../pages/reflections/CreateReflectionPage.module.css";
+import validateText from "../../features/reflections/validateText";
+
 export default function ReflectionParagraph({ id, ...props }) {
   return (
     <div>

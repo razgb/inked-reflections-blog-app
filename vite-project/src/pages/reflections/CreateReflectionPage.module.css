@@ -5,9 +5,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-md);
 
-  /* test */
   padding-bottom: var(--space-sm);
   border-bottom: 0.5px solid var(--color-primary-700);
 }
@@ -16,8 +15,13 @@
   color: var(--color-primary-900);
   margin-block: var(--space-3xl);
 }
+
+/* form element */
 .canvas-container {
-  /* background-color: var(--color-primary-400); */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+
   width: 60%;
   margin: 0 auto;
 }
@@ -48,28 +52,33 @@
   cursor: pointer;
   fill: var(--color-primary-200);
   padding: var(--space-md);
-  background-color: var(--color-primary-900);
+  background-color: var(--color-primary-400);
   border-radius: var(--space-sm);
 
   transition: background-color 0.15s ease-in;
 }
 .tooltip-button:hover {
-  background-color: var(--color-primary-700);
+  background-color: var(--color-primary-500);
 }
-/* Tooltip END */
 
 .add-button-container {
   cursor: pointer;
   display: inline-block;
   padding: var(--space-md);
-  background-color: var(--color-primary-400);
+  background-color: var(--color-primary-800);
   border-radius: var(--space-sm);
   font-size: var(--text);
 
   transition: background-color 0.15s ease-in;
 }
 .add-button-container:hover {
+  background-color: var(--color-primary-900);
 }
+.add-icon {
+  transition: transform 0.15s ease-in;
+  fill: var(--color-primary-200);
+}
+/* Tooltip END */
 
 /* Shared input styles START */
 .title-input,
@@ -86,8 +95,8 @@
 }
 .title-input:hover,
 .paragraph-input:hover,
-.add-button-container:hover,
-.block-quote-input:hover {
+.block-quote-input:hover,
+.image-input-container:hover {
   background-color: var(--color-primary-500);
 }
 /* Shared input styles END */
@@ -97,7 +106,7 @@
   font-size: var(--secondary-heading);
   padding: var(--space-md);
   width: 100%;
-  margin-bottom: var(--space-md);
+  /* margin-bottom: var(--space-md); */
 }
 .title-input:focus,
 .paragraph-input:focus,
@@ -110,7 +119,7 @@
 /* Paragraph Start */
 .paragraph-input {
   font-size: var(--tertiary-heading);
-  margin-bottom: var(--space-md);
+  /* margin-bottom: var(--space-md); */
   width: 100%;
 
   padding: var(--space-md) var(--space-md);
@@ -121,6 +130,23 @@
 /* Paragraph End */
 
 /* Image Start */
+.image-input {
+  display: none;
+}
+.image-input-container {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 40rem;
+  background-color: var(--color-primary-400);
+  border-radius: var(--space-md);
+}
+.image-icon-container {
+  cursor: pointer;
+  background-color: transparent;
+}
 /* Image End */
 
 /* Block Quote Start */
@@ -128,7 +154,7 @@
   font-size: var(--tertiary-heading);
   padding: var(--space-md);
   width: 100%;
-  margin-bottom: var(--space-md);
+  /* margin-bottom: var(--space-md); */
 }
 /* Block Quote End */
 
