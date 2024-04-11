@@ -1,12 +1,14 @@
 import { useMemo, useState } from "react";
-import ReflectionTitle from "../../widgets/create-reflection-widgets/ReflectionTitle";
 import styles from "./CreateReflectionPage.module.css";
-import ReflectionsTools from "../../widgets/create-reflection-widgets/ReflectionsToolTip";
-import ReflectionParagraph from "../../widgets/create-reflection-widgets/ReflectionParagraph";
 import Button from "../../shared/ui/buttons/Button.jsx";
-import validateText from "../../features/reflections/validateText.js";
+
+import ReflectionsTools from "../../widgets/create-reflection-widgets/ReflectionsToolTip";
+import ReflectionTitle from "../../widgets/create-reflection-widgets/ReflectionTitle";
+import ReflectionParagraph from "../../widgets/create-reflection-widgets/ReflectionParagraph";
 import ReflectionBlockQuote from "../../widgets/create-reflection-widgets/ReflectionBlockQuote.jsx";
-import ReflectionsImage from "../../widgets/create-reflection-widgets/ReflectionsImage.jsx";
+import ReflectionImage from "../../widgets/create-reflection-widgets/ReflectionImage.jsx";
+
+import validateText from "../../features/reflections/validateText.js";
 
 export default function CreateReflectionPage() {
   const [toolsHidden, setToolsHidden] = useState(true);
@@ -106,7 +108,7 @@ export default function CreateReflectionPage() {
       case "block-quote":
         return <ReflectionBlockQuote key={id} id={id} />;
       case "image":
-        return <ReflectionsImage key={id} id={id} />;
+        return <ReflectionImage key={id} id={id} />;
     }
   });
 

@@ -5,7 +5,6 @@ import defaultProfile from "../../../public/default-profile.jpeg";
 import { useRef, useState } from "react";
 import { AtSymbolIcon } from "../../shared/ui/svg/LoginSvg.jsx";
 import { ProfileIcon } from "../../shared/ui/svg/MenuSvg.jsx";
-import { validateFile } from "../../features/user-auth/validateFile.js";
 import { uploadImageToFirebase } from "../../features/user-auth/uploadImageToFirebase.js";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -13,31 +12,30 @@ import { validateName } from "../../features/user-auth/validateName.js";
 import { validateUsername } from "../../features/user-auth/validateUsername.js";
 import { updateDisplayNameAndProfile } from "../../features/user-auth/updateDisplayName.js";
 import { addUserToState } from "../../entities/user/user-slice.js";
+import useFileValidator from "../../shared/util/fileValidator.jsx";
 
 const initialErrorState = {
-  imageError: false,
-  imageMessage: "",
+  uploadError: false,
+  uploadMessage: "",
   nameError: false,
   nameMessage: "",
-  username: false,
+  usernameError: false,
   usernameMessage: "",
 };
 
 export default function ProfileUploadUI() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const uid = useSelector((state) => state.user.info.uid);
+
   const fileInputRef = useRef();
   const nameRef = useRef();
   const usernameRef = useRef();
 
-  const uid = useSelector((state) => state.user.info.uid);
-  const navigate = useNavigate();
-  const [fileInput, setFileInput] = useState({
-    src: null,
-    file: null,
-  });
-
+  const { fileInput, error: imageError, handleFileChange } = useFileValidator();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({ ...initialErrorState });
+
   function handleUploadButtonRefClick() {
     fileInputRef.current.click();
   }
@@ -47,63 +45,6 @@ export default function ProfileUploadUI() {
     } else {
       usernameRef.current.focus();
     }
-  }
-
-  function handleFileChange(event) {
-    setLoading(true);
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = function (event) {
-      const imageURL = event.target.result;
-      const image = new Image();
-
-      image.onload = function () {
-        const validator = validateFile(file, image);
-        console.log("Validator result: ", validator.valid);
-
-        if (validator.valid === false) {
-          setError((prevError) => ({
-            ...prevError,
-            imageError: true,
-            imageMessage: validator.message,
-          }));
-          setLoading(false);
-          return;
-        }
-
-        setError((prevError) => ({
-          ...prevError,
-          imageError: false,
-          imageMessage: "",
-        }));
-
-        const cleanFile = new File([file], validator.name, {
-          type: file.type,
-          lastModified: file.lastModified,
-        });
-
-        setFileInput({
-          src: imageURL,
-          file: cleanFile,
-        });
-        setLoading(false);
-      };
-
-      image.onerror = function () {
-        setError((prevError) => ({
-          ...prevError,
-          imageError: true,
-          imageMessage:
-            "There was an error in processing the image, please try again.",
-        }));
-        setLoading(false);
-      };
-
-      image.src = imageURL;
-    };
-
-    reader.readAsDataURL(file);
   }
 
   /**
@@ -118,18 +59,25 @@ export default function ProfileUploadUI() {
     if (!nameRef.current.value) return; // temp guard
     setLoading(true);
 
-    let imageUploadState = null;
+    let fileUploadState = null;
     if (fileInput.file) {
       try {
-        imageUploadState = await uploadImageToFirebase(fileInput.file, uid);
+        fileUploadState = await uploadImageToFirebase(fileInput.file, uid);
       } catch (error) {
         setError((prev) => ({
           ...prev,
-          imageError: true,
-          imageMessage: imageUploadState.message,
+          uploadError: true,
+          uploadMessage: fileUploadState.message,
         }));
         setLoading(false);
-        console.log("image upload error");
+
+        //
+        // PLEASE MAKE THE GLOBAL ERROR COMPONENT READ THIS MESSAGE.
+        //
+
+        console.log(
+          "There has been an error uploading image to our servers. Please try again."
+        );
         return;
       }
     }
@@ -149,7 +97,7 @@ export default function ProfileUploadUI() {
     try {
       await updateDisplayNameAndProfile(
         nameRef.current.value,
-        imageUploadState ? imageUploadState.fileName : null
+        fileUploadState ? fileUploadState.fileName : null
       );
     } catch (error) {
       console.log(
@@ -163,7 +111,7 @@ export default function ProfileUploadUI() {
     dispatch(
       addUserToState({
         displayName: nameRef.current.value,
-        photoURL: imageUploadState ? imageUploadState.fileName : null,
+        photoURL: fileUploadState ? fileUploadState.fileName : null,
       })
     );
     setLoading(false);
@@ -193,15 +141,20 @@ export default function ProfileUploadUI() {
         </Button>
       </div>
 
-      {error.imageError ? (
-        <p className={styles["image-disclaimer-error"]}>{error.imageMessage}</p>
+      {imageError.isError ? (
+        <p className={styles["image-disclaimer-error"]}>{imageError.message}</p>
       ) : (
         <p className={styles["image-disclaimer"]}>Max image size: 2MB</p>
       )}
 
       <div className={styles["userinfo__inputs"]}>
         <div className={styles["name__container"]}>
-          <label className={styles["name__label"]}>Your name</label>
+          {error.nameError ? (
+            <p className={styles["image-disclaimer"]}>{error.nameMessage}</p>
+          ) : (
+            <label className={styles["name__label"]}>Your name</label>
+          )}
+
           <div
             className={styles["name__input-container"]}
             onClick={() => handleContainerClick("name")}
@@ -217,7 +170,14 @@ export default function ProfileUploadUI() {
         </div>
 
         <div className={styles["username__container"]}>
-          <label className={styles["username__label"]}>Your username</label>
+          {error.usernameError ? (
+            <p className={styles["image-disclaimer"]}>
+              {error.usernameMessage}
+            </p>
+          ) : (
+            <label className={styles["username__label"]}>Your username</label>
+          )}
+
           <div
             className={styles["username__input-container"]}
             onClick={() => handleContainerClick("username")}
@@ -263,3 +223,60 @@ dquote>   -> uploadedImage gets a unique name comprised of uid, timestamp, and s
 dquote> - Created highly resusable useImageURL custom hook. 
 
  */
+
+// function handleFileChange(event) {
+//   setLoading(true);
+//   const file = event.target.files[0];
+//   const reader = new FileReader();
+
+//   reader.onload = function (event) {
+//     const imageURL = event.target.result;
+//     const image = new Image();
+
+//     image.onload = function () {
+//       const validator = validateFile(file, image);
+//       console.log("Validator result: ", validator.valid);
+
+//       if (validator.valid === false) {
+//         setError((prevError) => ({
+//           ...prevError,
+//           imageError: true,
+//           imageMessage: validator.message,
+//         }));
+//         setLoading(false);
+//         return;
+//       }
+
+//       setError((prevError) => ({
+//         ...prevError,
+//         imageError: false,
+//         imageMessage: "",
+//       }));
+
+//       const cleanFile = new File([file], validator.name, {
+//         type: file.type,
+//         lastModified: file.lastModified,
+//       });
+
+//       setFileInput({
+//         src: imageURL,
+//         file: cleanFile,
+//       });
+//       setLoading(false);
+//     };
+
+//     image.onerror = function () {
+//       setError((prevError) => ({
+//         ...prevError,
+//         imageError: true,
+//         imageMessage:
+//           "There was an error in processing the image, please try again.",
+//       }));
+//       setLoading(false);
+//     };
+
+//     image.src = imageURL;
+//   };
+
+//   reader.readAsDataURL(file);
+// }

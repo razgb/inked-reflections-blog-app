@@ -10,8 +10,8 @@ import { changeLocationState } from "../../entities/url-location/location-slice"
 import useImageURL from "../../shared/hooks/useImageURL";
 import Spinner from "../../shared/ui/spinner/Spinner";
 
-const theme = "dark";
-// const theme = "light";
+// const theme = "dark";
+const theme = "light";
 
 export default function MainNavigation() {
   const { imageURL: logoURL, loading } = useImageURL(

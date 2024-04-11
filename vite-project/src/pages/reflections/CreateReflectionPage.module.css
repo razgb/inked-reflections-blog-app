@@ -136,8 +136,10 @@
 .image-input-container {
   cursor: pointer;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: var(--space-md);
 
   min-height: 40rem;
   background-color: var(--color-primary-400);
@@ -146,6 +148,13 @@
 .image-icon-container {
   cursor: pointer;
   background-color: transparent;
+}
+.image-error-text {
+  background-color: var(--color-error-200);
+  color: var(--color-error-900);
+  font-size: var(--text-sm);
+  padding: var(--space-xs);
+  border-radius: var(--space-xs);
 }
 /* Image End */
 
