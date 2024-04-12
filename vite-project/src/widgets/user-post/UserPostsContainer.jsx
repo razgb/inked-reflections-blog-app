@@ -27,7 +27,6 @@ export default function UserPostContainer() {
     } catch (error) {
       dispatch(
         activateAppError({
-          errorState: true,
           title: "Error getting your posts",
           message:
             "Please check your internet connection and refresh the page.",

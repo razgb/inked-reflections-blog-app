@@ -10,8 +10,19 @@ import ReflectionImage from "../../widgets/create-reflection-widgets/ReflectionI
 
 import validateText from "../../features/reflections/validateText.js";
 
+const maxContentCount = {
+  images: 3,
+  paragraphs: 10,
+  blockQuotes: 10,
+};
+
 export default function CreateReflectionPage() {
   const [toolsHidden, setToolsHidden] = useState(true);
+  const [contentTracker, setContentTracker] = useState({
+    images: 1,
+    paragraphs: 1,
+    blockQuotes: 0,
+  });
   const [userContent, setUserContent] = useState([
     {
       component: "image",
@@ -71,6 +82,7 @@ export default function CreateReflectionPage() {
     setToolsHidden((prev) => !prev);
   }
 
+  // Outsource this function and then import it once complete.
   function handleSubmit(event) {
     event.preventDefault();
 

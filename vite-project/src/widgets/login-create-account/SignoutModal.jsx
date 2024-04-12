@@ -17,7 +17,6 @@ export default function SignoutModal({ onClose }) {
     } else {
       dispatch(
         activateAppError({
-          errorState: true,
           title: "Error: Sign out unsuccessful",
           message: "There seems to be a network issue, please try again",
         })

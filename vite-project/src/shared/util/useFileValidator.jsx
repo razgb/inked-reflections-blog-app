@@ -1,7 +1,18 @@
 import { useState } from "react";
 import { validateFile } from "../../features/user-auth/validateFile";
 
-export default function useFileValidator() {
+/**
+ * Hook that abstracts onChange handling and file validation. Add an options object to further tune validation parameters.
+ * @param {object|null} options To be forwarded to the fileValidator function inside of it.
+ * @param {number} [options.minWidth=200] The minimum width of the image.
+ * @param {number} [options.minHeight=200] The minimum height of the image.
+ * @param {number} [options.maxWidth=1080] The maximum width of the image.
+ * @param {number} [options.maxHeight=1920] The maximum height of the image.
+ * @param {number} [options.maxSizeBytes=2]
+ * @returns {object} File object used for upload and it's src used for UX & UI.
+ * @returns {object} Error object with boolean and message.
+ */
+export default function useFileValidator(options) {
   const [fileInput, setFileInput] = useState({
     file: null,
     src: null,
@@ -20,7 +31,7 @@ export default function useFileValidator() {
       const image = new Image();
 
       image.onload = function () {
-        const validator = validateFile(file, image);
+        const validator = validateFile(file, image, options);
         console.log("Validator result: ", validator.valid);
 
         if (validator.valid === false) {

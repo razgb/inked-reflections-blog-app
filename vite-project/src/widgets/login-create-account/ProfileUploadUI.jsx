@@ -12,7 +12,7 @@ import { validateName } from "../../features/user-auth/validateName.js";
 import { validateUsername } from "../../features/user-auth/validateUsername.js";
 import { updateDisplayNameAndProfile } from "../../features/user-auth/updateDisplayName.js";
 import { addUserToState } from "../../entities/user/user-slice.js";
-import useFileValidator from "../../shared/util/fileValidator.jsx";
+import useFileValidator from "../../shared/util/useFileValidator.jsx";
 
 const initialErrorState = {
   uploadError: false,

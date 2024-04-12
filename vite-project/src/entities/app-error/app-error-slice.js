@@ -13,6 +13,7 @@ const errorSlice = createSlice({
     activateAppError(state, action) {
       return {
         ...state,
+        errorState: true, 
         ...action.payload,
       };
     },

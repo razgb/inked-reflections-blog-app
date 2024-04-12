@@ -7,21 +7,21 @@
  * @param {number} [options.minHeight=200] The minimum height of the image.
  * @param {number} [options.maxWidth=1080] The maximum width of the image.
  * @param {number} [options.maxHeight=1920] The maximum height of the image.
- * @param {number} [options.maxSizeBytes=2]
+ * @param {number} [options.maxSizeBytes=2] The maximum size in megabytes of the image.
  * @returns {Object} success Boolean & message string
  */
 export function validateFile(
   file,
   image,
-  options = {
-    minWidth: 200,
-    minHeight: 200,
-    maxWidth: 1920,
-    maxHeight: 1080,
-    maxSizeBytes: 2,
-  }
+  {
+    minWidth = 200,
+    minHeight = 200,
+    maxWidth = 2560,
+    maxHeight = 1440,
+    maxSizeBytes = 15,
+  } = {}
 ) {
-  const maxSize = options.maxSizeBytes * 1024 * 1024; // 2MB
+  const maxSize = maxSizeBytes * 1024 * 1024; // Product of 2 magic numbers are the size of 1MB in bytes
   const mimeValidated = file.type.startsWith("image/");
   const allowedExtensions = ["png", "jpg", "jpeg", "webp"];
   const extension = file.name.split(".").pop().toLowerCase();
@@ -30,12 +30,14 @@ export function validateFile(
   const contentValidated = image.width > 0 && image.height > 0;
 
   const maximumBoundariesValidated =
-    image.width <= options.maxWidth && image.height <= options.maxHeight;
+    image.width <= maxWidth && image.height <= maxHeight;
   const minimumBoundariesValidated =
-    image.width >= options.minWidth && image.height >= options.minHeight;
+    image.width >= minWidth && image.height >= minHeight;
 
   const sanitizedFilename = file.name.replace(/[^a-zA-Z0-9.]/g, "_");
 
+  const defaultErrorMessage =
+    "File uploaded is not a valid image. Please try again.";
   if (
     mimeValidated &&
     extensionValidated &&
@@ -52,29 +54,27 @@ export function validateFile(
   } else if (!mimeValidated || !extensionValidated || !contentValidated) {
     return {
       valid: false,
-      message: "File uploaded is not a valid image. Please try again.",
+      message: defaultErrorMessage,
     };
   } else if (!fileSizeValidated) {
     return {
       valid: false,
-      message: "File uploaded is too large (max 2MB). Please try again.",
+      message: `File uploaded is too large (max ${maxSizeBytes}MB). Please try again.`,
     };
   } else if (!minimumBoundariesValidated) {
     return {
       valid: false,
-      message:
-        "File uploaded is too small in dimensions (less than 200x200px). Please try again.",
+      message: `File uploaded is too small in dimensions (less than ${minWidth}x${minHeight}px). Please try again.`,
     };
   } else if (!maximumBoundariesValidated) {
     return {
       valid: false,
-      message:
-        "File uploaded is too large in dimensions (more than 1920x1080px). Please try again.",
+      message: `File uploaded is too large in dimensions (more than ${maxWidth}x${maxHeight}px). Please try again.`,
     };
   } else {
     return {
       valid: false,
-      message: "File uploaded is not a valid image. Please try again.",
+      message: defaultErrorMessage,
     };
   }
 }
