@@ -14,21 +14,22 @@ export default function CreateReflectionPage() {
   const [toolsHidden, setToolsHidden] = useState(true);
   const [userContent, setUserContent] = useState([
     {
+      component: "image",
+      id: "cover-image",
+      title: "Cover image",
+    },
+    {
       component: "title",
-      value: "",
       id: "title",
+      title: "title",
     },
     {
       component: "paragraph",
-      value: "",
       id: "paragraph-1",
+      title: "Paragraph",
     },
   ]);
 
-  /**
-   * Takes widget as a value and creates a unique input name based on unix date.
-   * @param {string} widget
-   */
   function handleAddWidget(widget = "paragraph") {
     const timestamp = new Date().getTime();
     const inputId = `${widget}-${timestamp}}`; // unique name for FormData obj
@@ -38,8 +39,8 @@ export default function CreateReflectionPage() {
           ...prev,
           {
             component: "paragraph",
-            value: "",
             id: inputId,
+            title: "Paragraph",
           },
         ]);
         break;
@@ -48,8 +49,8 @@ export default function CreateReflectionPage() {
           ...prev,
           {
             component: "image",
-            value: "",
             id: inputId,
+            title: "Cover image",
           },
         ]);
         break;
@@ -58,8 +59,8 @@ export default function CreateReflectionPage() {
           ...prev,
           {
             component: "block-quote",
-            value: "",
             id: inputId,
+            title: "Quote",
           },
         ]);
         break;
@@ -102,11 +103,11 @@ export default function CreateReflectionPage() {
     const id = item.id;
     switch (item.component) {
       case "title":
-        return <ReflectionTitle key={id} id={id} />;
+        return <ReflectionTitle key={id} id={id} title={item.title} />;
       case "paragraph":
-        return <ReflectionParagraph key={id} id={id} />;
+        return <ReflectionParagraph key={id} id={id} title={item.title} />;
       case "block-quote":
-        return <ReflectionBlockQuote key={id} id={id} />;
+        return <ReflectionBlockQuote key={id} id={id} title={item.title} />;
       case "image":
         return <ReflectionImage key={id} id={id} />;
     }
@@ -124,8 +125,8 @@ export default function CreateReflectionPage() {
   return (
     <div>
       <div className={styles["canvas"]}>
-        <form onSubmit={handleSubmit} className={styles["canvas-container"]}>
-          <div className={styles["heading-container"]}>
+        <form onSubmit={handleSubmit} className={styles["canvas__container"]}>
+          <div className={styles["heading__container"]}>
             <h2 className={styles["heading"]}>Write a reflection</h2>
             <div className={styles["preview-save-container"]}>
               <Button type="button">Preview</Button>

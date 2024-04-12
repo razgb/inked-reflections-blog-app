@@ -16,8 +16,8 @@ export function validateFile(
   options = {
     minWidth: 200,
     minHeight: 200,
-    maxWidth: 1080,
-    maxHeight: 1920,
+    maxWidth: 1920,
+    maxHeight: 1080,
     maxSizeBytes: 2,
   }
 ) {
