@@ -4,7 +4,7 @@ import Button from "../../shared/ui/buttons/Button.jsx";
 import { useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import ReflectionsTools from "../../widgets/create-reflection-widgets/ReflectionsToolTip";
+import ReflectionsTools from "../../widgets/create-reflection-widgets/ReflectionsTools.jsx";
 import ReflectionTitle from "../../widgets/create-reflection-widgets/ReflectionTitle";
 import ReflectionParagraph from "../../widgets/create-reflection-widgets/ReflectionParagraph";
 import ReflectionBlockQuote from "../../widgets/create-reflection-widgets/ReflectionBlockQuote.jsx";
@@ -30,7 +30,7 @@ export default function CreateReflectionPage() {
     paragraphs: 1,
     quotes: 0,
   });
-  console.log(contentCount);
+  // console.log(contentCount);
   const [userContent, setUserContent] = useState([
     {
       component: "image",
@@ -54,7 +54,7 @@ export default function CreateReflectionPage() {
     if (!acceptedWidgets.includes(widget)) return; // guard
 
     const timestamp = new Date().getTime();
-    const inputId = `${widget}-${timestamp}}`; // unique name for FormData obj
+    const inputId = `${widget}-${timestamp}}`; // unique name for FormData object
 
     const widgetProperty = `${widget}s`;
 
@@ -97,6 +97,15 @@ export default function CreateReflectionPage() {
     ]);
   }
 
+  function handleDeleteWidget(widget, id) {
+    const widgetProperty = `${widget}s`;
+    setContentCount((prev) => ({
+      ...prev,
+      [widgetProperty]: --prev[widgetProperty],
+    }));
+    setUserContent((prev) => prev.filter((widget) => widget.id !== id));
+  }
+
   // Outsource this function and then import it once complete.
   function handleSubmit(event) {
     event.preventDefault();
@@ -132,11 +141,32 @@ export default function CreateReflectionPage() {
       case "title":
         return <ReflectionTitle key={id} id={id} title={item.title} />;
       case "paragraph":
-        return <ReflectionParagraph key={id} id={id} title={item.title} />;
+        return (
+          <ReflectionParagraph
+            key={id}
+            id={id}
+            title={item.title}
+            deleteWidget={handleDeleteWidget}
+          />
+        );
       case "quote":
-        return <ReflectionBlockQuote key={id} id={id} title={item.title} />;
+        return (
+          <ReflectionBlockQuote
+            key={id}
+            id={id}
+            title={item.title}
+            deleteWidget={handleDeleteWidget}
+          />
+        );
       case "image":
-        return <ReflectionImage key={id} id={id} title={item.title} />;
+        return (
+          <ReflectionImage
+            key={id}
+            id={id}
+            title={item.title}
+            deleteWidget={handleDeleteWidget}
+          />
+        );
     }
   });
 

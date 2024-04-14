@@ -130,6 +130,26 @@
   width: 100%;
   background-color: transparent;
 }
+
+.delete-widget-button {
+  cursor: pointer;
+  font-size: var(--text);
+  background-color: transparent;
+  color: var(--color-primary-800);
+  letter-spacing: 0.1rem;
+}
+.paragraph__container .delete-widget-button {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+.block-quote__container .delete-widget-button {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+}
+
 /* Shared input styles END */
 
 /* Title Start */
@@ -189,18 +209,16 @@
   border-radius: var(--space-md);
   transition: all 0.15s ease-in;
 }
-.image-input__button {
+.image-input__buttons {
   display: flex;
   justify-content: center;
+  gap: var(--space-sm);
   margin-bottom: var(--space-lg);
 }
 .image-icon-container {
   background-color: transparent;
 }
 
-.image-text {
-  text-transform: capitalize;
-}
 .image-text,
 .image-error-text {
   font-size: var(--text-sm);

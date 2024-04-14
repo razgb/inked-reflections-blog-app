@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "../../pages/reflections/CreateReflectionPage.module.css";
-export default function ReflectionBlockQuote({ name, title, ...props }) {
+
+export default function ReflectionBlockQuote({ id, title, deleteWidget }) {
   const [value, setValue] = useState("");
   function onValueChange(event) {
     setValue(event.target.value);
@@ -13,19 +14,26 @@ export default function ReflectionBlockQuote({ name, title, ...props }) {
   return (
     <div className={styles["block-quote__container"]}>
       {value && <span className={styles["block-quote__heading"]}>{title}</span>}
-      <label className={styles["block-quote__label"]} htmlFor={name}></label>
+      <label className={styles["block-quote__label"]} htmlFor={id}></label>
       <input
         // required
         placeholder="Quote..."
         className={styles["block-quote__input"]}
-        id={name}
-        name={name}
+        id={id}
+        name={id}
         type="text"
-        {...props}
         onKeyDown={handleEnterKey}
         value={value}
         onChange={onValueChange}
       />
+
+      <button
+        className={styles["delete-widget-button"]}
+        type="button"
+        onClick={() => deleteWidget(title, id)}
+      >
+        delete
+      </button>
     </div>
   );
 }

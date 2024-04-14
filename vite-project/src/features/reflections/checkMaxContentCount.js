@@ -10,13 +10,13 @@ export function checkMaxContentCount(widget, value, maxValue) {
     return {
       passed: true,
       title: "Max paragraphs limit",
-      message: `You have reached the max number of ${widget}s.`,
+      message: `You have reached the max number of ${widget}s for your reflection.`,
     };
   } else if (value === maxValue) {
     return {
       passed: false,
       title: `Cannot add more ${widget}s`,
-      message: `You have maxed your limit of ${widget} uses`,
+      message: `You have used up your limit of ${widget}s for your reflection.`,
     };
   } else {
     return {

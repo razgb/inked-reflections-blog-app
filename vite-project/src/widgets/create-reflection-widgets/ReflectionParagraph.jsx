@@ -2,7 +2,7 @@ import styles from "../../pages/reflections/CreateReflectionPage.module.css";
 import validateText from "../../features/reflections/validateText";
 import { useState } from "react";
 
-export default function ReflectionParagraph({ id, title, ...props }) {
+export default function ReflectionParagraph({ id, title, deleteWidget }) {
   const [value, setValue] = useState("");
   function onValueChange(event) {
     setValue(event.target.value);
@@ -20,8 +20,17 @@ export default function ReflectionParagraph({ id, title, ...props }) {
         className={styles["paragraph__input"]}
         value={value}
         onChange={onValueChange}
-        {...props}
       />
+
+      {id === "paragraph-1" ? null : (
+        <button
+          className={styles["delete-widget-button"]}
+          type="button"
+          onClick={() => deleteWidget(title, id)}
+        >
+          delete
+        </button>
+      )}
     </div>
   );
 }

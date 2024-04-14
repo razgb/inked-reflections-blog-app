@@ -5,7 +5,7 @@ import { useRef } from "react";
 import useFileValidator from "../../shared/util/useFileValidator";
 import Button from "../../shared/ui/buttons/Button";
 
-export default function ReflectionsImage({ id, title, ...props }) {
+export default function ReflectionsImage({ id, title, deleteWidget }) {
   const inputRef = useRef();
   const { fileInput, error, handleFileChange } = useFileValidator({
     maxSizeBytes: 5,
@@ -55,7 +55,17 @@ export default function ReflectionsImage({ id, title, ...props }) {
       />
       <div className={styles["image-input__container"]}>{output}</div>
 
-      <div className={styles["image-input__button"]}>
+      <div className={styles["image-input__buttons"]}>
+        {id === "cover-image" ? null : (
+          <button
+            className={styles["delete-widget-button"]}
+            type="button"
+            onClick={() => deleteWidget(title, id)}
+          >
+            delete
+          </button>
+        )}
+
         <Button onClick={handleInputClick}>
           {fileInput.src ? "Change" : "Add"} image
         </Button>
