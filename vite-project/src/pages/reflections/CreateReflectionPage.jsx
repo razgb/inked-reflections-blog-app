@@ -1,6 +1,8 @@
-import { useMemo, useState } from "react";
 import styles from "./CreateReflectionPage.module.css";
 import Button from "../../shared/ui/buttons/Button.jsx";
+
+import { useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import ReflectionsTools from "../../widgets/create-reflection-widgets/ReflectionsToolTip";
 import ReflectionTitle from "../../widgets/create-reflection-widgets/ReflectionTitle";
@@ -9,20 +11,26 @@ import ReflectionBlockQuote from "../../widgets/create-reflection-widgets/Reflec
 import ReflectionImage from "../../widgets/create-reflection-widgets/ReflectionImage.jsx";
 
 import validateText from "../../features/reflections/validateText.js";
+import {
+  activateAppError,
+  resetAppError,
+} from "../../entities/app-error/app-error-slice.js";
+import { checkMaxContentCount } from "../../features/reflections/checkMaxContentCount.js";
 
 const maxContentCount = {
   images: 3,
-  paragraphs: 10,
-  blockQuotes: 10,
+  paragraphs: 3,
+  quotes: 3,
 };
 
 export default function CreateReflectionPage() {
-  const [toolsHidden, setToolsHidden] = useState(true);
-  const [contentTracker, setContentTracker] = useState({
+  const dispatch = useDispatch();
+  const [contentCount, setContentCount] = useState({
     images: 1,
     paragraphs: 1,
-    blockQuotes: 0,
+    quotes: 0,
   });
+  console.log(contentCount);
   const [userContent, setUserContent] = useState([
     {
       component: "image",
@@ -37,49 +45,56 @@ export default function CreateReflectionPage() {
     {
       component: "paragraph",
       id: "paragraph-1",
-      title: "Paragraph",
+      title: "paragraph",
     },
   ]);
 
   function handleAddWidget(widget = "paragraph") {
+    const acceptedWidgets = ["paragraph", "quote", "image"];
+    if (!acceptedWidgets.includes(widget)) return; // guard
+
     const timestamp = new Date().getTime();
     const inputId = `${widget}-${timestamp}}`; // unique name for FormData obj
-    switch (widget) {
-      case "paragraph":
-        setUserContent((prev) => [
-          ...prev,
-          {
-            component: "paragraph",
-            id: inputId,
-            title: "Paragraph",
-          },
-        ]);
-        break;
-      case "image":
-        setUserContent((prev) => [
-          ...prev,
-          {
-            component: "image",
-            id: inputId,
-            title: "Cover image",
-          },
-        ]);
-        break;
-      case "block-quote":
-        setUserContent((prev) => [
-          ...prev,
-          {
-            component: "block-quote",
-            id: inputId,
-            title: "Quote",
-          },
-        ]);
-        break;
-    }
-  }
 
-  function handleToggleTools() {
-    setToolsHidden((prev) => !prev);
+    const widgetProperty = `${widget}s`;
+
+    const { passed, title, message } = checkMaxContentCount(
+      widget,
+      contentCount[widgetProperty],
+      maxContentCount[widgetProperty]
+    );
+    if (passed && title) {
+      dispatch(
+        activateAppError({
+          title,
+          message,
+        })
+      ); // allows one more widget add.
+    } else if (!passed) {
+      dispatch(
+        activateAppError({
+          title,
+          message,
+        })
+      );
+      return; // exits function to not add to count.
+    }
+
+    setContentCount((prev) => {
+      // console.log(prev[widgetProperty]);
+      return {
+        ...prev,
+        [widgetProperty]: prev[widgetProperty] + 1,
+      };
+    });
+    setUserContent((prev) => [
+      ...prev,
+      {
+        component: widget,
+        id: inputId,
+        title: widget,
+      },
+    ]);
   }
 
   // Outsource this function and then import it once complete.
@@ -91,15 +106,15 @@ export default function CreateReflectionPage() {
     const data = {
       title: "",
       paragraphs: [],
-      blockQuotes: [],
+      quotes: [],
       images: [], // Use file api to validate.
     };
     for (const [key, value] of entries) {
       if (key === "title") data[key] = value;
       else if (key.includes("paragraph")) {
         data.paragraphs.push(value);
-      } else if (key.includes("block-quote")) {
-        data.blockQuotes.push(value);
+      } else if (key.includes("quote")) {
+        data.quotes.push(value);
       } else if (key.includes("image")) {
         //
       }
@@ -118,20 +133,15 @@ export default function CreateReflectionPage() {
         return <ReflectionTitle key={id} id={id} title={item.title} />;
       case "paragraph":
         return <ReflectionParagraph key={id} id={id} title={item.title} />;
-      case "block-quote":
+      case "quote":
         return <ReflectionBlockQuote key={id} id={id} title={item.title} />;
       case "image":
-        return <ReflectionImage key={id} id={id} />;
+        return <ReflectionImage key={id} id={id} title={item.title} />;
     }
   });
 
   output.push(
-    <ReflectionsTools
-      key="reflection-tools"
-      addWidget={handleAddWidget}
-      toggleTools={handleToggleTools}
-      hidden={toolsHidden}
-    />
+    <ReflectionsTools key="reflection-tools" addWidget={handleAddWidget} />
   );
 
   return (

@@ -179,9 +179,12 @@
 .no-image__container {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
+  width: 100%;
+  max-width: 25rem;
+  min-height: 14rem;
 
-  padding: var(--space-xl);
   background-color: var(--color-primary-400);
   border-radius: var(--space-md);
   transition: all 0.15s ease-in;
@@ -193,6 +196,10 @@
 }
 .image-icon-container {
   background-color: transparent;
+}
+
+.image-text {
+  text-transform: capitalize;
 }
 .image-text,
 .image-error-text {

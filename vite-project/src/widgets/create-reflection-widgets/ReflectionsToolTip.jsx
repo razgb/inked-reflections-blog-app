@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styles from "../../pages/reflections/CreateReflectionPage.module.css";
 import {
   AddIcon,
@@ -6,23 +7,32 @@ import {
   TextIcon,
 } from "../../shared/ui/svg/ReflectionsSvg";
 
-export default function ReflectionsTools({ addWidget, toggleTools, hidden }) {
+export default function ReflectionsTools({ addWidget }) {
+  const [toolsHidden, setToolsHidden] = useState(true);
+
+  function handleToggleTools() {
+    setToolsHidden((prev) => !prev);
+  }
+
   function handleClick(choice) {
     addWidget(choice);
     setTimeout(() => {
-      toggleTools();
+      handleToggleTools();
     }, 100); // smoother compared to instantly disappearing.
   }
 
   return (
     <div className={styles["canvas-actions"]} key={"canvas-actions"}>
-      <div className={styles["add-button-container"]} onClick={toggleTools}>
-        <AddIcon size={20} hidden={hidden} />
+      <div
+        className={styles["add-button-container"]}
+        onClick={handleToggleTools}
+      >
+        <AddIcon size={20} hidden={toolsHidden} />
       </div>
 
       <div
         className={`${styles["tooltip-container"]} ${
-          hidden ? styles["hidden"] : undefined
+          toolsHidden ? styles["hidden"] : undefined
         }`}
       >
         <button
@@ -43,7 +53,7 @@ export default function ReflectionsTools({ addWidget, toggleTools, hidden }) {
 
         <button
           type="button"
-          onClick={() => handleClick("block-quote")}
+          onClick={() => handleClick("quote")}
           className={styles["tooltip-button"]}
         >
           <QuoteIcon size={20} />

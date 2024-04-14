@@ -36,7 +36,7 @@ export default function ReflectionsImage({ id, title, ...props }) {
             {error.message}
           </p>
         ) : (
-          <p className={styles["image-text"]}>Cover image</p>
+          <p className={styles["image-text"]}>{title}</p>
         )}
       </div>
     );
