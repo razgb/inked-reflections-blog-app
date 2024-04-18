@@ -20,6 +20,14 @@ const maxContentCount = {
   paragraphs: 5,
   quotes: 5,
 };
+
+const componentMap = {
+  title: ReflectionTitle,
+  image: ReflectionImage,
+  paragraph: ReflectionParagraph,
+  quote: ReflectionBlockQuote,
+};
+
 export default function CreateReflectionPage() {
   const uid = useSelector((state) => state.user.info.uid);
   const dispatch = useDispatch();
@@ -129,7 +137,6 @@ export default function CreateReflectionPage() {
     });
   }, []);
 
-  // Outsource this function and then import it once complete.
   async function handleSubmit(event) {
     event.preventDefault();
     const formdata = new FormData(event.target);
@@ -166,7 +173,7 @@ export default function CreateReflectionPage() {
           component,
           title,
           id,
-          fileName: fileInput.file ? fileInput.file.name : null,
+          fileInput: fileInput.file ? fileInput : null,
         };
       } else
         return {
@@ -175,70 +182,75 @@ export default function CreateReflectionPage() {
         };
     });
 
-    // Filter image components with no file name (no image).
+    // Filter image components with null file inside.
     const userContentToUpload = userContentWithValues.filter((widget) => {
       if (widget.component !== "image") return true;
-      else if (widget.fileName) {
+      else if (widget.fileInput) {
         return true;
       } else return false;
     });
     console.log(userContentToUpload);
 
-    async function uploadImages() {
-      const images = userContent.filter((widget) => {
-        if (widget.component === "image") {
-          return true;
-        }
-      });
+    // -> Upload userContent function to firebase.
 
-      if (images.length) {
+    const images = userContentToUpload.filter((widget) => {
+      if (widget.component === "image") {
+        return true;
+      }
+    });
+    if (!images.length) return; // returns on 0 images.
+
+    let attempts = 0;
+    const maxAttempts = 3;
+    async function uploadImages() {
+      async function uploadData() {
         const imagesToUpload = images.map((image) => {
-          return uploadImageToFirebase(image.file.src);
+          const { file, src } = image.fileInput;
+          return uploadImageToFirebase(file, uid, 'posts');
         });
 
-        try {
-          await Promise.all(imagesToUpload);
-        } catch (error) {
-          console.log(error);
+        return Promise.all(imagesToUpload);
+      }
+
+      try {
+        attempts++;
+        await uploadData();
+      } catch (error) {
+        if (attempts < maxAttempts) {
+          await new Promise((resolve) => setTimeout(resolve, 500)); // delay to allow internet to stabalise.
+          await uploadImages();
+        } else {
+          throw new Error();
         }
       }
+    }
+
+    try {
+      await uploadImages();
+    } catch (error) {
+      dispatch(
+        activateAppError({
+          title: "Could not save and publish files.",
+          message: "Please check your internet connection and try again.",
+        })
+      );
     }
   }
 
   const output = userContent.map((item) => {
-    const id = item.id;
-    switch (item.component) {
-      case "title":
-        return <ReflectionTitle key={id} id={id} title={item.title} />;
-      case "paragraph":
-        return (
-          <ReflectionParagraph
-            key={id}
-            id={id}
-            title={item.title}
-            deleteWidget={handleDeleteWidget}
-          />
-        );
-      case "quote":
-        return (
-          <ReflectionBlockQuote
-            key={id}
-            id={id}
-            title={item.title}
-            deleteWidget={handleDeleteWidget}
-          />
-        );
-      case "image":
-        return (
-          <ReflectionImage
-            key={id}
-            id={id}
-            title={item.title}
-            deleteWidget={handleDeleteWidget}
-            addFileToState={addFileToState}
-          />
-        );
-    }
+    const ReflectionComponent = componentMap[item.component];
+    if (!ReflectionComponent) return;
+
+    const component = item.component;
+    const props = {
+      id: item.id,
+      title: item.title,
+    };
+
+    if (component !== "title") props.deleteWidget = handleDeleteWidget;
+    if (component === "image") props.addFileToState = addFileToState;
+
+    return <ReflectionComponent key={item.id} {...props} />;
   });
 
   output.push(
@@ -253,7 +265,11 @@ export default function CreateReflectionPage() {
             <h2 className={styles["heading"]}>Write a reflection</h2>
             <div className={styles["preview-save-container"]}>
               <Button type="button">Preview</Button>
-              <Button>Save</Button>
+
+              {/* We need a drafts section in the user collection */}
+              {/* <Button type="button">Save</Button> */}
+
+              <Button>Save & Publish</Button>
             </div>
           </div>
           {output}
