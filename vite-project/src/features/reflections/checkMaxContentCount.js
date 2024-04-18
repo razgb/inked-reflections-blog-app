@@ -9,7 +9,7 @@ export function checkMaxContentCount(widget, value, maxValue) {
   if (value === maxValue - 1) {
     return {
       passed: true,
-      title: "Max paragraphs limit",
+      title: `Max ${widget} limit`,
       message: `You have reached the max number of ${widget}s for your reflection.`,
     };
   } else if (value === maxValue) {

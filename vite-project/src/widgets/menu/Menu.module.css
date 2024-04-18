@@ -42,7 +42,7 @@
   display: flex;
   gap: var(--space-md);
   align-items: center;
-  font-size: var(--fs-lg);
+  font-size: var(--tertiary-heading);
 }
 .menu-button:focus {
   outline-color: var(--color-primary-800);

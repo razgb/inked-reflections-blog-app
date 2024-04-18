@@ -22,7 +22,8 @@
   gap: var(--space-md);
   margin: 0 auto;
   /* width: 50%; */
-  max-width: 80rem;
+  /* max-width: 80rem; */
+  max-width: 100rem;
 }
 .canvas-actions {
   display: flex;

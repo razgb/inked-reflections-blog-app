@@ -1,11 +1,16 @@
 import { ImageIcon } from "../../shared/ui/svg/ReflectionsSvg";
 import styles from "../../pages/reflections/CreateReflectionPage.module.css";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import useFileValidator from "../../shared/util/useFileValidator";
 import Button from "../../shared/ui/buttons/Button";
 
-export default function ReflectionsImage({ id, title, deleteWidget }) {
+export default function ReflectionsImage({
+  id,
+  title,
+  deleteWidget,
+  addFileToState,
+}) {
   const inputRef = useRef();
   const { fileInput, error, handleFileChange } = useFileValidator({
     maxSizeBytes: 5,
@@ -19,16 +24,17 @@ export default function ReflectionsImage({ id, title, deleteWidget }) {
     output = (
       <img
         src={fileInput.src}
-        alt={fileInput.file.fileName}
+        alt={fileInput.file.name}
         className={styles["image"]}
       />
     );
   } else {
     output = (
       <div className={styles["no-image__container"]}>
-        <button className={styles["image-icon-container"]}>
+        <div className={styles["image-icon-container"]}>
           <ImageIcon className="icon" size={48} />
-        </button>
+        </div>
+
         {error.isError ? (
           <p
             className={`${styles["image-text"]} ${styles["image-error-text"]}`}
@@ -41,6 +47,12 @@ export default function ReflectionsImage({ id, title, deleteWidget }) {
       </div>
     );
   }
+
+  useEffect(() => {
+    if (fileInput.file) {
+      addFileToState(fileInput, id);
+    }
+  }, [fileInput, addFileToState, id]);
 
   return (
     <div>
@@ -66,7 +78,7 @@ export default function ReflectionsImage({ id, title, deleteWidget }) {
           </button>
         )}
 
-        <Button onClick={handleInputClick}>
+        <Button onClick={handleInputClick} type="button">
           {fileInput.src ? "Change" : "Add"} image
         </Button>
       </div>

@@ -19,7 +19,7 @@ export default function ReflectButton({ size }) {
       <span>
         <WriteIcon size={size} className={styles["write-icon"]} />
       </span>
-      {/* <span className={styles["reflect-text"]}>Reflect</span> */}
+      <span className={styles["reflect-text"]}>Reflect</span>
     </Link>
   );
 }

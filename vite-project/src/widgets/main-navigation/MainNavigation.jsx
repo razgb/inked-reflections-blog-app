@@ -53,11 +53,11 @@ export default function MainNavigation() {
 
         <WriteButton size={20} />
 
-        <button className={styles["bell-button"]}>
+        {/* <button className={styles["bell-button"]}>
           <span>
             <BellIcon size={20} className={styles["bell-icon"]} />
           </span>
-        </button>
+        </button> */}
 
         <button className={styles["main-nav-profile__button"]}>
           <img

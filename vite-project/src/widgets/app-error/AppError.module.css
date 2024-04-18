@@ -6,12 +6,17 @@
   z-index: 999;
 
   min-width: 30rem;
+  max-width: 60rem;
   background-color: var(--color-error-300);
   border-radius: var(--space-md);
   box-shadow: 2px 2px 10px 5px var(--color-error-shadow-300);
 }
-
 .error-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+
   padding: var(--space-lg);
   color: var(--color-primary-800);
 }
@@ -19,13 +24,14 @@
 .heading {
   font-size: var(--secondary-heading);
   margin-bottom: var(--space-xs);
-
   color: var(--color-gray-900);
 }
-
 .message {
   font-size: var(--text);
-  margin-bottom: var(--space-md);
-
   color: var(--color-gray-900);
+}
+.cross-button {
+  cursor: pointer;
+  background-color: transparent;
+  fill: #000;
 }

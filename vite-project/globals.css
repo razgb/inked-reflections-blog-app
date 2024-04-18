@@ -196,6 +196,9 @@ body {
 .icon.opaque {
   opacity: 0.5;
 }
+.error-icon {
+  fill: #000;
+}
 /* .add-icon {
   transition: transform 0.15s ease-in;
 } */

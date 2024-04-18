@@ -5,7 +5,7 @@ import defaultProfile from "../../../public/default-profile.jpeg";
 import { useRef, useState } from "react";
 import { AtSymbolIcon } from "../../shared/ui/svg/LoginSvg.jsx";
 import { ProfileIcon } from "../../shared/ui/svg/MenuSvg.jsx";
-import { uploadImageToFirebase } from "../../features/user-auth/uploadImageToFirebase.js";
+import { uploadImageToFirebase } from "../../features/user-general/uploadImageToFirebase.js";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { validateName } from "../../features/user-auth/validateName.js";
@@ -62,7 +62,11 @@ export default function ProfileUploadUI() {
     let fileUploadState = null;
     if (fileInput.file) {
       try {
-        fileUploadState = await uploadImageToFirebase(fileInput.file, uid);
+        fileUploadState = await uploadImageToFirebase(
+          fileInput.file,
+          uid,
+          "profile"
+        );
       } catch (error) {
         setError((prev) => ({
           ...prev,

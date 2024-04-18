@@ -1,5 +1,5 @@
 import styles from "../../pages/reflections/CreateReflectionPage.module.css";
-import validateText from "../../features/reflections/validateText";
+import { validateTextWidget } from "../../features/reflections/validateTextWidget.js";
 import { useState } from "react";
 
 export default function ReflectionParagraph({ id, title, deleteWidget }) {

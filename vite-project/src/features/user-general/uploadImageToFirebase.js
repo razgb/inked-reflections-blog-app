@@ -1,13 +1,22 @@
-import { profileRef } from "../../main";
+import { profileRef, postsRef } from "../../main";
 import { uploadBytes, ref } from "firebase/storage";
 
 /**
- * Accepts a validated and sanitized file and sends to firebase storage/profiles directory
+ * Accepts a validated and sanitized file and sends to firebase storage.
  * @param {File} file The validated and sanitized file to be uploaded.
  * @param {string} uid The unique ID from the userSlice redux state.
+ * @param {object} ref Name of storage reference for firebase.
  * @returns {Promise<boolean>} A promise that resolves to true if file is uploaded successfully, else returns false.
  */
-export async function uploadImageToFirebase(file, uid) {
+export async function uploadImageToFirebase(file, uid, storageReference) {
+  const acceptedStorageRefs = ["posts", "profile"];
+  if (!acceptedStorageRefs.includes(storageReference)) return;
+
+  let reference;
+  if (storageReference === "posts") {
+    reference = postsRef;
+  } else reference = profileRef;
+
   const lastModifiedTimestamp = file.lastModified;
   const uniqueFileName = `${uid}__${lastModifiedTimestamp}__${file.name}`;
   const metadata = {
@@ -15,7 +24,7 @@ export async function uploadImageToFirebase(file, uid) {
     name: file.name,
     size: file.size,
   };
-  const imageRef = ref(profileRef, uniqueFileName);
+  const imageRef = ref(reference, uniqueFileName);
 
   try {
     await uploadBytes(imageRef, file, metadata);

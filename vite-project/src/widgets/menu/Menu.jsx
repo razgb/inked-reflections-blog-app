@@ -22,18 +22,30 @@ import {
   SignoutIcon,
 } from "../../shared/ui/svg/MenuSvg";
 import MenuButton from "./MenuButton";
-import { useEffect, useState } from "react";
 import MenuActionButton from "./MenuActionButton";
 import SignoutModal from "../login-create-account/SignoutModal";
+
+import { useContext, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeLocationState } from "../../entities/url-location/location-slice";
+import { ThemeContext } from "../../entities/theme/ThemeContext";
 
 const ICON_SIZE = 20;
+
+/*
+  Notes for future me: 
+  You have to refactor the entire codebase for a more component friendly 
+  architecture and use the useContext theme api for dynamic changing of themes.
+
+  Maybe create a separate css file for your colors. 
+ */
 
 export default function Menu({ menuOpenState, handleToggleMenuState }) {
   const dispatch = useDispatch();
   const urlLocationName = useSelector((state) => state.location.locationName);
   const [openLogout, setOpenLogout] = useState(false);
+
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   function handleOpenLogout(action) {
     if (action === "open") setOpenLogout(true);
@@ -141,9 +153,16 @@ export default function Menu({ menuOpenState, handleToggleMenuState }) {
         </div>
 
         <div className={styles["menu-actions-2"]}>
-          <MenuActionButton title="Theme" menuOpenState={menuOpenState}>
-            <MoonIcon size={ICON_SIZE} />
-          </MenuActionButton>
+          <div className={styles["theme-icon__container"]}>
+            <MenuActionButton title="Theme" menuOpenState={menuOpenState}>
+              {theme === "light" ? (
+                <SunIcon size={24} />
+              ) : (
+                <MoonIcon size={ICON_SIZE} />
+              )}
+            </MenuActionButton>
+          </div>
+
           <MenuActionButton
             title="Sign out"
             onClick={() => handleOpenLogout("open")}
