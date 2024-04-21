@@ -50,7 +50,8 @@ export default function ReflectionsImage({
 
   useEffect(() => {
     if (fileInput.file) {
-      addFileToState(fileInput, id);
+      // CreateReflectionPage only needs file not src.
+      addFileToState(fileInput.file, id);
     }
   }, [fileInput, addFileToState, id]);
 

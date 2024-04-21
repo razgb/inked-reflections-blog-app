@@ -14,6 +14,7 @@ import { validateTextWidget } from "../../features/reflections/validateTextWidge
 import { activateAppError } from "../../entities/app-error/app-error-slice.js";
 import { checkMaxContentCount } from "../../features/reflections/checkMaxContentCount.js";
 import { uploadImageToFirebase } from "../../features/user-general/uploadImageToFirebase.js";
+import { uploadReflectionToFirestore } from "../../features/reflections/uploadReflectionToFirestore.js";
 
 const maxContentCount = {
   images: 3,
@@ -41,10 +42,7 @@ export default function CreateReflectionPage() {
       component: "image",
       id: "cover-image",
       title: "Cover image",
-      fileInput: {
-        file: null,
-        src: null,
-      },
+      file: null,
     },
     {
       component: "title",
@@ -122,15 +120,15 @@ export default function CreateReflectionPage() {
 
   /**
    * Uses id to update image widget with new file upload.
-   * @param {object} fileInput Contains both File object & validated src.
+   * @param {File} File Contains sanitized file object form useFileValidator.
    */
-  const addFileToState = useCallback(function (fileInput, id) {
+  const addFileToState = useCallback(function (file, id) {
     setUserContent((prev) => {
       return prev.map((widget) => {
         if (widget.id === id) {
           return {
             ...widget,
-            fileInput: { ...fileInput },
+            file,
           };
         } else return widget; // leave textComponents as they are.
       });
@@ -142,15 +140,15 @@ export default function CreateReflectionPage() {
     const formdata = new FormData(event.target);
     const userContentValueEntries = Array.from(formdata.entries());
 
-    // Put all widget text into single array.
+    // PUT ALL WIDGET FORMDATA VALUES INTO SINGLE TEXT ARRAY FOR VALIDATION.
     const allWidgetTexts = [];
     userContentValueEntries.forEach(([key, value]) => {
       if (!key.includes("image")) {
         allWidgetTexts.push(value);
       }
-    });
+    }); // note: we could literally create an array of arrays [key, value].
 
-    // Validate array of texts.
+    // VALIDATE ARRAY OF TEXTS
     const allTextIsValid = allWidgetTexts.every((text) =>
       validateTextWidget(text)
     ); // In case I want to show individual errors one day.
@@ -165,15 +163,15 @@ export default function CreateReflectionPage() {
       return; // stop submission upon error.
     }
 
-    // Feed the userContent array with the validated text.
+    // COMBINE USERCONTENT STATE WITH IT'S FORMDATA TEXT VALUES.
     const userContentWithValues = userContent.map((widget, index) => {
-      const { component, title, id, fileInput } = widget;
+      const { component, title, id, file } = widget;
       if (component === "image") {
         return {
           component,
           title,
           id,
-          fileInput: fileInput.file ? fileInput : null,
+          file,
         };
       } else
         return {
@@ -182,56 +180,58 @@ export default function CreateReflectionPage() {
         };
     });
 
-    // Filter image components with null file inside.
-    const userContentToUpload = userContentWithValues.filter((widget) => {
+    // FILTERING EMPTY IMAGE COMPONENTS
+    const validUserContent = userContentWithValues.filter((widget) => {
       if (widget.component !== "image") return true;
-      else if (widget.fileInput) {
+      else if (widget.file) {
         return true;
       } else return false;
     });
-    console.log(userContentToUpload);
 
-    // -> Upload userContent function to firebase.
+    const imagesPromises = validUserContent
+      .filter((widget) => widget.file)
+      .map((widget) => {
+        return uploadImageToFirebase(widget.file, uid, "posts");
+      });
 
-    const images = userContentToUpload.filter((widget) => {
-      if (widget.component === "image") {
-        return true;
-      }
-    });
-    if (!images.length) return; // returns on 0 images.
-
-    let attempts = 0;
-    const maxAttempts = 3;
-    async function uploadImages() {
-      async function uploadData() {
-        const imagesToUpload = images.map((image) => {
-          const { file, src } = image.fileInput;
-          return uploadImageToFirebase(file, uid, 'posts');
-        });
-
-        return Promise.all(imagesToUpload);
-      }
-
+    const imageNames = [];
+    if (imagesPromises.length) {
       try {
-        attempts++;
-        await uploadData();
+        const uploadObject = await Promise.all(imagesPromises);
+        uploadObject.forEach((item) => imageNames.push(item.fileName));
       } catch (error) {
-        if (attempts < maxAttempts) {
-          await new Promise((resolve) => setTimeout(resolve, 500)); // delay to allow internet to stabalise.
-          await uploadImages();
-        } else {
-          throw new Error();
-        }
+        dispatch(
+          activateAppError({
+            title: "Error uploading your reflection",
+            message: "Please try again.",
+          })
+        );
       }
     }
 
+    // MAPPING FIREBASE STORAGE IMAGE REFERENCES TO UPLOAD CONTENT
+    let nameIndex = 0;
+    const userContentToUpload = validUserContent.map((widget) => {
+      if (widget.component !== "image") return widget;
+
+      const { component, title, id } = widget;
+      const imageName = imageNames[nameIndex];
+      nameIndex++;
+      return {
+        component,
+        title,
+        id,
+        firebaseStorageReference: imageName,
+      };
+    });
+
     try {
-      await uploadImages();
+      uploadReflectionToFirestore(userContentToUpload);
     } catch (error) {
       dispatch(
         activateAppError({
-          title: "Could not save and publish files.",
-          message: "Please check your internet connection and try again.",
+          title: "Error uploading your reflection.",
+          message: "Please try again in a couple minutes",
         })
       );
     }

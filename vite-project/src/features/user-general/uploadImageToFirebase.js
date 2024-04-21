@@ -6,7 +6,7 @@ import { uploadBytes, ref } from "firebase/storage";
  * @param {File} file The validated and sanitized file to be uploaded.
  * @param {string} uid The unique ID from the userSlice redux state.
  * @param {object} ref Name of storage reference for firebase.
- * @returns {Promise<boolean>} A promise that resolves to true if file is uploaded successfully, else returns false.
+ * @returns {Promise<object>} Contains success, message, and fileName properties.
  */
 export async function uploadImageToFirebase(file, uid, storageReference) {
   const acceptedStorageRefs = ["posts", "profile"];
