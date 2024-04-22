@@ -6,9 +6,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
  * @param {Object} postContent array of user's reflection composed of widgets and their text values.
  * @param {Array} imageReferences array of image name references.
  */
-export async function uploadReflectionToFirestore(
-  postContent,
-) {
+export async function uploadReflectionToFirestore(postContent) {
   const data = {
     postContent,
     createdAt: serverTimestamp(),
@@ -17,7 +15,7 @@ export async function uploadReflectionToFirestore(
 
   try {
     await addDoc(collection(db, "posts"), data);
-    console.log("worked");
+    // console.log("worked");
     return true;
   } catch (error) {
     console.log(error);

@@ -15,6 +15,7 @@ import { activateAppError } from "../../entities/app-error/app-error-slice.js";
 import { checkMaxContentCount } from "../../features/reflections/checkMaxContentCount.js";
 import { uploadImageToFirebase } from "../../features/user-general/uploadImageToFirebase.js";
 import { uploadReflectionToFirestore } from "../../features/reflections/uploadReflectionToFirestore.js";
+import { requestWithRetry } from "../../shared/util/requestWithRetry.js";
 
 const maxContentCount = {
   images: 3,
@@ -188,16 +189,18 @@ export default function CreateReflectionPage() {
       } else return false;
     });
 
-    const imagesPromises = validUserContent
+    const imagePromises = validUserContent
       .filter((widget) => widget.file)
       .map((widget) => {
         return uploadImageToFirebase(widget.file, uid, "posts");
       });
 
     const imageNames = [];
-    if (imagesPromises.length) {
+    if (imagePromises.length) {
       try {
-        const uploadObject = await Promise.all(imagesPromises);
+        // const uploadObject = await Promise.all(imagesPromises);
+        const uploadObject = await requestWithRetry(imagePromises);
+        console.log("Upload Object:", uploadObject);
         uploadObject.forEach((item) => imageNames.push(item.fileName));
       } catch (error) {
         dispatch(
@@ -226,7 +229,8 @@ export default function CreateReflectionPage() {
     });
 
     try {
-      uploadReflectionToFirestore(userContentToUpload);
+      const promise = uploadReflectionToFirestore(userContentToUpload);
+      await requestWithRetry(promise);
     } catch (error) {
       dispatch(
         activateAppError({
