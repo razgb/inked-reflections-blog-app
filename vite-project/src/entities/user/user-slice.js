@@ -9,10 +9,6 @@ const initialState = {
     emailVerified: false,
     photoURL: "",
   },
-  // extraInfo: {
-  //   username: '',
-  //
-  // },
   bookmarks: [],
   posts: [],
 };

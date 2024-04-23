@@ -7,6 +7,7 @@ export function validateTextWidget(text) {
   const noWhiteSpaceText = text.split(" ").join("");
   if (!noWhiteSpaceText.length) return false; // empty text
 
-  const regex = /^[a-zA-Z0-9$#!]+$/;
+  // const regex = /^[a-zA-Z0-9$#!]+$/;
+  const regex = /^[\w\s$#!?'";:,.\-+*/()[\]{}]+$/;
   return regex.test(noWhiteSpaceText);
 }

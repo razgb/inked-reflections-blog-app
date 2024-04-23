@@ -11,7 +11,8 @@ import {
 let lastVisibleDoc = null;
 let fetchCount = 0;
 export async function fetchPosts() {
-  const postsRef = collection(db, "posts");
+  // const postsRef = collection(db, "posts");
+  const postsRef = collection(db, "posts-new");
   let q;
 
   if (lastVisibleDoc) {

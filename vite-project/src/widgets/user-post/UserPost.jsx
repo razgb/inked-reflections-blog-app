@@ -6,40 +6,40 @@ import { useDispatch } from "react-redux";
 import { formatDate } from "../../shared/util/formatDate";
 import useImageURL from "../../shared/hooks/useImageURL";
 
-// Temp
-import profileImage from "../../../public/default-profile.jpeg";
-import coverImage from "../../../public/post-image.jpg";
 import Spinner from "../../shared/ui/spinner/Spinner";
-//
+import { fetchImages } from "../../shared/util/fetchImages";
+import { useEffect } from "react";
 
 export default function UserPost({
-  firstName,
-  lastName,
-  title,
-  datePublished,
-  paragraphs,
   id,
-  tags,
-  email,
-  photoURL,
+  displayName,
+  createdAt,
+  postContent,
+  profilePhotoURL: profilePhotoReference,
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // Add a filler image before the actual one loads later.
-  const { imageURL: postImageURL, loading } = useImageURL("posts", photoURL);
+
+  const { imageURL: profileImageURL, loading: profileLoading } = useImageURL(
+    "profile",
+    profilePhotoReference
+  );
+  const coverPhotoReference = postContent[0].firebaseStorageReference;
+  const { imageURL: coverImageURL, loading: coverLoading } = useImageURL(
+    "posts",
+    coverPhotoReference
+  );
 
   function handlePostClick(event) {
     if (event.target.tagName === "A") return;
     dispatch(
       changeCurrentPost({
-        firstName,
-        lastName,
-        title,
-        datePublished,
-        paragraphs,
         id,
-        tags,
-        photoURL,
+        displayName,
+        createdAt,
+        postContent,
+        profileImageURL,
+        coverPhotoReference,
       })
     );
     navigate(`/posts/${id}`);
@@ -53,30 +53,38 @@ export default function UserPost({
       return p.split("").splice(0, 180).join("") + "...";
     }
   }
+
+  const title = postContent[1].value;
+  const abstractParagraph = postContent[2].value;
+
   return (
     <div onClick={handlePostClick} className={styles["user-post"]}>
       <div className={styles["post__container"]}>
         <div className={styles["post__row--1"]}>
           <Link to="123">
-            <img
-              className={styles["post__author-img"]}
-              src={profileImage}
-              alt="Profile pic of author"
-            />
+            {profileLoading ? (
+              <Spinner size="small" />
+            ) : (
+              <img
+                className={styles["post__author-img"]}
+                src={profileImageURL}
+                alt="Profile pic of author"
+              />
+            )}
           </Link>
 
           <h3 className={styles["post__author-name"]}>
             {/* Change to author's page. */}
             <Link to="/" className={styles["post__author-link"]}>
-              {firstName} {lastName}
+              {displayName}
             </Link>
           </h3>
 
           <span className={styles["post__author-date"]}>
-            {formatDate(datePublished)}
+            {formatDate(createdAt)}
           </span>
 
-          <span className={styles["bot"]}>{email ? null : "BOT"}</span>
+          {/* <span className={styles["bot"]}>{email ? null : "BOT"}</span> */}
         </div>
 
         <div className={styles["post__row--2"]}>
@@ -84,17 +92,17 @@ export default function UserPost({
             <div className={styles["post__link-half--1"]}>
               <h3 className={styles["post__title"]}>{title}</h3>
               <p className={styles["post__abstract"]}>
-                {formatAbstractParagraph(paragraphs[0])}
+                {formatAbstractParagraph(abstractParagraph)}
               </p>
             </div>
 
             <div className={styles["post__link-half--2"]}>
-              {loading ? (
+              {coverLoading ? (
                 <Spinner size="small" />
               ) : (
                 <img
                   className={styles["post__img"]}
-                  src={postImageURL || coverImage}
+                  src={coverImageURL}
                   alt="Post thumbnail"
                 />
               )}
@@ -123,65 +131,12 @@ export default function UserPost({
   );
 }
 
-// DUMMY DATA SAVE
 /*
-    <div onClick={handlePostClick} className={styles["user-post"]}>
-      <div className={styles["post__container"]}>
-        <div className={styles["post__row--1"]}>
-          <Link to="123">
-            <img
-              className={styles["post__author-img"]}
-              src={profileImage}
-              alt="Profile pic of author"
-            />
-          </Link>
-
-          <h3 className={styles["post__author-name"]}>
-            <Link to="/" className={styles["post__author-link"]}>
-              Dilan Farman
-            </Link>
-          </h3>
-
-          <span className={styles["post__author-date"]}>22/02/2024</span>
-        </div>
-
-        <div className={styles["post__row--2"]}>
-          <div className={styles["post__link"]}>
-            <div className={styles["post__link-half--1"]}>
-              <h3 className={styles["post__title"]}>Lorem ipsum dolor</h3>
-              <p className={styles["post__abstract"]}>
-                The DRY principle, which stands for &quot;Don&apos;t Repeat
-                Yourself,&quot; is a cornerstone of efficient software
-                development. It advocates for eliminating redundancy in your
-                codebase...
-              </p>
-            </div>
-
-            <div className={styles["post__link-half--2"]}>
-              <img
-                className={styles["post__img"]}
-                src={coverImage}
-                alt="Post thumbnail"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className={styles["post__row--3"]}>
-          <span className={styles["post__minutes"]}>7 min read</span>
-
-          <button className={styles["post__action-button"]}>
-            <span className={styles["post__icon-holder"]}>
-              <BookmarksIcon size={16} />
-            </span>
-          </button>
-
-          <button className={styles["post__action-button"]}>
-            <span className={styles["post__icon-holder"]}>
-              <ActionDotsIcon size={16} />
-            </span>
-          </button>
-        </div>
-      </div>
-    </div>
+  // console.log({
+  //   id,
+  //   displayName,
+  //   createdAt,
+  //   postContent,
+  //   profilePhotoURL,
+  // });
 */

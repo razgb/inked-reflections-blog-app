@@ -31,7 +31,11 @@ const componentMap = {
 };
 
 export default function CreateReflectionPage() {
-  const uid = useSelector((state) => state.user.info.uid);
+  const {
+    uid,
+    displayName,
+    photoURL: profilePhotoURL,
+  } = useSelector((state) => state.user.info);
   const dispatch = useDispatch();
   const [contentCount, setContentCount] = useState({
     images: 1,
@@ -229,7 +233,12 @@ export default function CreateReflectionPage() {
     });
 
     try {
-      const promise = uploadReflectionToFirestore(userContentToUpload);
+      const promise = uploadReflectionToFirestore({
+        postContent: userContentToUpload,
+        displayName,
+        uid,
+        profilePhotoURL,
+      });
       await requestWithRetry(promise);
     } catch (error) {
       dispatch(

@@ -1,21 +1,25 @@
 import { db } from "../../main";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
 /**
  * Creates a new post document in firestore with the user's reflection.
  * @param {Object} postContent array of user's reflection composed of widgets and their text values.
+ * @param {displayName} displayName
+ * @param {authorId} authorId
  * @param {Array} imageReferences array of image name references.
  */
-export async function uploadReflectionToFirestore(postContent) {
-  const data = {
-    postContent,
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
+export async function uploadReflectionToFirestore(data) {
+  const createdAt = new Date().getTime();
+
+  const post = {
+    ...data,
+    createdAt,
+    updatedAt: null,
   };
 
   try {
-    await addDoc(collection(db, "posts"), data);
-    // console.log("worked");
+    await addDoc(collection(db, "posts-new"), post);
+    console.log("Sent post to firestore.");
     return true;
   } catch (error) {
     console.log(error);
