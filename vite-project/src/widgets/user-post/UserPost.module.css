@@ -83,7 +83,7 @@
   gap: var(--space-md);
 }
 .post__minutes {
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   color: var(--color-primary-800);
 }
 .post__action-button {

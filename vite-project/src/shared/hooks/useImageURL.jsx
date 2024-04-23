@@ -9,7 +9,7 @@ import { assetsRef, profileRef, postsRef } from "../../main";
  * @returns {object} public path to image and loading state
  */
 const useImageURL = function (folderName, path) {
-  const [imageURL, setimageURL] = useState(null);
+  const [imageURL, setImageURL] = useState(null);
   const [loading, setLoading] = useState(false);
   let folderRef = null;
   switch (folderName) {
@@ -29,16 +29,21 @@ const useImageURL = function (folderName, path) {
   useEffect(() => {
     if (!folderRef) return; // guard
     setLoading(true);
-    async function getimageURL() {
+    async function getImageURL() {
       try {
+        if (path === null) {
+          setImageURL(null);
+          setLoading(false);
+          return;
+        }
         const url = await getDownloadURL(ref(folderRef, path));
-        setimageURL(url);
+        setImageURL(url);
       } catch (error) {
         console.log(error);
       }
       setLoading(false);
     }
-    getimageURL();
+    getImageURL();
   }, [folderRef, folderName, path]);
 
   return { imageURL, loading };

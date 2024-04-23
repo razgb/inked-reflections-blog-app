@@ -65,21 +65,10 @@ export default function UserPostContainer() {
         displayName={post.displayName}
         createdAt={post.createdAt}
         postContent={post.postContent}
-        profilePhotoURL={post.profilePhotoURL}
+        profilePhotoReference={post.profilePhotoReference}
       />
     ));
   }, [postsFeed]);
-
-  // const outputFeed = postsFeed.map((post) => (
-  //   <UserPost
-  //     key={post.id}
-  //     id={post.id}
-  //     displayName={post.displayName}
-  //     createdAt={post.createdAt}
-  //     postContent={post.postContent}
-  //     profilePhotoURL={post.profilePhotoURL}
-  //   />
-  // ));
 
   // Always at the end of the array even when new batches of posts come too
   // if (outputFeed.length > 0) {

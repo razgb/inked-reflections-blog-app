@@ -34,7 +34,7 @@ export default function CreateReflectionPage() {
   const {
     uid,
     displayName,
-    photoURL: profilePhotoURL,
+    photoURL: profilePhotoReference,
   } = useSelector((state) => state.user.info);
   const dispatch = useDispatch();
   const [contentCount, setContentCount] = useState({
@@ -220,7 +220,6 @@ export default function CreateReflectionPage() {
     let nameIndex = 0;
     const userContentToUpload = validUserContent.map((widget) => {
       if (widget.component !== "image") return widget;
-
       const { component, title, id } = widget;
       const imageName = imageNames[nameIndex];
       nameIndex++;
@@ -232,12 +231,24 @@ export default function CreateReflectionPage() {
       };
     });
 
+    // EDGE CASE SCENARIO WITH NO COVER-IMAGE.
+    if (!imageNames.length) {
+      // Adding cover-image back as null. (useful for UserPost & expanded components)
+      userContentToUpload.unshift({
+        id: "cover-image",
+        component: "image",
+        title: "cover-image",
+        firebaseStorageReference: null,
+      });
+      console.log(userContentToUpload);
+    }
+
     try {
       const promise = uploadReflectionToFirestore({
         postContent: userContentToUpload,
         displayName,
         uid,
-        profilePhotoURL,
+        profilePhotoReference,
       });
       await requestWithRetry(promise);
     } catch (error) {

@@ -5,29 +5,27 @@ import { changeCurrentPost } from "../../entities/posts/posts-slice";
 import { useDispatch } from "react-redux";
 import { formatDate } from "../../shared/util/formatDate";
 import useImageURL from "../../shared/hooks/useImageURL";
-
 import Spinner from "../../shared/ui/spinner/Spinner";
-import { fetchImages } from "../../shared/util/fetchImages";
-import { useEffect } from "react";
 
 export default function UserPost({
   id,
   displayName,
   createdAt,
   postContent,
-  profilePhotoURL: profilePhotoReference,
+  profilePhotoReference,
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { imageURL: profileImageURL, loading: profileLoading } = useImageURL(
-    "profile",
-    profilePhotoReference
-  );
   const coverPhotoReference = postContent[0].firebaseStorageReference;
   const { imageURL: coverImageURL, loading: coverLoading } = useImageURL(
     "posts",
     coverPhotoReference
+  );
+
+  const { imageURL: profilePhotoURL, loading: profileLoading } = useImageURL(
+    profilePhotoReference ? "profile" : "assets",
+    profilePhotoReference || "posts/default-profile.jpeg"
   );
 
   function handlePostClick(event) {
@@ -38,19 +36,26 @@ export default function UserPost({
         displayName,
         createdAt,
         postContent,
-        profileImageURL,
+        profilePhotoURL,
         coverPhotoReference,
       })
     );
     navigate(`/posts/${id}`);
   }
 
-  // Needs fine tuning.
-  function formatAbstractParagraph(p) {
-    const length = p.split("").length;
-    if (length <= 240) return p;
+  /**
+   * Formats the first paragraph of the post as an abstract by showing the first 30 words with an ending trail of '...'
+   * @param {string} paragraph
+   * @returns {string} formated paragraph
+   */
+  function formatAbstractParagraph(paragraph) {
+    const length = paragraph.split("").length;
+    if (length <= 180) return paragraph + "...";
     else {
-      return p.split("").splice(0, 180).join("") + "...";
+      const abstractArray = paragraph.split(" ").splice(0, 30);
+      const lastWord = abstractArray.pop().trim();
+      abstractArray.push(lastWord);
+      return abstractArray.join(" ") + "...";
     }
   }
 
@@ -67,14 +72,14 @@ export default function UserPost({
             ) : (
               <img
                 className={styles["post__author-img"]}
-                src={profileImageURL}
+                src={profilePhotoURL}
                 alt="Profile pic of author"
               />
             )}
           </Link>
 
           <h3 className={styles["post__author-name"]}>
-            {/* Change to author's page. */}
+            {/* Link to author's page. */}
             <Link to="/" className={styles["post__author-link"]}>
               {displayName}
             </Link>
@@ -96,17 +101,19 @@ export default function UserPost({
               </p>
             </div>
 
-            <div className={styles["post__link-half--2"]}>
-              {coverLoading ? (
-                <Spinner size="small" />
-              ) : (
-                <img
-                  className={styles["post__img"]}
-                  src={coverImageURL}
-                  alt="Post thumbnail"
-                />
-              )}
-            </div>
+            {coverPhotoReference ? (
+              <div className={styles["post__link-half--2"]}>
+                {coverLoading ? (
+                  <Spinner size="small" />
+                ) : (
+                  <img
+                    className={styles["post__img"]}
+                    src={coverImageURL}
+                    alt="Post thumbnail"
+                  />
+                )}
+              </div>
+            ) : undefined}
           </div>
         </div>
 
@@ -116,13 +123,13 @@ export default function UserPost({
 
           <button className={styles["post__action-button"]}>
             <span className={styles["post__icon-holder"]}>
-              <BookmarksIcon size={16} />
+              <BookmarksIcon size={20} />
             </span>
           </button>
 
           <button className={styles["post__action-button"]}>
             <span className={styles["post__icon-holder"]}>
-              <ActionDotsIcon size={16} />
+              <ActionDotsIcon size={20} />
             </span>
           </button>
         </div>
@@ -130,13 +137,3 @@ export default function UserPost({
     </div>
   );
 }
-
-/*
-  // console.log({
-  //   id,
-  //   displayName,
-  //   createdAt,
-  //   postContent,
-  //   profilePhotoURL,
-  // });
-*/
