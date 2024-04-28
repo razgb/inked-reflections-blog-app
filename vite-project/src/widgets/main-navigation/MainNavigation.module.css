@@ -20,39 +20,14 @@
   font-size: 1em;
   gap: var(--space-sm);
 }
-/* .bell-button,
-.write-button {
-  background-color: transparent;
-  cursor: pointer;
-  padding: var(--space-md);
-  transition: all 0.1s ease-in;
-  border-radius: var(--space-sm);
-}
-.write-button:hover,
-.bell-button:hover {
-  background-color: var(--color-primary-400);
-} */
-
-.bell-button {
-  background-color: transparent;
-  cursor: pointer;
-  padding: var(--space-md);
-  transition: all 0.1s ease-in;
-  border-radius: var(--space-sm);
-}
-.bell-button:hover {
-  background-color: var(--color-primary-400);
-}
-
-.main-nav-profile {
-  display: flex;
-  justify-content: center;
-}
-.main-nav-profile__image {
+.profile-image-container {
+  position: relative;
   width: 4rem;
-  height: 4rem;
-  border-radius: 100%;
+  padding-bottom: 4rem;
+  /* border-radius: 100%; */
+  /* overflow: hidden; */
 }
+
 .main-nav-profile__button {
   background-color: transparent;
   cursor: pointer;

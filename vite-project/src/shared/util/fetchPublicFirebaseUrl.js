@@ -7,7 +7,7 @@ import { requestWithRetry } from "./requestWithRetry";
  * @param {string|array} referenceInput firebase storage file name.
  * @param {string} folderPath firebase storage folder.
  */
-export async function fetchImages(referenceInput, folderPath) {
+export async function fetchPublicFirebaseUrl(referenceInput, folderPath) {
   if (!folderPath || !referenceInput)
     throw new Error(
       "Please use a string or an array for the referenceInput and a string for the folderPath"

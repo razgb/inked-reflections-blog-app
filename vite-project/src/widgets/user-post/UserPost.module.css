@@ -20,11 +20,15 @@
 
   margin-bottom: var(--space-lg);
 }
-.post__author-img {
+.profile-photo__container {
+  position: relative;
+  display: block;
   width: 3.2rem;
-  height: 3.2rem;
+  padding-bottom: 3.2rem;
+  overflow: hidden;
   border-radius: 100%;
 }
+
 .post__author-date {
   font-size: var(--text-sm);
   color: var(--color-primary-800);
@@ -70,11 +74,12 @@
 /* /////////// */
 /* half 2 */
 /* /////////// */
-.post__img {
-  /* object-fit: cover; */
+.post__img-container {
+  position: relative;
   width: 12.8rem;
-  height: 12.8rem;
+  padding-bottom: 12.8rem;
   border-radius: var(--space-md);
+  overflow: hidden;
 }
 
 .post__row--3 {

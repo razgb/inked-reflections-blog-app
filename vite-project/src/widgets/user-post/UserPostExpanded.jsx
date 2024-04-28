@@ -1,52 +1,52 @@
 import styles from "./UserPostExpanded.module.css";
-import postImage from "../../../public/post-image.jpg";
-import defaultProfile from "../../../public/default-profile.jpeg";
 import { useSelector } from "react-redux";
 import { formatDate } from "../../shared/util/formatDate";
 import Button from "../../shared/ui/buttons/Button";
-import useImageURL from "../../shared/hooks/useImageURL";
 import Spinner from "../../shared/ui/spinner/Spinner";
+import { useState } from "react";
 
 export default function UserPostExpanded() {
-  const currentPost = useSelector((state) => state.posts.currentPost);
-  const { imageURL: coverPostURL, loading } = useImageURL(
-    "posts",
-    `${currentPost.photoURL}`
-  );
+  const {
+    id,
+    displayName,
+    createdAt,
+    postContent,
+    profilePhotoURL,
+    coverPhotoURL,
+  } = useSelector((state) => state.posts.currentPost);
+
+  const title = postContent[1].value;
+  const [content, setContent] = useState(null);
 
   return (
     <article className={styles["post"]}>
       <div className={styles["post__container"]}>
         <div className={styles["cover-image-container"]}>
-          {loading ? (
-            <Spinner />
-          ) : (
-            <img
-              className={styles["cover-image"]}
-              src={coverPostURL}
-              alt="Image representing user post title..."
-            />
-          )}
+          <img
+            className={styles["cover-image"]}
+            src={coverPhotoURL}
+            alt="Image representing user post title..."
+          />
         </div>
 
         <header className={styles["post__header"]}>
-          <h1 className={styles["post__title"]}>{currentPost.title}</h1>
+          <h1 className={styles["post__title"]}>{title}</h1>
 
-          <div className={styles["author__tags"]}>
+          {/* <div className={styles["author__tags"]}>
             {currentPost.tags &&
               currentPost.tags.map((tag, index) => (
                 <span key={index} className={styles["author__tag"]}>
                   {tag}
                 </span>
               ))}
-          </div>
+          </div> */}
         </header>
 
         <div className={styles["author"]}>
           <div className={styles["author__container"]}>
             <div className={styles["author__image-container"]}>
               <img
-                src={defaultProfile}
+                src={profilePhotoURL}
                 alt="Default profile img"
                 className={styles["author__image"]}
               />
@@ -54,7 +54,7 @@ export default function UserPostExpanded() {
             <div className={styles["author__details"]}>
               <div className={styles["author__actions"]}>
                 <a href="#" className={styles["author__link"]}>
-                  {currentPost.firstName} {currentPost.lastName}
+                  {displayName}
                 </a>
                 {/* <button className={styles["author__follow"]}>Follow</button> */}
                 <Button>Follow</Button>
@@ -62,18 +62,19 @@ export default function UserPostExpanded() {
             </div>
             <span className={styles["post__minutes"]}>7-min read</span>
             <span className={styles["date-published"]}>
-              {formatDate(currentPost.datePublished)}
+              {formatDate(createdAt)}
             </span>
           </div>
         </div>
 
         <div className={styles["details"]}>
           <div className={styles["details__container"]}>
-            {currentPost.paragraphs.map((p, index) => (
-              <p key={index} className={styles["details__paragraph"]}>
+            {/* {currentPost.paragraphs.map((p, index) => (
+              <p key={index} className={styles["details__text"]}>
                 {p}
               </p>
-            ))}
+            ))} */}
+            {content}
           </div>
         </div>
 

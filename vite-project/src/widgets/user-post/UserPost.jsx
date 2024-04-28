@@ -6,6 +6,23 @@ import { useDispatch } from "react-redux";
 import { formatDate } from "../../shared/util/formatDate";
 import useImageURL from "../../shared/hooks/useImageURL";
 import Spinner from "../../shared/ui/spinner/Spinner";
+import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage";
+
+/**
+ * Formats the first paragraph of the post as an abstract by showing the first 30 words with an ending trail of '...'
+ * @param {string} paragraph
+ * @returns {string} formated paragraph
+ */
+function formatAbstractParagraph(paragraph) {
+  const length = paragraph.split("").length;
+  if (length <= 180) return paragraph + "...";
+  else {
+    const abstractArray = paragraph.split(" ").splice(0, 30);
+    const lastWord = abstractArray.pop().trim();
+    abstractArray.push(lastWord);
+    return abstractArray.join(" ") + "...";
+  }
+}
 
 export default function UserPost({
   id,
@@ -16,17 +33,7 @@ export default function UserPost({
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const coverPhotoReference = postContent[0].firebaseStorageReference;
-  const { imageURL: coverImageURL, loading: coverLoading } = useImageURL(
-    "posts",
-    coverPhotoReference
-  );
-
-  const { imageURL: profilePhotoURL, loading: profileLoading } = useImageURL(
-    profilePhotoReference ? "profile" : "assets",
-    profilePhotoReference || "posts/default-profile.jpeg"
-  );
 
   function handlePostClick(event) {
     if (event.target.tagName === "A") return;
@@ -36,27 +43,9 @@ export default function UserPost({
         displayName,
         createdAt,
         postContent,
-        profilePhotoURL,
-        coverPhotoReference,
       })
     );
     navigate(`/posts/${id}`);
-  }
-
-  /**
-   * Formats the first paragraph of the post as an abstract by showing the first 30 words with an ending trail of '...'
-   * @param {string} paragraph
-   * @returns {string} formated paragraph
-   */
-  function formatAbstractParagraph(paragraph) {
-    const length = paragraph.split("").length;
-    if (length <= 180) return paragraph + "...";
-    else {
-      const abstractArray = paragraph.split(" ").splice(0, 30);
-      const lastWord = abstractArray.pop().trim();
-      abstractArray.push(lastWord);
-      return abstractArray.join(" ") + "...";
-    }
   }
 
   const title = postContent[1].value;
@@ -66,16 +55,12 @@ export default function UserPost({
     <div onClick={handlePostClick} className={styles["user-post"]}>
       <div className={styles["post__container"]}>
         <div className={styles["post__row--1"]}>
-          <Link to="123">
-            {profileLoading ? (
-              <Spinner size="small" />
-            ) : (
-              <img
-                className={styles["post__author-img"]}
-                src={profilePhotoURL}
-                alt="Profile pic of author"
-              />
-            )}
+          <Link to="123" className={styles["profile-photo__container"]}>
+            <LazyLoadedImage
+              reference={profilePhotoReference}
+              alt={`${displayName}'s profile photo.`}
+              firebaseFolder="profile"
+            />
           </Link>
 
           <h3 className={styles["post__author-name"]}>
@@ -103,15 +88,14 @@ export default function UserPost({
 
             {coverPhotoReference ? (
               <div className={styles["post__link-half--2"]}>
-                {coverLoading ? (
-                  <Spinner size="small" />
-                ) : (
-                  <img
-                    className={styles["post__img"]}
-                    src={coverImageURL}
-                    alt="Post thumbnail"
+                <div className={styles["post__img-container"]}>
+                  <LazyLoadedImage
+                    reference={coverPhotoReference}
+                    altText={`Post cover photo for title: ${title}`}
+                    firebaseFolder="posts"
+                    spinnerSize="large"
                   />
-                )}
+                </div>
               </div>
             ) : undefined}
           </div>
@@ -123,13 +107,13 @@ export default function UserPost({
 
           <button className={styles["post__action-button"]}>
             <span className={styles["post__icon-holder"]}>
-              <BookmarksIcon size={20} />
+              <BookmarksIcon size={18} />
             </span>
           </button>
 
           <button className={styles["post__action-button"]}>
             <span className={styles["post__icon-holder"]}>
-              <ActionDotsIcon size={20} />
+              <ActionDotsIcon size={18} />
             </span>
           </button>
         </div>
@@ -137,3 +121,15 @@ export default function UserPost({
     </div>
   );
 }
+/*
+
+            {profileLoading ? (
+              <Spinner size="small" />
+            ) : (
+              <img
+                className={styles["post__author-img"]}
+                src={profilePhotoURL}
+                alt="Profile pic of author"
+              />
+            )}
+*/

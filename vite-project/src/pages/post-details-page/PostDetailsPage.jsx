@@ -3,7 +3,7 @@ import styles from "./PostDetailsPage.module.css";
 import PageLayoutTemplate from "../../shared/ui/page-layout-template/PageLayoutTemplate";
 import MainContent from "../../shared/ui/main-content/MainContent";
 import SidebarContent from "../../shared/ui/sidebar-content/SidebarContent";
-import UserPostExpanded from "../../widgets/post-details/UserPostExpanded";
+import UserPostExpanded from "../../widgets/user-post/UserPostExpanded";
 import ReflectionsPlusAdvert from "../../widgets/reflections-plus/ReflectionsPlusAdvert";
 import RecentlySavedPosts from "../../widgets/saved-post/RecentlySavedPosts";
 

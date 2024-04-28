@@ -1,15 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
-import postsSlice from "../entities/posts/posts-slice.js";
-import userSlice from "../entities/user/user-slice.js";
-import errorSlice from "../entities/app-error/app-error-slice.js";
-import locationSlice from "../entities/url-location/location-slice.js";
+import postsReducer from "../entities/posts/posts-slice.js";
+import userReducer from "../entities/user/user-slice.js";
+import errorReducer from "../entities/app-error/app-error-slice.js";
+import locationReducer from "../entities/url-location/location-slice.js";
+import imageCacheReducer from "../entities/image-cache/image-cache-slice.js";
 
 const store = configureStore({
   reducer: {
-    location: locationSlice.reducer,
-    posts: postsSlice.reducer,
-    user: userSlice.reducer,
-    error: errorSlice.reducer,
+    location: locationReducer,
+    posts: postsReducer,
+    user: userReducer,
+    error: errorReducer,
+    imageCache: imageCacheReducer,
   },
 });
 export default store;

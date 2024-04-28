@@ -7,7 +7,6 @@ import {
   startAfter,
   orderBy,
 } from "firebase/firestore";
-import { fetchImages } from "../../shared/util/fetchImages";
 
 let lastVisibleDoc = null;
 let fetchCount = 0;

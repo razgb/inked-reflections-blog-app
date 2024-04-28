@@ -42,14 +42,14 @@
   --color-primary-800: #211808;
   --color-primary-900: #100c04;
 
-  --color-primary-200: #0c121e;
+  /* --color-primary-200: #0c121e;
   --color-primary-300: #121a26;
   --color-primary-400: #181f2c;
   --color-primary-500: #22293d;
   --color-primary-600: #2a364c;
   --color-primary-700: #828fa5;
   --color-primary-800: #9daec0;
-  --color-primary-900: #c1ceda;
+  --color-primary-900: #c1ceda; */
 
   --color-blue-300: #e2eaf7;
   --color-blue-500: #a5c2f4;
@@ -147,6 +147,25 @@ button {
 body {
   background-color: var(--color-primary-200);
   font-family: var(--ff-sans);
+}
+
+.lazy-loaded-image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.lazy-loaded-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.lazy-loaded-spinner-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .button {

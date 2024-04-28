@@ -25,5 +25,5 @@ const errorSlice = createSlice({
   },
 });
 
-export default errorSlice;
 export const { activateAppError, resetAppError } = errorSlice.actions;
+export default errorSlice.reducer;

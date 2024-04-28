@@ -38,7 +38,7 @@ const postsSlice = createSlice({
 
 export const { updatePostsFeed, changeUpdateState, changeCurrentPost } =
   postsSlice.actions;
-export default postsSlice;
+export default postsSlice.reducer;
 
 /*
 if (state.postsFeed.length > 0) {

@@ -14,4 +14,4 @@ const locationSlice = createSlice({
 });
 
 export const { changeLocationState } = locationSlice.actions;
-export default locationSlice;
+export default locationSlice.reducer;

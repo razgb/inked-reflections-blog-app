@@ -32,7 +32,7 @@ const userSlice = createSlice({
 });
 
 export const { addUserToState, removeUserFromState } = userSlice.actions;
-export default userSlice;
+export default userSlice.reducer;
 
 /**
  * Notes :

@@ -92,7 +92,8 @@
   font-weight: 500;
 }
 
-.details__paragraph {
+/* Paragraph and quotes */
+.details__text {
   font-size: var(--tertiary-heading);
   line-height: 2;
   font-family: var(--ff-serif);
