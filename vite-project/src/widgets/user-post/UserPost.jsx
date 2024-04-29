@@ -4,8 +4,6 @@ import { ActionDotsIcon, BookmarksIcon } from "../../shared/ui/svg/PostSvg";
 import { changeCurrentPost } from "../../entities/posts/posts-slice";
 import { useDispatch } from "react-redux";
 import { formatDate } from "../../shared/util/formatDate";
-import useImageURL from "../../shared/hooks/useImageURL";
-import Spinner from "../../shared/ui/spinner/Spinner";
 import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage";
 
 /**
@@ -43,6 +41,7 @@ export default function UserPost({
         displayName,
         createdAt,
         postContent,
+        profilePhotoReference,
       })
     );
     navigate(`/posts/${id}`);
@@ -86,7 +85,7 @@ export default function UserPost({
               </p>
             </div>
 
-            {coverPhotoReference ? (
+            {coverPhotoReference && (
               <div className={styles["post__link-half--2"]}>
                 <div className={styles["post__img-container"]}>
                   <LazyLoadedImage
@@ -97,12 +96,11 @@ export default function UserPost({
                   />
                 </div>
               </div>
-            ) : undefined}
+            )}
           </div>
         </div>
 
         <div className={styles["post__row--3"]}>
-          {/* Thinking of using useMemo for minutes calculation function in the future. */}
           <span className={styles["post__minutes"]}>7 min read</span>
 
           <button className={styles["post__action-button"]}>
@@ -111,11 +109,11 @@ export default function UserPost({
             </span>
           </button>
 
-          <button className={styles["post__action-button"]}>
+          {/* <button className={styles["post__action-button"]}>
             <span className={styles["post__icon-holder"]}>
               <ActionDotsIcon size={18} />
             </span>
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

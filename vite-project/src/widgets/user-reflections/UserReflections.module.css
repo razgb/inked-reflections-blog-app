@@ -31,7 +31,7 @@
   align-items: center;
   gap: var(--space-sm);
   background-color: transparent;
-  /* background-color: var(--color-primary-400); */
+  background-color: var(--color-primary-300);
   cursor: pointer;
   padding: var(--space-md);
   border-radius: var(--space-sm);

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFirebaseImageSrc } from "../../shared/util/fetchFirebaseImageSrc";
 import { addImageToCache } from "../../entities/image-cache/image-cache-slice";
@@ -41,7 +41,8 @@ export default function LazyLoadedImage({
         });
       },
       {
-        threshold: 0.1,
+        rootMargin: "1400px",
+        threshold: 0,
       }
     );
 
@@ -56,6 +57,11 @@ export default function LazyLoadedImage({
       }
     };
   });
+
+  // Case where there is an error from firebase that went past image validation upon uploading a post.
+  if (!reference) {
+    return null;
+  }
 
   return (
     <div className="lazy-loaded-image-container" ref={imageRef}>

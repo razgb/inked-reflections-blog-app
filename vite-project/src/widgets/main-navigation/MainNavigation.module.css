@@ -10,8 +10,12 @@
   position: relative;
 }
 
+/* Needs serious rethinking. */
 .main-nav__logo {
-  width: 40%;
+  cursor: pointer;
+  position: relative;
+  min-width: 20rem;
+  padding-bottom: 5rem;
 }
 
 .main-nav-actions {
@@ -24,8 +28,8 @@
   position: relative;
   width: 4rem;
   padding-bottom: 4rem;
-  /* border-radius: 100%; */
-  /* overflow: hidden; */
+  border-radius: 100%;
+  overflow: hidden;
 }
 
 .main-nav-profile__button {

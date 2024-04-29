@@ -1,52 +1,46 @@
 import styles from "./MainNavigation.module.css";
-import defaultProfileImage from "../../../public/default-profile.jpeg";
-import { Link } from "react-router-dom";
-import WriteButton from "../../shared/ui/buttons/ReflectButton.jsx";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AppError from "../app-error/AppError";
 import { changeLocationState } from "../../entities/url-location/location-slice";
 import useImageURL from "../../shared/hooks/useImageURL";
-import Spinner from "../../shared/ui/spinner/Spinner";
 import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage.jsx";
+import ReflectButton from "../../shared/ui/buttons/ReflectButton.jsx";
 
 // const theme = "dark";
 const theme = "light";
 
 export default function MainNavigation() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const appErrorObj = useSelector((state) => state.error);
-  const {
-    email,
-    displayName,
-    photoURL: profilePhotoReference,
-  } = useSelector((state) => state.user.info);
-
-  const { imageURL: logoURL, loading } = useImageURL(
-    "assets",
-    `${theme}/logo_with_heading_horizontal.jpg`
+  const { photoURL: profilePhotoReference } = useSelector(
+    (state) => state.user.info
   );
+
   function handleLocationChange() {
     dispatch(changeLocationState("/posts"));
+    navigate("/posts");
   }
 
   return (
     <nav className={styles["main-nav"]}>
       <div className={styles["logo__container"]}>
-        {/* <Link to="/posts" onClick={handleLocationChange}>
-          {loading ? (
-            <Spinner />
-          ) : (
-            <img
-              className={styles["main-nav__logo"]}
-              src={logoURL}
-              alt="Application Logo & link to home page."
-            />
-          )}
-        </Link> */}
+        <div
+          onClick={handleLocationChange}
+          className={styles["main-nav__logo"]}
+        >
+          <LazyLoadedImage
+            reference={`${theme}/logo_with_heading_horizontal.jpg`}
+            firebaseFolder="assets"
+            altText="Application Logo & link to home page."
+            spinnerSize="medium"
+          />
+        </div>
       </div>
 
       <div className={styles["main-nav-actions"]}>
-        <WriteButton size={20} />
+        <ReflectButton size={20} />
 
         <button className={styles["main-nav-profile__button"]}>
           <div className={styles["profile-image-container"]}>

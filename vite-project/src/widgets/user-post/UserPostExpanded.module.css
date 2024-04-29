@@ -7,15 +7,16 @@
   flex-direction: column;
 }
 
-.cover-image-container {
-  align-self: center;
+.post-image-container {
   margin-bottom: var(--space-xl);
 }
-.cover-image {
-  aspect-ratio: 16/9;
+.post-image {
+  position: relative;
+  max-width: 71rem;
+  padding-bottom: 40rem;
   background-size: cover;
   border-radius: var(--space-md);
-  max-height: 40rem;
+  overflow: hidden;
 }
 
 .post__header {
@@ -35,9 +36,11 @@
   display: inline-block;
 }
 .author__image {
+  position: relative;
   width: 5rem;
-  aspect-ratio: 1/1;
+  padding-bottom: 5rem;
   border-radius: 100%;
+  overflow: hidden;
 }
 .author__details {
   margin-right: auto;
@@ -90,6 +93,9 @@
 .post__minutes {
   font-size: var(--text);
   font-weight: 500;
+  background-color: var(--color-primary-400);
+  padding: var(--space-xs);
+  border-radius: var(--space-sm);
 }
 
 /* Paragraph and quotes */
@@ -99,5 +105,17 @@
   font-family: var(--ff-serif);
   margin-bottom: var(--space-xl);
 }
-.details__br {
+.block-quote {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+  padding: var(--space-md);
+  border-radius: var(--space-md);
+
+  background-color: var(--color-primary-400);
+}
+.block-quote__content {
+  font-size: var(--text);
+  font-style: italic;
 }
