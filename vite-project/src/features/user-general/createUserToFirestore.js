@@ -19,6 +19,8 @@ export async function createUserToFirebase(userData) {
       displayName: userData.displayName,
       emailVerified: userData.emailVerified,
       photoURL: userData.photoURL || null,
+      posts: [],
+      bookmarks: [],
     });
     console.log("Success upload of user.");
     return {

@@ -10,12 +10,9 @@ import ReflectionParagraph from "../../widgets/create-reflection-widgets/Reflect
 import ReflectionBlockQuote from "../../widgets/create-reflection-widgets/ReflectionBlockQuote.jsx";
 import ReflectionImage from "../../widgets/create-reflection-widgets/ReflectionImage.jsx";
 
-import { validateTextWidget } from "../../features/reflections/validateTextWidget.js";
 import { activateAppError } from "../../entities/app-error/app-error-slice.js";
 import { checkMaxContentCount } from "../../features/reflections/checkMaxContentCount.js";
-import { uploadImageToFirebase } from "../../features/user-general/uploadImageToFirebase.js";
-import { uploadReflectionToFirestore } from "../../features/reflections/uploadReflectionToFirestore.js";
-import { requestWithRetry } from "../../shared/util/requestWithRetry.js";
+import { submitReflectionToFirestore } from "../../features/reflections/submitReflectionToFirestore.js";
 
 const maxContentCount = {
   images: 3,
@@ -74,8 +71,8 @@ export default function CreateReflectionPage() {
       contentCount[widgetProperty],
       maxContentCount[widgetProperty]
     );
+
     if (passed && title) {
-      // title existing means user is on last component allowed.
       dispatch(
         activateAppError({
           title,
@@ -141,6 +138,69 @@ export default function CreateReflectionPage() {
   }, []);
 
   async function handleSubmit(event) {
+    const { error, title, message } = await submitReflectionToFirestore(event, {
+      uid,
+      displayName,
+      profilePhotoReference,
+      userContent,
+    });
+
+    if (error) {
+      dispatch(
+        activateAppError({
+          title,
+          message,
+        })
+      );
+    } else {
+      // -> redirect to user reflections or posts feed.
+    }
+  }
+
+  const output = userContent.map((item) => {
+    const ReflectionComponent = componentMap[item.component];
+    if (!ReflectionComponent) return;
+
+    const component = item.component;
+    const props = {
+      id: item.id,
+      title: item.title,
+    };
+
+    if (component !== "title") props.deleteWidget = handleDeleteWidget;
+    if (component === "image") props.addFileToState = addFileToState;
+
+    return <ReflectionComponent key={item.id} {...props} />;
+  });
+
+  output.push(
+    <ReflectionsTools key="reflection-tools" addWidget={handleAddWidget} />
+  );
+
+  return (
+    <div>
+      <div className={styles["canvas"]}>
+        <form onSubmit={handleSubmit} className={styles["canvas__container"]}>
+          <div className={styles["heading__container"]}>
+            <h2 className={styles["heading"]}>Write a reflection</h2>
+            <div className={styles["preview-save-container"]}>
+              <Button type="button">Preview</Button>
+
+              {/* We need a drafts section in the user collection */}
+              {/* <Button type="button">Save</Button> */}
+
+              <Button>Save & Publish</Button>
+            </div>
+          </div>
+          {output}
+        </form>
+      </div>
+    </div>
+  );
+}
+
+/*
+  async function handleSubmit(event) {
     event.preventDefault();
     const formdata = new FormData(event.target);
     const userContentValueEntries = Array.from(formdata.entries());
@@ -151,12 +211,12 @@ export default function CreateReflectionPage() {
       if (!key.includes("image")) {
         allWidgetTexts.push(value);
       }
-    }); // note: we could literally create an array of arrays [key, value].
+    });
 
     // VALIDATE ARRAY OF TEXTS
     const allTextIsValid = allWidgetTexts.every((text) =>
       validateTextWidget(text)
-    ); // In case I want to show individual errors one day.
+    );
     if (!allTextIsValid) {
       dispatch(
         activateAppError({
@@ -165,7 +225,7 @@ export default function CreateReflectionPage() {
             "Allowed special characters: $, #, !, %, brackets, commas, single & double quotes, and semicolons.",
         })
       );
-      return; // stop submission upon error.
+      return;
     }
 
     // COMBINE USERCONTENT STATE WITH IT'S FORMDATA TEXT VALUES.
@@ -260,45 +320,4 @@ export default function CreateReflectionPage() {
       );
     }
   }
-
-  const output = userContent.map((item) => {
-    const ReflectionComponent = componentMap[item.component];
-    if (!ReflectionComponent) return;
-
-    const component = item.component;
-    const props = {
-      id: item.id,
-      title: item.title,
-    };
-
-    if (component !== "title") props.deleteWidget = handleDeleteWidget;
-    if (component === "image") props.addFileToState = addFileToState;
-
-    return <ReflectionComponent key={item.id} {...props} />;
-  });
-
-  output.push(
-    <ReflectionsTools key="reflection-tools" addWidget={handleAddWidget} />
-  );
-
-  return (
-    <div>
-      <div className={styles["canvas"]}>
-        <form onSubmit={handleSubmit} className={styles["canvas__container"]}>
-          <div className={styles["heading__container"]}>
-            <h2 className={styles["heading"]}>Write a reflection</h2>
-            <div className={styles["preview-save-container"]}>
-              <Button type="button">Preview</Button>
-
-              {/* We need a drafts section in the user collection */}
-              {/* <Button type="button">Save</Button> */}
-
-              <Button>Save & Publish</Button>
-            </div>
-          </div>
-          {output}
-        </form>
-      </div>
-    </div>
-  );
-}
+*/

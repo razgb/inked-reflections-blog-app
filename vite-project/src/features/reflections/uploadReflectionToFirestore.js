@@ -18,9 +18,9 @@ export async function uploadReflectionToFirestore(data) {
   };
 
   try {
-    await addDoc(collection(db, "posts-new"), post);
+    const id = await addDoc(collection(db, "posts-new"), post);
     console.log("Sent post to firestore.");
-    return true;
+    return id;
   } catch (error) {
     console.log(error);
     return false;
