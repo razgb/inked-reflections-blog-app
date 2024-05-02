@@ -2,7 +2,7 @@
  * Processes request and can retry 2 more times upon error.
  * @param {promise} promiseOrBatch - Single promise or array of promises.
  * @param {number} maxAttempts - Number of attemps allowed
- * @returns {promise} - asyncFn return object.
+ * @returns {promise} - Returns what the function passed in returns.
  */
 export async function requestWithRetry(promiseOrBatch, maxAttempts = 3) {
   let promise = null;

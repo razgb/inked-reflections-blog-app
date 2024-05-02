@@ -2,7 +2,6 @@ import { requestWithRetry } from "../../shared/util/requestWithRetry";
 import { validateTextWidget } from "./validateTextWidget";
 import { uploadImageToFirebase } from "../user-general/uploadImageToFirebase";
 import { uploadReflectionToFirestore } from "./uploadReflectionToFirestore";
-import { addPostIdToUser } from "./addPostIDToUser.js";
 
 /*
 There needs to be a fallback way of saving user reflections in local storage as a fallback. 
@@ -124,8 +123,7 @@ export async function submitReflectionToFirestore(
       uid,
       profilePhotoReference,
     });
-    const post = await requestWithRetry(promise); // auto-gen post id by firestore.
-    await addPostIdToUser(uid, post.id);
+    await requestWithRetry(promise); // auto-gen post id by firestore.
   } catch (error) {
     return {
       title: "Error uploading your reflection.",

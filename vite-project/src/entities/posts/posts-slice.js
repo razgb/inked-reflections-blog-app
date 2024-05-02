@@ -2,11 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // Basic structure of an user post
 // {
-//   createAt: 0,
-//   firstName: "",
-//   lastName: "",
-//   paragraphs: [],
-//   tags: [],
+//   createdAt: 0,
+//   updatedAt: 0,
+//   uid: 'string',
+//   profilePhotoReference: 'name_of_image.jpeg',
+//   displayName: 'Raz Neaiz',
+//   postContent: [{title, component, value, id}, {}],
 // };
 
 const postsSlice = createSlice({
@@ -36,7 +37,7 @@ const postsSlice = createSlice({
   },
 });
 
-export const { updatePostsFeed, changeUpdateState, changeCurrentPost } =
+export const { updatePostsFeed, changeCurrentPost } =
   postsSlice.actions;
 export default postsSlice.reducer;
 

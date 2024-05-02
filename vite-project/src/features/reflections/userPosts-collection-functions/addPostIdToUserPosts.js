@@ -1,11 +1,11 @@
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { db } from "../../main";
-import { requestWithRetry } from "../../shared/util/requestWithRetry";
+import { db } from "../../../main";
+import { requestWithRetry } from "../../../shared/util/requestWithRetry";
 
-export async function addPostIdToUser(uid, postId) {
+export async function addPostIdToUserPosts(uid, postId) {
   if (!uid || !postId) return;
 
-  const userRef = doc(db, "users", uid);
+  const userRef = doc(db, "userPosts", uid);
   const promise = updateDoc(userRef, {
     posts: arrayUnion(postId),
   });
@@ -14,12 +14,14 @@ export async function addPostIdToUser(uid, postId) {
     await requestWithRetry(promise);
     return {
       error: false,
+      title: null,
+      message: null,
     };
   } catch (error) {
     console.log(error);
     return {
       error: true,
-      title: "Could not update your post",
+      title: "Connection issues uploading your post.",
       message:
         "Please check your internet connection and try again in a couple minutes.",
     };

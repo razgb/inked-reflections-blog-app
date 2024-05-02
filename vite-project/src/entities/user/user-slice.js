@@ -9,8 +9,8 @@ const initialState = {
     emailVerified: false,
     photoURL: "",
   },
-  bookmarks: [],
   posts: [],
+  bookmarks: [],
 };
 
 const userSlice = createSlice({
@@ -18,20 +18,28 @@ const userSlice = createSlice({
   initialState: { ...initialState },
   reducers: {
     addUserToState(state, action) {
-      state.info = {
-        ...state.info,
-        ...action.payload,
-      };
+      state.info = action.payload;
     },
     removeUserFromState() {
       return {
         ...initialState,
       };
     },
+    addPostsToUserSlicePosts(state, action) {
+      state.posts = [...state.posts, action.payload];
+    },
+    addPostsToUserSliceBookmarks(state, action) {
+      state.bookmarks = [...state.bookmarks, action.payload];
+    },
   },
 });
 
-export const { addUserToState, removeUserFromState } = userSlice.actions;
+export const {
+  addUserToState,
+  removeUserFromState,
+  addPostsToUserSlicePosts,
+  addPostsToUserSliceBookmarks,
+} = userSlice.actions;
 export default userSlice.reducer;
 
 /**

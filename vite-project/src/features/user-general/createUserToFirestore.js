@@ -1,5 +1,7 @@
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../main";
+import { requestWithRetry } from "../../shared/util/requestWithRetry";
+import { initialiseUserPostsForNewUser } from "../reflections/userPosts-collection-functions/initialiseUserPostsForNewUser";
 
 /**
  * Receives user data copy and uploads to firestore database.
@@ -14,15 +16,17 @@ export async function createUserToFirebase(userData) {
   const userRef = doc(db, "users", userData.uid);
 
   try {
-    await setDoc(userRef, {
+    const promise = setDoc(userRef, {
       email: userData.email,
       displayName: userData.displayName,
       emailVerified: userData.emailVerified,
       photoURL: userData.photoURL || null,
-      posts: [],
-      bookmarks: [],
     });
+    await requestWithRetry(promise);
     console.log("Success upload of user.");
+    await initialiseUserPostsForNewUser(userData.uid);
+    console.log("Success intialise of posts doc userPosts collection.");
+
     return {
       success: true,
       message: "Success",

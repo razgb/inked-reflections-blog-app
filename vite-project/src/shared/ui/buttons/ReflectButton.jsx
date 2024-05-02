@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { changeLocationState } from "../../../entities/url-location/location-slice";
 
-export default function ReflectButton({ size }) {
+export default function ReflectButton({ size, children }) {
   const dispatch = useDispatch();
   function handleClick() {
     dispatch(changeLocationState("reflections"));
@@ -19,7 +19,7 @@ export default function ReflectButton({ size }) {
       <span>
         <WriteIcon size={size} className={styles["write-icon"]} />
       </span>
-      <span className={styles["reflect-text"]}>Reflect</span>
+      <span className={styles["reflect-text"]}>{children || "Reflect"}</span>
     </Link>
   );
 }
