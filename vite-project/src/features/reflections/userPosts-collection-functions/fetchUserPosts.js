@@ -21,14 +21,7 @@ export async function fetchUserPosts(uid) {
   if (!uid) return;
 
   try {
-    const posts = await fetchUserPostsBasedOnId(uid);
-
-    return {
-      error: false,
-      title: null,
-      message: null,
-      posts,
-    };
+    return await fetchUserPostsBasedOnId(uid);
   } catch (error) {
     console.log(error);
     return {

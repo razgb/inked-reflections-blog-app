@@ -43,20 +43,6 @@ export default function UserPostContainer() {
     refetchOnWindowFocus: false,
   });
 
-  // const outputFeed = postsFeed.map((post) => (
-  //   <UserPost
-  //     key={post.id}
-  //     id={post.id}
-  //     datePublished={post.createdAt}
-  //     title={post.title}
-  //     firstName={post.firstName}
-  //     lastName={post.lastName}
-  //     paragraphs={post.paragraphs}
-  //     tags={post.tags}
-  //     photoURL={post.photoURL}
-  //   />
-  // ));
-
   const outputFeed = useMemo(() => {
     return postsFeed.map((post) => (
       <UserPost

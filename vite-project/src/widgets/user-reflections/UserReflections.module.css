@@ -47,3 +47,9 @@
 .reflect-text {
   font-size: var(--text);
 }
+
+/* Temp fix to show loader */
+/* Should show after every run of intersection observer */
+.spinner__container {
+  margin-top: 30%;
+}

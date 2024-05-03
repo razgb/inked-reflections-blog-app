@@ -41,7 +41,6 @@
   --color-primary-700: #3b2c0f;
   --color-primary-800: #211808;
   --color-primary-900: #100c04;
-
   --color-primary-200: #0c121e;
   --color-primary-300: #121a26;
   --color-primary-400: #181f2c;
@@ -225,4 +224,9 @@ body {
 .rotate45 {
   transform: rotate(45deg);
   transition: transform 0.15s ease-in;
+}
+
+.infinite-scroll-target {
+  width: 100%;
+  padding-bottom: 50rem; /* Height trick for div with no content */
 }

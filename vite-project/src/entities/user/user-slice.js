@@ -26,10 +26,10 @@ const userSlice = createSlice({
       };
     },
     addPostsToUserSlicePosts(state, action) {
-      state.posts = [...state.posts, action.payload];
+      state.posts = [...state.posts, ...action.payload];
     },
     addPostsToUserSliceBookmarks(state, action) {
-      state.bookmarks = [...state.bookmarks, action.payload];
+      state.bookmarks = [...state.bookmarks, ...action.payload];
     },
   },
 });

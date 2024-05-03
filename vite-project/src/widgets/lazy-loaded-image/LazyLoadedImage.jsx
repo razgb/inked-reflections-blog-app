@@ -18,7 +18,6 @@ export default function LazyLoadedImage({
     if (!reference || !firebaseFolder || imageSrc) return;
 
     const imageRefCurrent = imageRef.current;
-    let componentIsMounted = true;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -29,7 +28,7 @@ export default function LazyLoadedImage({
                 reference,
                 firebaseFolder
               );
-              if (componentIsMounted && src) {
+              if (src) {
                 dispatch(addImageToCache({ reference, src }));
               }
             };
@@ -51,7 +50,6 @@ export default function LazyLoadedImage({
     }
 
     return () => {
-      componentIsMounted = false;
       if (imageRefCurrent) {
         observer.unobserve(imageRefCurrent);
       }
