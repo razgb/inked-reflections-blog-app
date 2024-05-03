@@ -34,7 +34,7 @@ export async function fetchPosts() {
   }));
 
   ++fetchCount;
-  console.log(`fetchPosts function invoked: ${fetchCount}x`);
+  // console.log(`fetchPosts function invoked: ${fetchCount}x`);
 
   return postsData;
 }

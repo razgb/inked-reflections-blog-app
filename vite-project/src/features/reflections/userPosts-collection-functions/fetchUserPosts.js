@@ -43,14 +43,14 @@ async function fetchUserPostsBasedOnId(uid) {
       where("uid", "==", uid),
       orderBy("createdAt", "desc"),
       startAfter(lastVisibleDoc),
-      limit(5)
+      limit(10)
     );
   } else {
     q = query(
       postsRef,
       where("uid", "==", uid),
       orderBy("createdAt", "desc"),
-      limit(5)
+      limit(10)
     );
   }
 
