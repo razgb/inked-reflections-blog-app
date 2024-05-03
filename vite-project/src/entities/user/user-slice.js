@@ -8,6 +8,8 @@ const initialState = {
     displayName: "",
     emailVerified: false,
     photoURL: "",
+    createdAt: 0,
+    dateAccountedCreated: "month year",
   },
   posts: [],
   bookmarks: [],

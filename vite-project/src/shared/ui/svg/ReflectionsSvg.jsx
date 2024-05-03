@@ -1,4 +1,4 @@
-import styles from "../../../pages/reflections/CreateReflectionPage.module.css";
+import styles from "../../../pages/profile-page/CreateReflectionPage.module.css";
 
 const SortIcon = ({ size }) => {
   return (

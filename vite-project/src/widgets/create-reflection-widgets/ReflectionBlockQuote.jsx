@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "../../pages/reflections/CreateReflectionPage.module.css";
+import styles from "../../pages/profile-page/CreateReflectionPage.module.css";
 
 export default function ReflectionBlockQuote({ id, title, deleteWidget }) {
   const [value, setValue] = useState("");

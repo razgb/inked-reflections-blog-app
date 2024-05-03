@@ -14,13 +14,3 @@
   font-size: var(--secondary-heading);
   color: var(--color-primary-800);
 }
-
-/* .cover-image-container {
-  margin-bottom: var(--space-lg);
-}
-
-.cover-image {
-  max-height: 20rem;
-  aspect-ratio: 32/9;
-  border-radius: var(--space-md);
-} */

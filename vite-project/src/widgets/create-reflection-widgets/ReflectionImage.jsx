@@ -1,5 +1,5 @@
 import { ImageIcon } from "../../shared/ui/svg/ReflectionsSvg";
-import styles from "../../pages/reflections/CreateReflectionPage.module.css";
+import styles from "../../pages/profile-page/CreateReflectionPage.module.css";
 
 import { useEffect, useRef } from "react";
 import useFileValidator from "../../shared/util/useFileValidator";

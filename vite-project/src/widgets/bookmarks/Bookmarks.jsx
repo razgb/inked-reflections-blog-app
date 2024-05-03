@@ -1,5 +1,4 @@
 import styles from "./Bookmarks.module.css";
-import DummyUserPost from "../user-post/DummyUserPost";
 import SearchInput from "../../shared/ui/search-input/SearchInput";
 import Select from "../../shared/ui/select-element/Select";
 
@@ -14,27 +13,8 @@ export default function Bookmarks() {
 
         <SearchInput placeholder="Search your bookmarks" />
 
-        <div className={styles["bookmarks__posts"]}>
-          <DummyUserPost />
-          <DummyUserPost />
-          <DummyUserPost />
-          <DummyUserPost />
-          <DummyUserPost />
-          <DummyUserPost />
-          <DummyUserPost />
-          <DummyUserPost />
-        </div>
+        <div className={styles["bookmarks__posts"]}></div>
       </div>
     </div>
   );
 }
-
-/*
-<div className={styles["cover-image-container"]}>
-  <img
-    src={coverImage}
-    alt="Bookmark cover image"
-    className={styles["cover-image"]}
-  />
-</div>
-*/

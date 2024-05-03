@@ -1,4 +1,84 @@
-.user-profile-container {
+.profile__spinner {
+  margin-top: 30%;
+}
+
+.profile__container {
   padding: var(--space-xl);
-  height: 100%;
+  color: var(--color-primary-800);
+}
+
+.profile__section {
+  padding-bottom: var(--space-md);
+  margin-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--color-primary-700);
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.profile__image {
+  position: relative;
+  border-radius: 100%;
+  overflow: hidden;
+  max-width: 20rem;
+  padding-bottom: 20rem;
+  margin-bottom: var(--space-xl);
+}
+.profile__name {
+  font-size: var(--secondary-heading);
+  font-weight: 600;
+}
+.profile__created-at {
+  font-size: var(--text);
+}
+
+.profile__heading {
+  font-size: var(--secondary-heading);
+}
+.heading__container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.reflections__actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-sm);
+}
+.half-1 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.reflect-button:link,
+.reflect-button:visited {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background-color: transparent;
+  background-color: var(--color-primary-300);
+  cursor: pointer;
+  padding: var(--space-md);
+  border-radius: var(--space-sm);
+  text-decoration: none;
+  color: var(--color-primary-800);
+
+  transition: all 0.1s ease-in;
+}
+.reflect-button:hover {
+  background-color: var(--color-primary-400);
+}
+
+.reflect-text {
+  font-size: var(--text);
+}
+
+/* Temp fix to show loader */
+/* Should show after every run of intersection observer */
+.spinner__container {
+  margin-top: 30%;
 }

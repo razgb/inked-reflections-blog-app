@@ -1,5 +1,5 @@
+import styles from "../../../widgets/user-profile/UserProfileContainer.module.css";
 import { WriteIcon } from "../svg/NavigationSvg";
-import styles from "../../../widgets/user-reflections/UserReflections.module.css";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { changeLocationState } from "../../../entities/url-location/location-slice";
@@ -12,7 +12,7 @@ export default function ReflectButton({ size, children }) {
 
   return (
     <Link
-      to="/reflections/reflect"
+      to="/profile/reflect"
       onClick={handleClick}
       className={styles["reflect-button"]}
     >

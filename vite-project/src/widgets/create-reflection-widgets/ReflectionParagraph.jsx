@@ -1,4 +1,4 @@
-import styles from "../../pages/reflections/CreateReflectionPage.module.css";
+import styles from "../../pages/profile-page/CreateReflectionPage.module.css";
 import { validateTextWidget } from "../../features/reflections/validateTextWidget.js";
 import { useState } from "react";
 

@@ -1,9 +1,8 @@
 import styles from "./MainNavigation.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AppError from "../app-error/AppError";
 import { changeLocationState } from "../../entities/url-location/location-slice";
-import useImageURL from "../../shared/hooks/useImageURL";
 import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage.jsx";
 import ReflectButton from "../../shared/ui/buttons/ReflectButton.jsx";
 

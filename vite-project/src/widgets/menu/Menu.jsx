@@ -32,14 +32,6 @@ import { ThemeContext } from "../../entities/theme/ThemeContext";
 
 const ICON_SIZE = 20;
 
-/*
-  Notes for future me: 
-  You have to refactor the entire codebase for a more component friendly 
-  architecture and use the useContext theme api for dynamic changing of themes.
-
-  Maybe create a separate css file for your colors. 
- */
-
 export default function Menu({ menuOpenState, handleToggleMenuState }) {
   const dispatch = useDispatch();
   const urlLocationName = useSelector((state) => state.location.locationName);
@@ -96,14 +88,14 @@ export default function Menu({ menuOpenState, handleToggleMenuState }) {
           </MenuButton>
 
           <MenuButton
-            destination="/reflections"
-            title="Reflections"
+            destination="/profile"
+            title="Profile"
             open={menuOpenState}
           >
-            {urlLocationName.includes("reflections") ? (
-              <ReflectionsSolidIcon size={ICON_SIZE} />
+            {urlLocationName.includes("profile") ? (
+              <ProfileSolidIcon size={ICON_SIZE} />
             ) : (
-              <ReflectionsIcon size={ICON_SIZE} />
+              <ProfileIcon size={ICON_SIZE} />
             )}
           </MenuButton>
 
@@ -116,18 +108,6 @@ export default function Menu({ menuOpenState, handleToggleMenuState }) {
               <BookmarksSolidIcon size={ICON_SIZE} />
             ) : (
               <BookmarksIcon size={ICON_SIZE} />
-            )}
-          </MenuButton>
-
-          <MenuButton
-            destination="/profile"
-            title="Profile"
-            open={menuOpenState}
-          >
-            {urlLocationName.includes("profile") ? (
-              <ProfileSolidIcon size={ICON_SIZE} />
-            ) : (
-              <ProfileIcon size={ICON_SIZE} />
             )}
           </MenuButton>
 
