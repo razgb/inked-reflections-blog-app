@@ -5,8 +5,13 @@ import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage";
 import PostQuote from "./PostQuote";
 
 export default function UserPostExpanded() {
-  const { displayName, createdAt, postContent, profilePhotoReference } =
-    useSelector((state) => state.posts.currentPost);
+  const {
+    displayName,
+    createdAt,
+    postContent,
+    profilePhotoReference,
+    minutesToRead,
+  } = useSelector((state) => state.posts.currentPost);
   const coverPhotoReference = postContent[0].firebaseStorageReference;
   const title = postContent[1].value;
 
@@ -51,7 +56,7 @@ export default function UserPostExpanded() {
                 </a>
               </div>
             </div>
-            <span className={styles["post__minutes"]}>7-min read</span>
+            <span className={styles["post__minutes"]}>{minutesToRead}</span>
             <span className={styles["date-published"]}>
               {formatDate(createdAt)}
             </span>

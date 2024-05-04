@@ -9,6 +9,7 @@ import {
   where,
 } from "firebase/firestore";
 import { requestWithRetry } from "../../../shared/util/requestWithRetry";
+import { filterTextAndEstimateReadingTime } from "../../../shared/util/filterTextAndEstimateReadingTime";
 
 let lastVisibleDoc = null;
 
@@ -64,5 +65,13 @@ async function fetchUserPostsBasedOnId(uid) {
     id: doc.id,
   }));
 
-  return postsData;
+  const postDataWithReadingTime = postsData.map((doc) => {
+    const readingTime = filterTextAndEstimateReadingTime(doc.postContent);
+    return {
+      ...doc,
+      readingTime,
+    };
+  });
+
+  return postDataWithReadingTime;
 }

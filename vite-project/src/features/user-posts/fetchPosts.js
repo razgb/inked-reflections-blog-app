@@ -7,6 +7,7 @@ import {
   startAfter,
   orderBy,
 } from "firebase/firestore";
+import { filterTextAndEstimateReadingTime } from "../../shared/util/filterTextAndEstimateReadingTime.js";
 
 let lastVisibleDoc = null;
 let fetchCount = 0;
@@ -33,8 +34,15 @@ export async function fetchPosts() {
     id: doc.id,
   }));
 
+  const postDataWithReadingTime = postsData.map((doc) => {
+    const readingTime = filterTextAndEstimateReadingTime(doc.postContent);
+    return {
+      ...doc,
+      readingTime,
+    };
+  });
+
   ++fetchCount;
   // console.log(`fetchPosts function invoked: ${fetchCount}x`);
-
-  return postsData;
+  return postDataWithReadingTime;
 }

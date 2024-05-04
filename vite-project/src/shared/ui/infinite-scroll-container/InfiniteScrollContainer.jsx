@@ -33,8 +33,6 @@ export default function InfiniteScrollContainer({
   const observerState = useSelector(
     (state) => state.posts.observers[observerName]
   );
-  console.log(observerState);
-  // const [observerState, setObserverState] = useState(true);
 
   const output = content.map((post) => (
     <UserPost
@@ -44,6 +42,7 @@ export default function InfiniteScrollContainer({
       createdAt={post.createdAt}
       postContent={post.postContent}
       profilePhotoReference={post.profilePhotoReference}
+      readingTime={post.readingTime}
     />
   ));
 
@@ -51,10 +50,6 @@ export default function InfiniteScrollContainer({
     try {
       const newContentArray = await fn();
       const newContentLength = newContentArray.length;
-
-      // if (newContentLength < batchLimit) {
-      //   setObserverState(false); // No more content in firestore.
-      // } else setObserverState(true);
 
       if (newContentLength < batchLimit) {
         dispatch(

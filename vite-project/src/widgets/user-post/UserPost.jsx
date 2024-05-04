@@ -1,26 +1,10 @@
 import styles from "./UserPost.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import { ActionDotsIcon, BookmarksIcon } from "../../shared/ui/svg/PostSvg";
+import { BookmarksIcon } from "../../shared/ui/svg/PostSvg";
 import { changeCurrentPost } from "../../entities/posts/posts-slice";
 import { useDispatch } from "react-redux";
 import { formatDate } from "../../shared/util/formatDate";
 import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage";
-
-/**
- * Formats the first paragraph of the post as an abstract by showing the first 30 words with an ending trail of '...'
- * @param {string} paragraph
- * @returns {string} formated paragraph
- */
-function formatAbstractParagraph(paragraph) {
-  const length = paragraph.split("").length;
-  if (length <= 180) return paragraph + "...";
-  else {
-    const abstractArray = paragraph.split(" ").splice(0, 30);
-    const lastWord = abstractArray.pop().trim();
-    abstractArray.push(lastWord);
-    return abstractArray.join(" ") + "...";
-  }
-}
 
 export default function UserPost({
   id,
@@ -28,10 +12,15 @@ export default function UserPost({
   createdAt,
   postContent,
   profilePhotoReference,
+  readingTime,
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const coverPhotoReference = postContent[0].firebaseStorageReference;
+
+  const title = postContent[1].value;
+  const abstractParagraph = postContent[2].value;
+  const minutesToRead = `${readingTime}-min${readingTime > 1 ? "s" : ""} read`;
 
   function handlePostClick(event) {
     if (event.target.tagName === "A") return;
@@ -42,13 +31,11 @@ export default function UserPost({
         createdAt,
         postContent,
         profilePhotoReference,
+        minutesToRead,
       })
     );
     navigate(`/posts/${id}`);
   }
-
-  const title = postContent[1].value;
-  const abstractParagraph = postContent[2].value;
 
   return (
     <div onClick={handlePostClick} className={styles["user-post"]}>
@@ -72,8 +59,6 @@ export default function UserPost({
           <span className={styles["post__author-date"]}>
             {formatDate(createdAt)}
           </span>
-
-          {/* <span className={styles["bot"]}>{email ? null : "BOT"}</span> */}
         </div>
 
         <div className={styles["post__row--2"]}>
@@ -101,7 +86,7 @@ export default function UserPost({
         </div>
 
         <div className={styles["post__row--3"]}>
-          <span className={styles["post__minutes"]}>7 min read</span>
+          <span className={styles["post__minutes"]}>{minutesToRead}</span>
 
           <button className={styles["post__action-button"]}>
             <span className={styles["post__icon-holder"]}>
@@ -119,15 +104,19 @@ export default function UserPost({
     </div>
   );
 }
-/*
 
-            {profileLoading ? (
-              <Spinner size="small" />
-            ) : (
-              <img
-                className={styles["post__author-img"]}
-                src={profilePhotoURL}
-                alt="Profile pic of author"
-              />
-            )}
-*/
+/**
+ * Formats the first paragraph of the post as an abstract by showing the first 30 words with an ending trail of '...'
+ * @param {string} paragraph
+ * @returns {string} formated paragraph
+ */
+function formatAbstractParagraph(paragraph) {
+  const length = paragraph.split("").length;
+  if (length <= 180) return paragraph + "...";
+  else {
+    const abstractArray = paragraph.split(" ").splice(0, 30);
+    const lastWord = abstractArray.pop().trim();
+    abstractArray.push(lastWord);
+    return abstractArray.join(" ") + "...";
+  }
+}

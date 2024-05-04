@@ -5,7 +5,6 @@ import "../globals.css";
 import { Provider } from "react-redux";
 import store from "./store/RootReducer.js";
 import { ThemeContextProvider } from "./entities/theme/ThemeContext.jsx";
-import { QueryClient, QueryClientProvider } from "react-query";
 
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
@@ -30,16 +29,13 @@ const profileRef = ref(storage, "profile/");
 const postsRef = ref(storage, "posts/");
 export { db, auth, assetsRef, profileRef, postsRef };
 
-const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <ThemeContextProvider>
-          <App />
-        </ThemeContextProvider>
-      </Provider>
-    </QueryClientProvider>
+    <Provider store={store}>
+      <ThemeContextProvider>
+        <App />
+      </ThemeContextProvider>
+    </Provider>
   </React.StrictMode>
 );
 
