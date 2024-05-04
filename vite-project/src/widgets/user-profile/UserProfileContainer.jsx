@@ -5,12 +5,13 @@ import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage.jsx";
 
 import { fetchUserPosts } from "../../features/reflections/userPosts-collection-functions/fetchUserPosts.js";
 import { useSelector } from "react-redux";
-import { addPostsToUserSlicePosts } from "../../entities/user/user-slice.js";
+import { updateProfilePosts } from "../../entities/posts/posts-slice.js";
 import Spinner from "../../shared/ui/spinner/Spinner.jsx";
 import Button from "../../shared/ui/buttons/Button.jsx";
 
 export default function UserProfileContainer() {
-  const { info, posts } = useSelector((state) => state.user);
+  const { profilePosts } = useSelector((state) => state.posts);
+  const { info } = useSelector((state) => state.user);
   const {
     uid,
     photoURL: profilePhotoReference,
@@ -67,9 +68,10 @@ export default function UserProfileContainer() {
         <div className={styles["posts"]}>
           {uid && (
             <InfiniteScrollContainer
-              content={posts}
+              content={profilePosts}
               fn={async () => await fetchUserPosts(uid)}
-              dispatchFn={addPostsToUserSlicePosts}
+              dispatchFn={updateProfilePosts}
+              observerName="profile"
             />
           )}
         </div>

@@ -14,49 +14,46 @@ const postsSlice = createSlice({
   name: "posts",
   initialState: {
     currentPost: {},
-    postsFeed: [],
-    lastVisibleDoc: null,
+    postFeed: [],
+    profilePosts: [],
+    bookmarkPosts: [],
+    observers: {
+      feed: true,
+      profile: true,
+      bookmark: true,
+    },
   },
   reducers: {
     changeCurrentPost(state, action) {
       state.currentPost = { ...action.payload };
     },
     updatePostsFeed(state, action) {
-      if (state.postsFeed.length > 0) {
-        // state.postsFeed.push(...action.payload);
-      } else if (state.postsFeed.length === 0) {
-        // state.postsFeed.push(...action.payload);
-      }
-
-      // Fix this later when you fix the sanitization function.
-      state.postsFeed.push(...action.payload);
+      state.postFeed.push(...action.payload);
     },
-    // uploadPost(state, action) {},
-    // editPost(state, action) {},
-    // deletePost(state, action) {},
+    updateProfilePosts(state, action) {
+      state.profilePosts.push(...action.payload);
+    },
+    updateBookmarkPosts(state, action) {
+      state.bookmarkPosts.push(...action.payload);
+    },
+    updateObserver(state, action) {
+      const { name, bool } = action.payload;
+
+      // Gives the 'this' keyword to state.observers.
+      if (Object.prototype.hasOwnProperty.call(state.observers, name)) {
+        state.observers[name] = bool;
+      } else {
+        console.warn(`Invalid observer name: ${name}`);
+      }
+    },
   },
 });
 
-export const { updatePostsFeed, changeCurrentPost } =
-  postsSlice.actions;
+export const {
+  changeCurrentPost,
+  updatePostsFeed,
+  updateProfilePosts,
+  updateBookmarkPosts,
+  updateObserver,
+} = postsSlice.actions;
 export default postsSlice.reducer;
-
-/*
-if (state.postsFeed.length > 0) {
-        console.log("Posts feed not empty");
-        const freshUniquePosts = action.payload.filter((newPost) => {
-          for (const post of state.postsFeed) {
-            if (post.id === newPost.id) return false;
-            else return true;
-          }
-        });
-
-        if (freshUniquePosts.length === 0) {
-          console.log("Sanitized repeat posts");
-          return;
-        }
-
-        console.log([...state.postsFeed, ...freshUniquePosts]);
-        // state.postsFeed = [...state.postsFeed, ...freshUniquePosts];
-      } else
-*/

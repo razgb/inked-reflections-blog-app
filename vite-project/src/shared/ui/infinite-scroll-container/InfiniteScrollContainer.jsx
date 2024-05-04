@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
 import Spinner from "../spinner/Spinner";
-import { activateAppError } from "../../../entities/app-error/app-error-slice";
 import UserPost from "../../../widgets/user-post/UserPost";
+
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { activateAppError } from "../../../entities/app-error/app-error-slice";
+import { updateObserver } from "../../../entities/posts/posts-slice";
 
 /**
  * Custom infinite scrolling component that abstracts everything from fetching to rendering user posts.
@@ -10,6 +12,7 @@ import UserPost from "../../../widgets/user-post/UserPost";
  * @param {function} fn Async function that fetches new content.
  * @param {function} dispatchFn Redux dispatch function that updates content state in application.
  * @param {Number} batchLimit Default value: 10, match this number to how many documents you request from firebase.
+ * @param {string} observerName A unique name so that redux can keep track of observer state across component mounts and unmounts e.g. ['posts', 'profile', 'bookmark'].
  * @returns {Array} Content inside array that react renders.
  */
 export default function InfiniteScrollContainer({
@@ -17,10 +20,21 @@ export default function InfiniteScrollContainer({
   fn,
   dispatchFn,
   batchLimit = 10,
+  observerName,
 }) {
+  if (!observerName) {
+    throw new Error(
+      "Please enter a container name for redux observer state functionality."
+    );
+  }
+
   const dispatch = useDispatch();
   const triggerRef = useRef();
-  const [observerState, setObserverState] = useState(true);
+  const observerState = useSelector(
+    (state) => state.posts.observers[observerName]
+  );
+  console.log(observerState);
+  // const [observerState, setObserverState] = useState(true);
 
   const output = content.map((post) => (
     <UserPost
@@ -38,12 +52,28 @@ export default function InfiniteScrollContainer({
       const newContentArray = await fn();
       const newContentLength = newContentArray.length;
 
+      // if (newContentLength < batchLimit) {
+      //   setObserverState(false); // No more content in firestore.
+      // } else setObserverState(true);
+
       if (newContentLength < batchLimit) {
-        setObserverState(false); // No more content in firestore.
-      } else setObserverState(true);
+        dispatch(
+          updateObserver({
+            bool: false,
+            name: observerName,
+          })
+        ); // No more content in firestore.
+      } else
+        dispatch(
+          updateObserver({
+            bool: true,
+            name: observerName,
+          })
+        );
 
       dispatch(dispatchFn(newContentArray));
     } catch (error) {
+      console.log(error);
       dispatch(
         activateAppError({
           title: "Error loading posts",
