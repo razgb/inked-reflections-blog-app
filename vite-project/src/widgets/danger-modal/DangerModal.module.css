@@ -1,18 +1,24 @@
 .modal {
   position: absolute;
   min-width: 35rem;
-  bottom: 50%;
+  top: 30dvh;
   left: 50dvw;
   transform: translateX(-50%);
   z-index: 20;
 
   padding: var(--space-xl);
-  background-color: var(--color-primary-500);
+  background-color: var(--color-primary-300);
   border-radius: var(--space-md);
+  border: 0.5px solid var(--color-primary-700);
   color: var(--color-primary-800);
 }
-.heading {
+
+.title {
   font-size: var(--secondary-heading);
+  margin-bottom: var(--space-sm);
+}
+.message {
+  font-size: var(--text-sm);
   margin-bottom: var(--space-lg);
 }
 
@@ -20,6 +26,12 @@
   cursor: pointer;
   background-color: transparent;
   font-size: var(--text);
-  color: var(--color-primary-800);
+  color: var(--color-primary-700);
   margin-right: var(--space-md);
+  transition: color 0.2s ease;
 }
+.close-button:hover {
+  color: var(--color-primary-900);
+}
+
+/* Overlay styles are in RootPage.module.css */

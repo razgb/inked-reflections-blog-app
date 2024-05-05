@@ -33,7 +33,8 @@
   --space-4xl: calc(13.6 * var(--space-unit));
 
   /* COLOR VARIABLES */
-  --color-primary-200: #fbf7f1; /* Body Color & Base Color*/
+  /* --color-primary-200: #fbf7f1; */
+  --color-primary-200: #f9f5f0;
   --color-primary-300: #f9f0e4;
   --color-primary-400: #f5ead7;
   --color-primary-500: #f2e4cf; /* Color of icon hover on menu */
@@ -47,8 +48,8 @@
   --color-primary-400: #181f2c;
   --color-primary-500: #22293d;
   --color-primary-600: #2a364c;
-  --color-primary-700: #828fa5;
-  --color-primary-800: #9daec0;
+  --color-primary-700: #8c99ad;
+  --color-primary-800: #a9b9c9;
   --color-primary-900: #c1ceda; */
 
   --color-blue-300: #e2eaf7;
@@ -82,11 +83,8 @@
 }
 
 ::selection {
-  /* background-color: var(--color-primary-400); */
-  /* color: #000; */
-
-  background-color: var(--color-primary-800);
-  color: var(--color-primary-200);
+  background-color: var(--color-primary-500);
+  color: var(--color-primary-900);
 }
 
 html {
@@ -112,14 +110,6 @@ a:link,
 a:visited {
   color: inherit;
 }
-
-/* fucking fix this please */
-
-/* a:link:focus,
-a:visited:focus,
-button:focus {
-  outline: 2px solid var(--color-primary-800);
-} */
 
 /* For images to not be able to exceed their container */
 img {
@@ -147,6 +137,16 @@ button {
 body {
   background-color: var(--color-primary-200);
   font-family: var(--ff-sans);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100dvw;
+  height: 100dvh;
+  background-color: rgb(0, 0, 0, 0.3);
 }
 
 .lazy-loaded-image-container {
@@ -190,7 +190,12 @@ body {
   color: var(--color-gray-200);
 }
 
-/* Scale doesn't work. */
+.error-button {
+}
+
+/* ///////// */
+/* Scale doesn't work. ANCHORS IN THE STYLE OF BUTTONS */
+/* ///////// */
 .button:link,
 .button:visited {
   text-decoration: none;
@@ -218,15 +223,10 @@ body {
 .error-icon {
   fill: #000;
 }
-/* .add-icon {
-  transition: transform 0.15s ease-in;
-} */
-
 .rotate45 {
   transform: rotate(45deg);
   transition: transform 0.15s ease-in;
 }
-
 .infinite-scroll-target {
   margin-top: 30%;
   width: 100%;

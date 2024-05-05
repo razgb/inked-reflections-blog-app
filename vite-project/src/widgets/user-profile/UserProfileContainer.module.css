@@ -8,13 +8,13 @@
 }
 
 .profile__section {
-  padding-bottom: var(--space-md);
-  margin-bottom: var(--space-xl);
-  border-bottom: 1px solid var(--color-primary-700);
-
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+
+  padding-bottom: var(--space-md);
+  margin-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--color-primary-700);
 }
 
 .profile__image {

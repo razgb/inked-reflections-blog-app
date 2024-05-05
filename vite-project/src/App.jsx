@@ -9,6 +9,8 @@ import {
   addUserToState,
   removeUserFromState,
 } from "./entities/user/user-slice.js";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import RootLayout from "./pages/root-page/RootPage.jsx";
 import HomePage from "./pages/home-page/HomePage";
@@ -20,8 +22,6 @@ import ProfilePage from "./pages/profile-page/ProfilePage.jsx";
 import FlowPage from "./pages/flow-login-signup/FlowPage.jsx";
 import LoginAccountUI from "./widgets/login-create-account/LoginAccountUI.jsx";
 import CreateAccountUI from "./widgets/login-create-account/CreateAccountUI.jsx";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import ProfileUploadUI from "./widgets/login-create-account/ProfileUploadUI.jsx";
 import CreateReflectionPage from "./pages/profile-page/CreateReflectionPage.jsx";
 

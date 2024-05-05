@@ -23,7 +23,6 @@ import {
 } from "../../shared/ui/svg/MenuSvg";
 import MenuButton from "./MenuButton";
 import MenuActionButton from "./MenuActionButton";
-import SignoutModal from "../login-create-account/SignoutModal";
 
 import { useContext, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -152,8 +151,12 @@ export default function Menu({ menuOpenState, handleToggleMenuState }) {
           </MenuActionButton>
         </div>
 
-        {openLogout && <SignoutModal onClose={handleOpenLogout} />}
-        {openLogout && <div className={styles["menu-overlay"]}></div>}
+        {/* {openLogout && (
+          <div>
+            <SignoutModal hideModal={handleOpenLogout} />
+            <div className={styles["menu-overlay"]}></div>
+          </div>
+        )} */}
       </div>
     </aside>
   );

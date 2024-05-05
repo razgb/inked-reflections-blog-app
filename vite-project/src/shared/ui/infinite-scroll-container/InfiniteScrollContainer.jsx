@@ -21,6 +21,7 @@ export default function InfiniteScrollContainer({
   dispatchFn,
   batchLimit = 10,
   observerName,
+  isProfilePost,
 }) {
   if (!observerName) {
     throw new Error(
@@ -43,6 +44,7 @@ export default function InfiniteScrollContainer({
       postContent={post.postContent}
       profilePhotoReference={post.profilePhotoReference}
       readingTime={post.readingTime}
+      isProfilePost={isProfilePost}
     />
   ));
 

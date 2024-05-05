@@ -1,10 +1,11 @@
 import styles from "./UserPost.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import { BookmarksIcon } from "../../shared/ui/svg/PostSvg";
 import { changeCurrentPost } from "../../entities/posts/posts-slice";
 import { useDispatch } from "react-redux";
 import { formatDate } from "../../shared/util/formatDate";
 import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage";
+import TrashButton from "./TrashButton.jsx";
+import BookmarkButton from "./BookmarkButton.jsx";
 
 export default function UserPost({
   id,
@@ -13,6 +14,7 @@ export default function UserPost({
   postContent,
   profilePhotoReference,
   readingTime,
+  isProfilePost,
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,10 +22,15 @@ export default function UserPost({
 
   const title = postContent[1].value;
   const abstractParagraph = postContent[2].value;
-  const minutesToRead = `${readingTime}-min${readingTime > 1 ? "s" : ""} read`;
+  const minutesToRead = `${readingTime}-min read`;
 
   function handlePostClick(event) {
-    if (event.target.tagName === "A") return;
+    event.preventDefault();
+    const tagName = event.target.tagName.toLowerCase();
+    const ignoreElements = ["button", "span", "a", "svg", "path"];
+    // Return on profile link clicks, action button, and delete button (if user owns the post).
+    if (ignoreElements.includes(tagName)) return;
+
     dispatch(
       changeCurrentPost({
         id,
@@ -50,8 +57,7 @@ export default function UserPost({
           </Link>
 
           <h3 className={styles["post__author-name"]}>
-            {/* Link to author's page. */}
-            <Link to="/" className={styles["post__author-link"]}>
+            <Link to="/posts" className={styles["post__author-link"]}>
               {displayName}
             </Link>
           </h3>
@@ -88,17 +94,9 @@ export default function UserPost({
         <div className={styles["post__row--3"]}>
           <span className={styles["post__minutes"]}>{minutesToRead}</span>
 
-          <button className={styles["post__action-button"]}>
-            <span className={styles["post__icon-holder"]}>
-              <BookmarksIcon size={18} />
-            </span>
-          </button>
+          <BookmarkButton postId={id} />
 
-          {/* <button className={styles["post__action-button"]}>
-            <span className={styles["post__icon-holder"]}>
-              <ActionDotsIcon size={18} />
-            </span>
-          </button> */}
+          {isProfilePost && <TrashButton postId={id} />}
         </div>
       </div>
     </div>
