@@ -1,13 +1,11 @@
 import styles from "./UserPost.module.css";
 import { TrashIcon } from "../../shared/ui/svg/PostSvg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { activateDangerModal } from "../../entities/danger-modal/danger-modal-slice";
 
-export default function DeletePostButton({ postId }) {
+export default function DeletePostButton({ postId, postUid }) {
   const dispatch = useDispatch();
-
-  if (!postId)
-    throw new Error("DeletePostButton.jsx must contains a valid postId prop.");
+  const uid = useSelector((state) => state.user.info.uid);
 
   function handleClick() {
     dispatch(
@@ -15,7 +13,7 @@ export default function DeletePostButton({ postId }) {
         title: "Are you sure you want to delete this post?",
         message: "The post will be unrecoverable.",
         dangerFunctionReference: "deletePost",
-        dateToSend: postId,
+        dangerFunctionInput: { uid, postId, postUid },
       })
     );
   }

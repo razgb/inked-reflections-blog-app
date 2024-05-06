@@ -2,9 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 /**
  * showModal: if true DangerModal renders in the top level of the application.
- * dangerFunctionReference: reference to a function contained in a registry inside DangerModal.jsx.
  * title: heading message telling users what the danger function will do.
  * message: optional sub-heading message telling users extra information about the danger function.
+ * dangerFunctionReference: reference to a function contained in a registry inside DangerModal.jsx.
+ * dangerFunctionInput: single argument will be put into array as a payload and then spread apart as if directly calling the function referenced.
+ *   -> issue: multiple arguments such as (hello, hi, how, are, you) must be put into objects & respective danger functions should accept 1 object arg.
  */
 const dangerModalSlice = createSlice({
   name: "danger",
@@ -13,28 +15,36 @@ const dangerModalSlice = createSlice({
     title: "",
     message: "",
     dangerFunctionReference: "",
-    dataToSend: null,
+    dangerFunctionInput: {
+      payload: null,
+    },
   },
   reducers: {
     activateDangerModal(state, action) {
-      const { title, message, dangerFunctionReference, dataToSend } =
+      const { title, message, dangerFunctionReference, dangerFunctionInput } =
         action.payload;
 
       return {
+        ...state,
         showModal: true,
         title,
         message,
         dangerFunctionReference,
-        dataToSend,
+        dangerFunctionInput: {
+          payload: dangerFunctionInput,
+        },
       };
     },
-    resetDangerModal() {
+    resetDangerModal(state) {
       return {
+        ...state,
         showModal: false,
         title: "",
         message: "",
         dangerFunctionReference: "",
-        dataToSend: null,
+        dangerFunctionInput: {
+          payload: null,
+        },
       };
     },
   },

@@ -40,7 +40,6 @@ export default function Menu({ menuOpenState, handleToggleMenuState }) {
     dispatch(
       activateDangerModal({
         title: "Are you sure you want to logout?",
-        message: null,
         dangerFunctionReference: "signout",
       })
     );

@@ -39,6 +39,7 @@ export default function InfiniteScrollContainer({
     <UserPost
       key={post.id}
       id={post.id}
+      postUid={post.uid}
       displayName={post.displayName}
       createdAt={post.createdAt}
       postContent={post.postContent}

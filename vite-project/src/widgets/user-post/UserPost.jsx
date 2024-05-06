@@ -1,7 +1,7 @@
 import styles from "./UserPost.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { changeCurrentPost } from "../../entities/posts/posts-slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { formatDate } from "../../shared/util/formatDate";
 import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage";
 import DeletePostButton from "./DeletePostButton.jsx";
@@ -9,6 +9,7 @@ import BookmarkButton from "./BookmarkButton.jsx";
 
 export default function UserPost({
   id,
+  postUid,
   displayName,
   createdAt,
   postContent,
@@ -27,13 +28,14 @@ export default function UserPost({
   function handlePostClick(event) {
     event.preventDefault();
     const tagName = event.target.tagName.toLowerCase();
-    const ignoreElements = ["button", "span", "a", "svg", "path"];
+    const ignoreElements = ["button", "span", "rect", "a", "svg", "path"];
     // Return on profile link clicks, action button, and delete button (if user owns the post).
     if (ignoreElements.includes(tagName)) return;
 
     dispatch(
       changeCurrentPost({
         id,
+        postUid,
         displayName,
         createdAt,
         postContent,
@@ -96,12 +98,7 @@ export default function UserPost({
 
           <BookmarkButton postId={id} />
 
-          {isProfilePost && (
-            <DeletePostButton
-              postId={id}
-              dangerFunctionReference="deletePost"
-            />
-          )}
+          {isProfilePost && <DeletePostButton postId={id} postUid={postUid} />}
         </div>
       </div>
     </div>
