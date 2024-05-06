@@ -4,7 +4,7 @@ import { changeCurrentPost } from "../../entities/posts/posts-slice";
 import { useDispatch } from "react-redux";
 import { formatDate } from "../../shared/util/formatDate";
 import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage";
-import TrashButton from "./TrashButton.jsx";
+import DeletePostButton from "./DeletePostButton.jsx";
 import BookmarkButton from "./BookmarkButton.jsx";
 
 export default function UserPost({
@@ -96,7 +96,12 @@ export default function UserPost({
 
           <BookmarkButton postId={id} />
 
-          {isProfilePost && <TrashButton postId={id} />}
+          {isProfilePost && (
+            <DeletePostButton
+              postId={id}
+              dangerFunctionReference="deletePost"
+            />
+          )}
         </div>
       </div>
     </div>

@@ -6,14 +6,12 @@ import {
   HelpSolidIcon,
   BookmarksSolidIcon,
   ProfileSolidIcon,
-  ReflectionsSolidIcon,
   SettingsSolidIcon,
 } from "../../shared/ui/svg-solid/MenuSvgSolid";
 import {
   HomeIcon,
   SearchIcon,
   ProfileIcon,
-  ReflectionsIcon,
   BookmarksIcon,
   SettingsIcon,
   HelpIcon,
@@ -24,24 +22,29 @@ import {
 import MenuButton from "./MenuButton";
 import MenuActionButton from "./MenuActionButton";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeLocationState } from "../../entities/url-location/location-slice";
 import { ThemeContext } from "../../entities/theme/ThemeContext";
+import { activateDangerModal } from "../../entities/danger-modal/danger-modal-slice";
+import { signoutUser } from "../../features/user-auth/signoutUser.js";
 
 const ICON_SIZE = 20;
 
 export default function Menu({ menuOpenState, handleToggleMenuState }) {
   const dispatch = useDispatch();
   const urlLocationName = useSelector((state) => state.location.locationName);
-  const [openLogout, setOpenLogout] = useState(false);
-
   const { theme, toggleTheme } = useContext(ThemeContext);
 
-  function handleOpenLogout(action) {
-    if (action === "open") setOpenLogout(true);
-    else setOpenLogout(false);
-  }
+  const handleOpenLogout = () => {
+    dispatch(
+      activateDangerModal({
+        title: "Are you sure you want to logout?",
+        message: null,
+        dangerFunctionReference: "signout",
+      })
+    );
+  };
 
   useEffect(() => {
     function handlePopState() {
@@ -144,19 +147,12 @@ export default function Menu({ menuOpenState, handleToggleMenuState }) {
 
           <MenuActionButton
             title="Sign out"
-            onClick={() => handleOpenLogout("open")}
+            onClick={handleOpenLogout}
             menuOpenState={menuOpenState}
           >
             <SignoutIcon size={ICON_SIZE} />
           </MenuActionButton>
         </div>
-
-        {/* {openLogout && (
-          <div>
-            <SignoutModal hideModal={handleOpenLogout} />
-            <div className={styles["menu-overlay"]}></div>
-          </div>
-        )} */}
       </div>
     </aside>
   );
