@@ -8,7 +8,7 @@ import Spinner from "../../shared/ui/spinner/Spinner";
 import { changeCurrentPost } from "../../entities/posts/posts-slice";
 import { fetchSinglePost } from "../../features/reflections/fetchSinglePost";
 import { activateAppError } from "../../entities/app-error/app-error-slice";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function UserPostExpanded() {
   const dispatch = useDispatch();

@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useContext } from "react";
 import { ThemeContext } from "../../entities/theme/ThemeContext";
 import Overlay from "./Overlay";
+import { BackButton } from "./BackButton";
 
 export default function RootLayout() {
   // Causes issues with css conflicting with body element.
@@ -32,6 +33,7 @@ export default function RootLayout() {
       </div>
 
       <div className={styles["layout__nav"]}>
+        <BackButton />
         <DangerModal />
         <MainNavigation />
       </div>

@@ -106,7 +106,6 @@
 }
 .trash-button:hover,
 .bookmark-button:hover {
-  opacity: 1;
   background-color: var(--color-primary-500);
 }
 .trash-button:active,

@@ -4,7 +4,7 @@ import SidebarContent from "../../shared/ui/sidebar-content/SidebarContent";
 
 import Explore from "../../widgets/explore/Explore.jsx";
 import ReflectionsPlusAdvert from "../../widgets/reflections-plus/ReflectionsPlusAdvert";
-import RecentlySavedPosts from "../../widgets/saved-post/RecentlySavedPosts";
+import RecentBookmarksContainer from "../../widgets/bookmarked-posts/RecentBookmarksContainer.jsx";
 
 export default function ExplorePage() {
   return (
@@ -13,7 +13,7 @@ export default function ExplorePage() {
         <Explore />
       </MainContent>
       <SidebarContent>
-        <RecentlySavedPosts />
+        <RecentBookmarksContainer />
         <ReflectionsPlusAdvert />
       </SidebarContent>
     </PageLayoutTemplate>

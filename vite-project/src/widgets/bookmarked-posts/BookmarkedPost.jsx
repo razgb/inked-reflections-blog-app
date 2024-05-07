@@ -1,8 +1,8 @@
-import styles from "./UserSavedPost.module.css";
+import styles from "./BookmarkedPost.module.css";
 import profileImg from "../../../public/default-profile.jpeg";
 import { Link } from "react-router-dom";
 
-export default function UserSavedPost() {
+export default function BookmarkedPost() {
   function handlePostClick(event) {
     if (event.target.tagName === "A") return;
     window.location.href = `/posts/${123}`; // post id instead of 123

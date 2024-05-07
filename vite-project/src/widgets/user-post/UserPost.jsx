@@ -1,7 +1,7 @@
 import styles from "./UserPost.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { changeCurrentPost } from "../../entities/posts/posts-slice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { formatDate } from "../../shared/util/formatDate";
 import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage";
 import DeletePostButton from "./DeletePostButton.jsx";

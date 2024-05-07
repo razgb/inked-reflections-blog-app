@@ -2,7 +2,7 @@ import MainContent from "../../shared/ui/main-content/MainContent";
 import PageLayoutTemplate from "../../shared/ui/page-layout-template/PageLayoutTemplate";
 import SidebarContent from "../../shared/ui/sidebar-content/SidebarContent";
 // import ReflectionsPlusAdvert from "../../widgets/reflections-plus/ReflectionsPlusAdvert";
-import RecentlySavedPosts from "../../widgets/saved-post/RecentlySavedPosts";
+import RecentBookmarksContainer from "../../widgets/bookmarked-posts/RecentBookmarksContainer";
 import UserProfileContainer from "../../widgets/user-profile/UserProfileContainer";
 
 export default function ProfilePage() {
@@ -12,7 +12,7 @@ export default function ProfilePage() {
         <UserProfileContainer />
       </MainContent>
       <SidebarContent>
-        <RecentlySavedPosts />
+        <RecentBookmarksContainer />
       </SidebarContent>
     </PageLayoutTemplate>
   );
