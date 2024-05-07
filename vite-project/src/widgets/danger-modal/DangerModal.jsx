@@ -53,7 +53,7 @@ export default function DangerModal() {
       console.log(error);
       dispatch(
         activateAppError({
-          title: `Connection error`,
+          title: "Connection error",
           message:
             "Seems to be a network issue, please check your internet connection and try again.",
         })

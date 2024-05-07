@@ -6,8 +6,8 @@ import { changeLocationState } from "../../entities/url-location/location-slice"
 import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage.jsx";
 import ReflectButton from "../../shared/ui/buttons/ReflectButton.jsx";
 
-const theme = "dark";
-// const theme = "light";
+// const theme = "dark";
+const theme = "light";
 
 export default function MainNavigation() {
   const dispatch = useDispatch();

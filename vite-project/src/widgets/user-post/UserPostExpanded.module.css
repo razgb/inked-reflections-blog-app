@@ -19,11 +19,9 @@
   overflow: hidden;
 }
 
-.post__header {
-  margin-bottom: var(--space-xl);
-}
 .post__title {
   font-size: var(--primary-heading);
+  margin-bottom: var(--space-xl);
 }
 
 .author__container {
@@ -118,4 +116,8 @@
 .block-quote__content {
   font-size: var(--text);
   font-style: italic;
+}
+
+.spinner-container {
+  margin-top: 30%;
 }

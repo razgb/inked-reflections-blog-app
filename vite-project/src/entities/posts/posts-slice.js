@@ -13,7 +13,13 @@ import { createSlice } from "@reduxjs/toolkit";
 const postsSlice = createSlice({
   name: "posts",
   initialState: {
-    currentPost: {},
+    currentPost: {
+      displayName: null,
+      createdAt: null,
+      postContent: null,
+      profilePhotoReference: null,
+      minutesToRead: null,
+    },
     postFeed: [],
     profilePosts: [],
     bookmarkPosts: [],
