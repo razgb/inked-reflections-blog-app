@@ -22,7 +22,10 @@ const postsSlice = createSlice({
     },
     postFeed: [],
     profilePosts: [],
-    bookmarkPosts: [],
+    bookmarks: {
+      ids: [],
+      posts: [],
+    },
     observers: {
       feed: true,
       profile: true,
@@ -39,8 +42,19 @@ const postsSlice = createSlice({
     updateProfilePosts(state, action) {
       state.profilePosts.push(...action.payload);
     },
+    updateBookmarkIds(state, action) {
+      state.bookmarks.ids.push(...action.payload);
+    },
     updateBookmarkPosts(state, action) {
-      state.bookmarkPosts.push(...action.payload);
+      state.bookmarks.posts.push(...action.payload);
+    },
+    addBookmarkPost(state, action) {
+      const postId = action.payload;
+      state.bookmarks.ids.push(postId);
+    },
+    removeBookmarkPost(state, action) {
+      const postId = action.payload;
+      state.bookmarks.ids = state.bookmarks.ids.filter((id) => id !== postId);
     },
     updateObserver(state, action) {
       const { name, bool } = action.payload;
@@ -59,7 +73,10 @@ export const {
   changeCurrentPost,
   updatePostsFeed,
   updateProfilePosts,
+  updateBookmarkIds,
   updateBookmarkPosts,
+  removeBookmarkPost,
+  addBookmarkPost,
   updateObserver,
 } = postsSlice.actions;
 export default postsSlice.reducer;

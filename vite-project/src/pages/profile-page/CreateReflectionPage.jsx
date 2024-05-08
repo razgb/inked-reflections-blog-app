@@ -13,6 +13,7 @@ import ReflectionImage from "../../widgets/create-reflection-widgets/ReflectionI
 import { activateAppError } from "../../entities/app-error/app-error-slice.js";
 import { checkMaxContentCount } from "../../features/reflections/checkMaxContentCount.js";
 import { submitReflectionToFirestore } from "../../features/reflections/submitReflectionToFirestore.js";
+import { useNavigate } from "react-router-dom";
 
 const maxContentCount = {
   images: 3,
@@ -28,12 +29,13 @@ const componentMap = {
 };
 
 export default function CreateReflectionPage() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     uid,
     displayName,
     photoURL: profilePhotoReference,
   } = useSelector((state) => state.user.info);
-  const dispatch = useDispatch();
   const [contentCount, setContentCount] = useState({
     images: 1,
     paragraphs: 1,
@@ -153,7 +155,8 @@ export default function CreateReflectionPage() {
         })
       );
     } else {
-      // -> redirect to user reflections or posts feed.
+      // in the future try and 'refresh' the profile posts with the newly added post.
+      navigate("/profile");
     }
   }
 
@@ -198,126 +201,3 @@ export default function CreateReflectionPage() {
     </div>
   );
 }
-
-/*
-  async function handleSubmit(event) {
-    event.preventDefault();
-    const formdata = new FormData(event.target);
-    const userContentValueEntries = Array.from(formdata.entries());
-
-    // PUT ALL WIDGET FORMDATA VALUES INTO SINGLE TEXT ARRAY FOR VALIDATION.
-    const allWidgetTexts = [];
-    userContentValueEntries.forEach(([key, value]) => {
-      if (!key.includes("image")) {
-        allWidgetTexts.push(value);
-      }
-    });
-
-    // VALIDATE ARRAY OF TEXTS
-    const allTextIsValid = allWidgetTexts.every((text) =>
-      validateTextWidget(text)
-    );
-    if (!allTextIsValid) {
-      dispatch(
-        activateAppError({
-          title: "Invalid character used.",
-          message:
-            "Allowed special characters: $, #, !, %, brackets, commas, single & double quotes, and semicolons.",
-        })
-      );
-      return;
-    }
-
-    // COMBINE USERCONTENT STATE WITH IT'S FORMDATA TEXT VALUES.
-    const userContentWithValues = userContent.map((widget, index) => {
-      const { component, title, id, file } = widget;
-      if (component === "image") {
-        return {
-          component,
-          title,
-          id,
-          file,
-        };
-      } else
-        return {
-          ...widget,
-          value: userContentValueEntries[index][1],
-        };
-    });
-
-    // FILTERING EMPTY IMAGE COMPONENTS
-    const validUserContent = userContentWithValues.filter((widget) => {
-      if (widget.component !== "image") return true;
-      else if (widget.file) {
-        return true;
-      } else return false;
-    });
-
-    const imagePromises = validUserContent
-      .filter((widget) => widget.file)
-      .map((widget) => {
-        return uploadImageToFirebase(widget.file, uid, "posts");
-      });
-
-    const imageNames = [];
-    if (imagePromises.length) {
-      try {
-        // const uploadObject = await Promise.all(imagesPromises);
-        const uploadObject = await requestWithRetry(imagePromises);
-        console.log("Upload Object:", uploadObject);
-        uploadObject.forEach((item) => imageNames.push(item.fileName));
-      } catch (error) {
-        dispatch(
-          activateAppError({
-            title: "Error uploading your reflection",
-            message: "Please try again.",
-          })
-        );
-      }
-    }
-
-    // MAPPING FIREBASE STORAGE IMAGE REFERENCES TO UPLOAD CONTENT
-    let nameIndex = 0;
-    const userContentToUpload = validUserContent.map((widget) => {
-      if (widget.component !== "image") return widget;
-      const { component, title, id } = widget;
-      const imageName = imageNames[nameIndex];
-      nameIndex++;
-      return {
-        component,
-        title,
-        id,
-        firebaseStorageReference: imageName,
-      };
-    });
-
-    // EDGE CASE SCENARIO WITH NO COVER-IMAGE.
-    if (!imageNames.length) {
-      // Adding cover-image back as null. (useful for UserPost & expanded components)
-      userContentToUpload.unshift({
-        id: "cover-image",
-        component: "image",
-        title: "cover-image",
-        firebaseStorageReference: null,
-      });
-      console.log(userContentToUpload);
-    }
-
-    try {
-      const promise = uploadReflectionToFirestore({
-        postContent: userContentToUpload,
-        displayName,
-        uid,
-        profilePhotoReference,
-      });
-      await requestWithRetry(promise);
-    } catch (error) {
-      dispatch(
-        activateAppError({
-          title: "Error uploading your reflection.",
-          message: "Please try again in a couple minutes",
-        })
-      );
-    }
-  }
-*/

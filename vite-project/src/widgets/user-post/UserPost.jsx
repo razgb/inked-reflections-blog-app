@@ -1,5 +1,5 @@
 import styles from "./UserPost.module.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { changeCurrentPost } from "../../entities/posts/posts-slice";
 import { useDispatch } from "react-redux";
 import { formatDate } from "../../shared/util/formatDate";

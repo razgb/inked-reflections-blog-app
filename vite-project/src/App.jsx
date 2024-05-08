@@ -3,14 +3,18 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
 import { auth } from "./main.jsx";
 import { onAuthStateChanged } from "firebase/auth";
 import {
   addUserToState,
   removeUserFromState,
 } from "./entities/user/user-slice.js";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { fetchBookmarkIdsFromUsersCollection } from "./features/bookmarks/fetchBookmarkIdsFromUsersCollection.js";
+import { requestWithRetry } from "./shared/util/requestWithRetry.js";
+import { updateBookmarkIds } from "./entities/posts/posts-slice.js";
 
 import RootLayout from "./pages/root-page/RootPage.jsx";
 import HomePage from "./pages/home-page/HomePage";
@@ -129,7 +133,7 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const { uid, email, emailVerified, displayName, photoURL } = user;
         const createdAt = Number(user.metadata.createdAt);
@@ -149,6 +153,20 @@ export default function App() {
             dateAccountedCreated,
           })
         );
+
+        const fetchBookmarkIds = async (uid) => {
+          try {
+            const bookmarkIds = await requestWithRetry(
+              fetchBookmarkIdsFromUsersCollection(uid)
+            );
+            dispatch(updateBookmarkIds(bookmarkIds));
+          } catch (error) {
+            console.log(error);
+            // Remember to create an error boundary or page in react router.
+          }
+        };
+
+        fetchBookmarkIds(uid);
       } else {
         dispatch(removeUserFromState());
       }

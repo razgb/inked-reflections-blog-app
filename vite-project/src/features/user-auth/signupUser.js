@@ -12,6 +12,8 @@ export async function signupUser(email, password) {
     const user = userCredential.user;
     console.log(user);
 
+    // CREATE USER IN FIRESTORE
+
     return {
       isValidated: user.emailVerified,
     };

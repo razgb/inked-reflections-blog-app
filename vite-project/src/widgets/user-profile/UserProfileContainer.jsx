@@ -3,7 +3,7 @@ import ReflectButton from "../../shared/ui/buttons/ReflectButton.jsx";
 import InfiniteScrollContainer from "../../shared/ui/infinite-scroll-container/InfiniteScrollContainer.jsx";
 import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage.jsx";
 
-import { fetchUserPosts } from "../../features/reflections/userPosts-collection-functions/fetchUserPosts.js";
+import { fetchUserPosts } from "../../features/reflections/fetchUserPosts.js";
 import { useSelector } from "react-redux";
 import { updateProfilePosts } from "../../entities/posts/posts-slice.js";
 import Spinner from "../../shared/ui/spinner/Spinner.jsx";

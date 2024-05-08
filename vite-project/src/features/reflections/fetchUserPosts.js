@@ -1,4 +1,4 @@
-import { db } from "../../../main";
+import { db } from "../../main";
 import {
   collection,
   getDocs,
@@ -8,8 +8,8 @@ import {
   orderBy,
   where,
 } from "firebase/firestore";
-import { requestWithRetry } from "../../../shared/util/requestWithRetry";
-import { filterTextAndEstimateReadingTime } from "../../../shared/util/filterTextAndEstimateReadingTime";
+import { requestWithRetry } from "../../shared/util/requestWithRetry";
+import { filterTextAndEstimateReadingTime } from "../../shared/util/filterTextAndEstimateReadingTime";
 
 let lastVisibleDoc = null;
 
