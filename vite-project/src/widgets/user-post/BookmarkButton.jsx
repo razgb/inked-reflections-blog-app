@@ -16,6 +16,7 @@ export default function BookmarkButton({
   postId,
   isBookmarked,
   postArrayName,
+  size = 18,
 }) {
   const dispatch = useDispatch();
   const uid = useSelector((state) => state.user.info.uid);
@@ -62,9 +63,9 @@ export default function BookmarkButton({
     <button onClick={handleBookmarkClick} className={styles["bookmark-button"]}>
       <span className={styles["bookmark-icon-container"]}>
         {bookmarked ? (
-          <BookmarksSolidIcon size={18} />
+          <BookmarksSolidIcon size={size} />
         ) : (
-          <BookmarksIcon size={18} />
+          <BookmarksIcon size={size} />
         )}
       </span>
     </button>

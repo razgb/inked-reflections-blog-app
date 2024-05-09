@@ -1,4 +1,4 @@
-import { QuoteIcon } from "../../shared/ui/svg/PostSvg.jsx";
+import { QuoteIcon } from "../../../shared/ui/svg/PostSvg.jsx";
 import styles from "./UserPostExpanded.module.css";
 
 export default function PostQuote({ children }) {

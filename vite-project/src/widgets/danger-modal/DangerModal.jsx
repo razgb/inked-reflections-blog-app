@@ -8,6 +8,7 @@ import { resetDangerModal } from "../../entities/danger-modal/danger-modal-slice
 // Danger functions:
 import { signoutUser } from "../../features/user-auth/signoutUser";
 import { deleteReflectionFromFirestore } from "../../features/reflections/deleteReflectionFromFirestore";
+import { useNavigate } from "react-router-dom";
 
 /** REGISTRY OF ASYNC FUNCTIONS:
  * Registry that contains functions that are considered 'dangerous'
@@ -27,6 +28,7 @@ const dangerFunctionRegistry = {
 };
 
 export default function DangerModal() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
     showModal,
@@ -46,6 +48,10 @@ export default function DangerModal() {
         await dangerFunction(dangerFunctionInput.payload);
       } else {
         await dangerFunction();
+      }
+
+      if (dangerFunctionReference === "deletePost") {
+        navigate("/profile");
       }
 
       handleCloseModal();

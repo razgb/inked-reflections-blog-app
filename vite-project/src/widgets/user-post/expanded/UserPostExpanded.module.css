@@ -7,44 +7,51 @@
   flex-direction: column;
 }
 
-.post-image-container {
-  margin-bottom: var(--space-xl);
+.post__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-sm);
 }
-.post-image {
-  position: relative;
-  max-width: 71rem;
-  padding-bottom: 40rem;
-  background-size: cover;
-  border-radius: var(--space-md);
-  overflow: hidden;
-}
-
 .post__title {
   font-size: var(--primary-heading);
+}
+.post__actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.post__info {
+  display: flex;
+  gap: var(--space-sm);
   margin-bottom: var(--space-xl);
+}
+
+.post__date-published,
+.post__minutes {
+  font-size: var(--text);
+  font-weight: 500;
+  background-color: var(--color-primary-400);
+  padding: var(--space-xs);
+  border-radius: var(--space-sm);
 }
 
 .author__container {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: var(--space-sm);
-  margin-bottom: var(--space-2xl);
+  margin-bottom: var(--space-md);
 }
 .author__image-container {
   display: inline-block;
 }
 .author__image {
   position: relative;
-  width: 5rem;
-  padding-bottom: 5rem;
+  width: 4rem;
+  padding-bottom: 4rem;
   border-radius: 100%;
   overflow: hidden;
-}
-.author__details {
-  margin-right: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .author__actions {
@@ -52,10 +59,11 @@
   gap: var(--space-md);
   align-items: center;
 }
+
 .author__link:link,
 .author__link:visited {
-  font-size: var(--tertiary-heading);
-  font-weight: 800;
+  font-size: var(--secondary-heading);
+  font-weight: 700;
   text-decoration: none;
 }
 .author__link:hover {
@@ -87,13 +95,16 @@
   font-weight: 600;
 }
 
-.date-published,
-.post__minutes {
-  font-size: var(--text);
-  font-weight: 500;
-  background-color: var(--color-primary-400);
-  padding: var(--space-xs);
-  border-radius: var(--space-sm);
+.post-image-container {
+  margin-bottom: var(--space-xl);
+}
+.post-image {
+  position: relative;
+  max-width: 71rem;
+  padding-bottom: 40rem;
+  background-size: cover;
+  border-radius: var(--space-md);
+  overflow: hidden;
 }
 
 /* Paragraph and quotes */

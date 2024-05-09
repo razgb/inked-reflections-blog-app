@@ -1,8 +1,8 @@
 .modal {
   position: absolute;
-  min-width: 35rem;
+  min-width: 20rem;
   top: 30dvh;
-  left: 50dvw;
+  left: 45dvw;
   transform: translateX(-50%);
   z-index: 20;
 

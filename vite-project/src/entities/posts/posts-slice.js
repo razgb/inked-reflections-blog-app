@@ -62,6 +62,11 @@ const postsSlice = createSlice({
         );
         state.bookmarkPosts.splice(removedPost.index, 0, removedPost.post);
       }
+
+      // edge case handling for current post being open
+      if (state.currentPost.id === postId) {
+        state.currentPost.isBookmarked = true;
+      }
     },
     removeBookmarkPost(state, action) {
       const { postId, postArrayName } = action.payload;
@@ -84,6 +89,11 @@ const postsSlice = createSlice({
           }
           return true; // pass
         });
+      }
+
+      // edge case handling for current post being open
+      if (state.currentPost.id === postId) {
+        state.currentPost.isBookmarked = false;
       }
     },
     updateObserver(state, action) {

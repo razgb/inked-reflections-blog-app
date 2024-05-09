@@ -44,6 +44,8 @@ export default function UserPost({
         profilePhotoReference,
         minutesToRead,
         isBookmarked,
+        isProfilePost,
+        postArrayName,
       })
     );
     navigate(`/posts/${id}`);
