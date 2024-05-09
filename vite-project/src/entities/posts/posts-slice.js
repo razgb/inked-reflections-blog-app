@@ -19,6 +19,7 @@ const postsSlice = createSlice({
       postContent: null,
       profilePhotoReference: null,
       minutesToRead: null,
+      isBookmarked: null,
     },
     postFeed: [],
     profilePosts: [],
@@ -49,12 +50,14 @@ const postsSlice = createSlice({
       state.bookmarks.posts.push(...action.payload);
     },
     addBookmarkPost(state, action) {
-      const postId = action.payload;
-      state.bookmarks.ids.push(postId);
+      const { postId, postArrayName } = action.payload;
+      const post = state[postArrayName].find((post) => post.id === postId);
+      if (post) post.isBookmarked = true;
     },
     removeBookmarkPost(state, action) {
-      const postId = action.payload;
-      state.bookmarks.ids = state.bookmarks.ids.filter((id) => id !== postId);
+      const { postId, postArrayName } = action.payload;
+      const post = state[postArrayName].find((post) => post.id === postId);
+      if (post) post.isBookmarked = false;
     },
     updateObserver(state, action) {
       const { name, bool } = action.payload;

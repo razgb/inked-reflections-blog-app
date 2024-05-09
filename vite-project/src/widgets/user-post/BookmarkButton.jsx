@@ -3,8 +3,8 @@ import { BookmarksIcon } from "../../shared/ui/svg/PostSvg";
 import { BookmarksSolidIcon } from "../../shared/ui/svg/PostSvg";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addBookmarkIdToUsersCollection } from "../../features/bookmarks/addBookmarkIdToUsersCollection";
-import { removeBookmarkIdFromUsersCollection } from "../../features/bookmarks/removeBookmarkIdFromUsersCollection";
+import { addBookmarkToUsersCollection } from "../../features/bookmarks/addBookmarkToUsersCollection";
+import { removeBookmarkFromUsersCollection } from "../../features/bookmarks/removeBookmarkFromUsersCollection";
 import { requestWithRetry } from "../../shared/util/requestWithRetry";
 import { activateAppError } from "../../entities/app-error/app-error-slice";
 import {
@@ -12,25 +12,34 @@ import {
   removeBookmarkPost,
 } from "../../entities/posts/posts-slice";
 
-export default function BookmarkButton({ postId }) {
+export default function BookmarkButton({
+  postId,
+  isBookmarked,
+  postArrayName,
+}) {
   const dispatch = useDispatch();
   const uid = useSelector((state) => state.user.info.uid);
-  const bookmarkIds = useSelector((state) => state.posts.bookmarks.ids);
-  const bookmarked = bookmarkIds.includes(postId);
+  const bookmarked = isBookmarked;
 
   function handleBookmarkClick() {
     let promise;
     let dispatchAction; // Optimistic update
     let reverseDispatchAction; // Revert optimistic update
 
+    const addBookmark = () =>
+      dispatch(addBookmarkPost({ postId, postArrayName }));
+
+    const removeBookmark = () =>
+      dispatch(removeBookmarkPost({ postId, postArrayName }));
+
     if (bookmarked) {
-      promise = removeBookmarkIdFromUsersCollection(uid, postId);
-      dispatchAction = () => dispatch(removeBookmarkPost(postId));
-      reverseDispatchAction = () => dispatch(addBookmarkPost(postId));
+      promise = removeBookmarkFromUsersCollection(uid, postId);
+      dispatchAction = removeBookmark;
+      reverseDispatchAction = addBookmark;
     } else {
-      promise = addBookmarkIdToUsersCollection(uid, postId);
-      dispatchAction = () => dispatch(addBookmarkPost(postId));
-      reverseDispatchAction = () => dispatch(removeBookmarkPost(postId));
+      promise = addBookmarkToUsersCollection(uid, postId);
+      dispatchAction = addBookmark;
+      reverseDispatchAction = removeBookmark;
     }
 
     const sendPromise = async () => {

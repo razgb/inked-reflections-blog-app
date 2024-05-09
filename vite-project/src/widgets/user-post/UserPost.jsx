@@ -16,6 +16,7 @@ export default function UserPost({
   profilePhotoReference,
   readingTime,
   isProfilePost,
+  isBookmarked,
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,6 +42,7 @@ export default function UserPost({
         postContent,
         profilePhotoReference,
         minutesToRead,
+        isBookmarked,
       })
     );
     navigate(`/posts/${id}`);
@@ -96,7 +98,11 @@ export default function UserPost({
         <div className={styles["post__row--3"]}>
           <span className={styles["post__minutes"]}>{minutesToRead}</span>
 
-          <BookmarkButton postId={id} />
+          <BookmarkButton
+            postId={id}
+            isBookmarked={isBookmarked}
+            postArrayName="postFeed"
+          />
 
           {isProfilePost && <DeletePostButton postId={id} postUid={postUid} />}
         </div>

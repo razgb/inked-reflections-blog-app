@@ -2,7 +2,11 @@ import styles from "./BookmarkedPost.module.css";
 import profileImg from "../../../public/default-profile.jpeg";
 import { Link } from "react-router-dom";
 
-export default function BookmarkedPost() {
+export default function BookmarkedPost({
+  displayName,
+  profilePhotoReference,
+  postContent,
+}) {
   function handlePostClick(event) {
     if (event.target.tagName === "A") return;
     window.location.href = `/posts/${123}`; // post id instead of 123
@@ -20,12 +24,14 @@ export default function BookmarkedPost() {
             />
           </Link>
           <Link to="#" className={styles["author__link"]}>
-            <span className={styles["author__name"]}>Dilan Farman</span>
+            <span className={styles["author__name"]}>
+              {displayName || "test name"}
+            </span>
           </Link>
         </div>
 
         <h4 className={styles["post__title"]}>
-          Principles of DRY {`(Don't Repeat Yourself)`} rule
+          {postContent || "test post title"}
         </h4>
       </div>
     </article>

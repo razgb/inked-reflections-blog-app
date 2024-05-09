@@ -31,6 +31,7 @@ export default function InfiniteScrollContainer({
 
   const dispatch = useDispatch();
   const triggerRef = useRef();
+  const uid = useSelector((state) => state.user.info.uid);
   const observerState = useSelector(
     (state) => state.posts.observers[observerName]
   );
@@ -46,12 +47,13 @@ export default function InfiniteScrollContainer({
       profilePhotoReference={post.profilePhotoReference}
       readingTime={post.readingTime}
       isProfilePost={isProfilePost}
+      isBookmarked={post.isBookmarked || false}
     />
   ));
 
   const fetchContent = async () => {
     try {
-      const newContentArray = await fn();
+      const newContentArray = await fn(uid);
       const newContentLength = newContentArray.length;
 
       if (newContentLength < batchLimit) {
@@ -82,7 +84,7 @@ export default function InfiniteScrollContainer({
   };
 
   useEffect(() => {
-    if (!observerState || !triggerRef.current) return;
+    if (!observerState || !triggerRef.current || !uid) return;
 
     const targetRefCurrent = triggerRef.current;
 

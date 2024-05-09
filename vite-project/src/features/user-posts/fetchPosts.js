@@ -8,10 +8,11 @@ import {
   orderBy,
 } from "firebase/firestore";
 import { filterTextAndEstimateReadingTime } from "../../shared/util/filterTextAndEstimateReadingTime.js";
+import { fetchBookmarkIdsBasedOffPostIds } from "../bookmarks/fetchBookmarkIdsBasedOffPostIds.js";
 
 let lastVisibleDoc = null;
 let fetchCount = 0;
-export async function fetchPosts() {
+export async function fetchPosts(uid) {
   // const postsRef = collection(db, "posts");
   const postsRef = collection(db, "posts-new");
   let q;
@@ -34,7 +35,16 @@ export async function fetchPosts() {
     id: doc.id,
   }));
 
-  const postDataWithReadingTime = postsData.map((doc) => {
+  const postIds = postsData.map((post) => post.id);
+  const bookmarkIds = await fetchBookmarkIdsBasedOffPostIds(uid, postIds);
+  // console.log(bookmarkIds);
+
+  const postIdsWithBookmarkBools = postsData.map((post) => ({
+    ...post,
+    isBookmarked: bookmarkIds.includes(post.id),
+  }));
+
+  const postDataWithReadingTime = postIdsWithBookmarkBools.map((doc) => {
     const readingTime = filterTextAndEstimateReadingTime(doc.postContent);
     return {
       ...doc,
@@ -44,5 +54,6 @@ export async function fetchPosts() {
 
   ++fetchCount;
   // console.log(`fetchPosts function invoked: ${fetchCount}x`);
+  // console.log(postDataWithReadingTime);
   return postDataWithReadingTime;
 }
