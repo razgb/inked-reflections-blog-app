@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { requestWithRetry } from "../../shared/util/requestWithRetry";
 import { filterTextAndEstimateReadingTime } from "../../shared/util/filterTextAndEstimateReadingTime";
+import { fetchBookmarkIdsBasedOffPostIds } from "../bookmarks/fetchBookmarkIdsBasedOffPostIds";
 
 let lastVisibleDoc = null;
 
@@ -55,7 +56,6 @@ async function fetchUserPostsBasedOnId(uid) {
     );
   }
 
-  // remember to include the requestWithRetry function here.
   const promise = getDocs(q);
   const querySnapshot = await requestWithRetry(promise);
   lastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1]; // last document in the last received set of posts
@@ -65,7 +65,16 @@ async function fetchUserPostsBasedOnId(uid) {
     id: doc.id,
   }));
 
-  const postDataWithReadingTime = postsData.map((doc) => {
+  const postIds = postsData.map((post) => post.id);
+  const bookmarkIdsPromise = fetchBookmarkIdsBasedOffPostIds(uid, postIds);
+  const bookmarkIds = await requestWithRetry(bookmarkIdsPromise);
+
+  const postIdsWithBookmarkBools = postsData.map((post) => ({
+    ...post,
+    isBookmarked: bookmarkIds.includes(post.id),
+  }));
+
+  const postDataWithReadingTime = postIdsWithBookmarkBools.map((doc) => {
     const readingTime = filterTextAndEstimateReadingTime(doc.postContent);
     return {
       ...doc,
