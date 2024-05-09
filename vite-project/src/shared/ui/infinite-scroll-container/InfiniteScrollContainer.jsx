@@ -21,6 +21,7 @@ export default function InfiniteScrollContainer({
   dispatchFn,
   batchLimit = 10,
   observerName,
+  postArrayName,
   isProfilePost,
 }) {
   if (!observerName) {
@@ -47,7 +48,8 @@ export default function InfiniteScrollContainer({
       profilePhotoReference={post.profilePhotoReference}
       readingTime={post.readingTime}
       isProfilePost={isProfilePost}
-      isBookmarked={post.isBookmarked || false}
+      isBookmarked={post.isBookmarked}
+      postArrayName={postArrayName}
     />
   ));
 

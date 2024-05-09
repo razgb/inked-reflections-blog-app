@@ -45,7 +45,6 @@ export default function BookmarkButton({
     const sendPromise = async () => {
       try {
         dispatchAction();
-
         await requestWithRetry(promise);
       } catch (error) {
         reverseDispatchAction();

@@ -23,10 +23,8 @@ const postsSlice = createSlice({
     },
     postFeed: [],
     profilePosts: [],
-    bookmarks: {
-      ids: [],
-      posts: [],
-    },
+    bookmarkPosts: [],
+    deletedBookmarkPosts: [],
     observers: {
       feed: true,
       profile: true,
@@ -43,21 +41,50 @@ const postsSlice = createSlice({
     updateProfilePosts(state, action) {
       state.profilePosts.push(...action.payload);
     },
-    updateBookmarkIds(state, action) {
-      state.bookmarks.ids.push(...action.payload);
-    },
     updateBookmarkPosts(state, action) {
-      state.bookmarks.posts.push(...action.payload);
+      state.bookmarkPosts.push(...action.payload);
     },
     addBookmarkPost(state, action) {
+      // Must be one of these three: ['postFeed', 'profilePosts', 'bookmarkPosts']
       const { postId, postArrayName } = action.payload;
-      const post = state[postArrayName].find((post) => post.id === postId);
-      if (post) post.isBookmarked = true;
+
+      if (postArrayName === "postFeed" || postArrayName === "profilePosts") {
+        const post = state[postArrayName].find((post) => post.id === postId);
+        if (post) post.isBookmarked = true;
+      }
+
+      // Optimistic update safeguard for adding posts back due to request error.
+      else if (postArrayName === "bookmarkPosts") {
+        const { postId } = action.payload;
+
+        const removedPost = state.deletedBookmarkPosts.find(
+          (bookmark) => bookmark.post.id === postId
+        );
+        state.bookmarkPosts.splice(removedPost.index, 0, removedPost.post);
+      }
     },
     removeBookmarkPost(state, action) {
       const { postId, postArrayName } = action.payload;
-      const post = state[postArrayName].find((post) => post.id === postId);
-      if (post) post.isBookmarked = false;
+
+      if (postArrayName === "postFeed" || postArrayName === "profilePosts") {
+        const post = state[postArrayName].find((post) => post.id === postId);
+        if (post) post.isBookmarked = false;
+      }
+
+      // Optimistic update safeguard for deleting posts in bookmarks page.
+      else if (postArrayName === "bookmarkPosts") {
+        console.log("inside else block for bookmarks");
+        state.bookmarkPosts = state.bookmarkPosts.filter((post, index) => {
+          if (post.id === postId) {
+            state.deletedBookmarkPosts.push({
+              index,
+              post,
+            });
+            return false; // filter (a delete)
+          }
+          return true; // pass
+        });
+      }
     },
     updateObserver(state, action) {
       const { name, bool } = action.payload;

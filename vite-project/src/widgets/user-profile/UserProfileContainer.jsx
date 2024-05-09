@@ -72,6 +72,7 @@ export default function UserProfileContainer() {
               fn={async () => await fetchUserPosts(uid)}
               dispatchFn={updateProfilePosts}
               observerName="profile"
+              postArrayName={"profilePosts"}
               isProfilePost={true}
             />
           )}

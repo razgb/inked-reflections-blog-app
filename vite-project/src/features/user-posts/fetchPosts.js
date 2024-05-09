@@ -8,7 +8,7 @@ import {
   orderBy,
 } from "firebase/firestore";
 import { filterTextAndEstimateReadingTime } from "../../shared/util/filterTextAndEstimateReadingTime.js";
-import { fetchBookmarkIdsBasedOffPostIds } from "../bookmarks/fetchBookmarkIdsBasedOffPostIds.js";
+import { fetchBookmarkIdsForPostIds } from "../bookmarks/fetchBookmarkIdsForPostIds.js";
 import { requestWithRetry } from "../../shared/util/requestWithRetry.js";
 
 let lastVisibleDoc = null;
@@ -32,12 +32,12 @@ export async function fetchPosts(uid) {
   lastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1]; // last document in the last received set of posts
 
   const postsData = querySnapshot.docs.map((doc) => ({
-    ...doc.data(),
     id: doc.id,
+    ...doc.data(),
   }));
 
   const postIds = postsData.map((post) => post.id);
-  const bookmarkIdsPromise = fetchBookmarkIdsBasedOffPostIds(uid, postIds);
+  const bookmarkIdsPromise = fetchBookmarkIdsForPostIds(uid, postIds);
   const bookmarkIds = await requestWithRetry(bookmarkIdsPromise);
 
   const postIdsWithBookmarkBools = postsData.map((post) => ({

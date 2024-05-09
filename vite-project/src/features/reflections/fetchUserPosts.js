@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import { requestWithRetry } from "../../shared/util/requestWithRetry";
 import { filterTextAndEstimateReadingTime } from "../../shared/util/filterTextAndEstimateReadingTime";
-import { fetchBookmarkIdsBasedOffPostIds } from "../bookmarks/fetchBookmarkIdsBasedOffPostIds";
+import { fetchBookmarkIdsForPostIds } from "../bookmarks/fetchBookmarkIdsForPostIds";
 
 let lastVisibleDoc = null;
 
@@ -66,7 +66,7 @@ async function fetchUserPostsBasedOnId(uid) {
   }));
 
   const postIds = postsData.map((post) => post.id);
-  const bookmarkIdsPromise = fetchBookmarkIdsBasedOffPostIds(uid, postIds);
+  const bookmarkIdsPromise = fetchBookmarkIdsForPostIds(uid, postIds);
   const bookmarkIds = await requestWithRetry(bookmarkIdsPromise);
 
   const postIdsWithBookmarkBools = postsData.map((post) => ({

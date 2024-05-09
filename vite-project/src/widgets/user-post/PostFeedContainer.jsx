@@ -16,6 +16,7 @@ export default function PostFeedContainer() {
         dispatchFn={updatePostsFeed}
         observerName={"feed"}
         isProfilePost={false}
+        postArrayName={"postFeed"}
       />
     </div>
   );

@@ -10,11 +10,11 @@ import { db } from "../../main";
 import { requestWithRetry } from "../../shared/util/requestWithRetry";
 
 /**
- * Fetches bookmark ids based off post ids.
+ * Fetches bookmark ids for given post ids.
  * @param {string} uid - The user's unique identifier.
  * @param {string[]} postIds - An array of post ids.
  */
-export async function fetchBookmarkIdsBasedOffPostIds(uid, postIds) {
+export async function fetchBookmarkIdsForPostIds(uid, postIds) {
   if (!Array.isArray(postIds)) {
     throw new Error("Post IDs are required to fetch bookmarks.");
   } else if (!postIds) {

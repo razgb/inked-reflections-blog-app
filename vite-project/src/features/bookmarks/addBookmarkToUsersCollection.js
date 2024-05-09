@@ -14,9 +14,10 @@ export async function addBookmarkToUsersCollection(uid, postId) {
       "Add uid and postId for function send bookmark to user's bookmark collection."
     );
 
-  // console.log(uid, postId);
   const bookmarkRef = doc(db, "users", uid, "bookmarks", postId);
-  const promise = setDoc(bookmarkRef, {});
+  const promise = setDoc(bookmarkRef, {
+    createdAt: serverTimestamp(),
+  });
 
   try {
     await requestWithRetry(promise);

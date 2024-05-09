@@ -1,8 +1,15 @@
 import styles from "./Bookmarks.module.css";
 import SearchInput from "../../shared/ui/search-input/SearchInput";
 import Select from "../../shared/ui/select-element/Select";
+import InfiniteScrollContainer from "../../shared/ui/infinite-scroll-container/InfiniteScrollContainer";
+
+import { useSelector } from "react-redux";
+import { updateBookmarkPosts } from "../../entities/posts/posts-slice";
+import { fetchBookmarkPosts } from "../../features/bookmarks/fetchBookmarkPosts";
 
 export default function Bookmarks() {
+  const bookmarkPosts = useSelector((state) => state.posts.bookmarkPosts);
+
   return (
     <div className={styles["bookmarks"]}>
       <div className={styles["bookmarks__container"]}>
@@ -13,7 +20,17 @@ export default function Bookmarks() {
 
         <SearchInput placeholder="Search your bookmarks" />
 
-        <div className={styles["bookmarks__posts"]}></div>
+        <div className={styles["bookmarks__posts"]}>
+          <InfiniteScrollContainer
+            content={bookmarkPosts}
+            fn={fetchBookmarkPosts}
+            dispatchFn={updateBookmarkPosts}
+            batchLimit={10}
+            observerName="bookmark"
+            postArrayName={"bookmarkPosts"}
+            isProfilePost={false}
+          />
+        </div>
       </div>
     </div>
   );

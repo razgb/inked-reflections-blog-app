@@ -16,9 +16,3 @@ export default function BookmarksPage() {
     </PageLayoutTemplate>
   );
 }
-
-/**
- * Plans for future:
- *
- * - Introduce filtering features by date
- */
