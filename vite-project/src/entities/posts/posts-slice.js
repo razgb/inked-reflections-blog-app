@@ -24,6 +24,8 @@ const postsSlice = createSlice({
     postFeed: [],
     profilePosts: [],
     bookmarkPosts: [],
+    profilePostsEmpty: null,
+    bookmarkPostsEmpty: null,
     deletedBookmarkPosts: [],
     observers: {
       feed: true,
@@ -39,11 +41,20 @@ const postsSlice = createSlice({
       state.postFeed.push(...action.payload);
     },
     updateProfilePosts(state, action) {
+      if (!state.bookmarkPosts.length && !action.payload.length) {
+        state.profilePostsEmpty = true;
+      } else state.profilePostsEmpty = false;
+
       state.profilePosts.push(...action.payload);
     },
     updateBookmarkPosts(state, action) {
+      if (!state.bookmarkPosts.length && !action.payload.length) {
+        state.bookmarkPostsEmpty = true;
+      } else state.bookmarkPostsEmpty = false;
+
       state.bookmarkPosts.push(...action.payload);
     },
+
     addBookmarkPost(state, action) {
       // Must be one of these three: ['postFeed', 'profilePosts', 'bookmarkPosts']
       const { postId, postArrayName } = action.payload;

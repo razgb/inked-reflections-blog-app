@@ -1,26 +1,26 @@
-.user-post {
+.post__wrapper {
   border-radius: var(--space-lg);
   transition: all 0.3s ease;
 }
-.user-post:hover {
+.post__wrapper:hover {
   background-color: var(--color-primary-300);
   cursor: pointer;
 }
 
-.post__container {
+.post__content {
   display: flex;
   flex-direction: column;
   padding: var(--space-lg);
 }
 
-.post__row--1 {
+.post__header {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
 
   margin-bottom: var(--space-lg);
 }
-.profile-photo__container {
+.post__profile-photo-wrapper {
   position: relative;
   display: block;
   width: 3.2rem;
@@ -29,7 +29,7 @@
   border-radius: 100%;
 }
 
-.post__author-date {
+.post__date {
   font-size: var(--text-sm);
   color: var(--color-primary-800);
 }
@@ -46,11 +46,11 @@
 }
 
 /* Anchor/Link element */
-.post__row--2 {
+.post__body {
   margin-bottom: var(--space-md);
 }
 /* Post image container */
-.post__link {
+.post__details {
   display: grid;
   grid-template-columns: 3fr 1fr;
   gap: var(--space-xl);
@@ -62,7 +62,7 @@
   margin-bottom: var(--space-sm);
   font-size: var(--tertiary-heading);
 }
-.post__row--2 .post__title {
+.post__body .post__title {
   color: var(--color-primary-900);
 }
 .post__abstract {
@@ -74,7 +74,7 @@
 /* /////////// */
 /* half 2 */
 /* /////////// */
-.post__img-container {
+.post__image-container {
   position: relative;
   width: 12.8rem;
   padding-bottom: 12.8rem;
@@ -82,12 +82,12 @@
   overflow: hidden;
 }
 
-.post__row--3 {
+.post__footer {
   display: flex;
   align-items: center;
   gap: var(--space-md);
 }
-.post__minutes {
+.post__reading-time {
   font-size: var(--text-sm);
   color: var(--color-primary-800);
 }

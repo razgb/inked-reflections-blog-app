@@ -7,10 +7,13 @@ import { activateAppError } from "../../entities/app-error/app-error-slice.js";
 
 export default function RecentBookmarksContainer() {
   const dispatch = useDispatch();
-  const uid = useSelector((state) => state.user.info.uid);
+  const bookmarkPostsEmpty = useSelector(
+    (state) => state.posts.bookmarkPostsEmpty
+  );
 
   const bookmarkPosts = useSelector((state) => state.posts.bookmarkPosts);
   const recentThreeBookmarks = bookmarkPosts.slice(-3); // returns empty if none.
+
   // console.log(recentThreeBookmarks);
   // if no bookmarks, THEN USE USEEFFECT
 
@@ -26,11 +29,9 @@ export default function RecentBookmarksContainer() {
   // });
 
   useEffect(() => {
-    if (!uid) return; // redux not loaded yet.
+    if (bookmarkPostsEmpty === null) return; // redux for bookmarks not initialized yet.
 
-    // if (recentThreeBookmarkIds.length || !)
-
-    const getBookmarkContetnt = async () => {
+    const getBookmarkContent = async () => {
       // try {
       //   const bookmarkContents = await fetchBookmarkedPosts(
       //     recentThreeBookmarkIds
@@ -53,12 +54,7 @@ export default function RecentBookmarksContainer() {
     <div className={styles["saved-posts-container"]}>
       <h3 className={styles["saved-posts-heading"]}>Recent bookmarks</h3>
 
-      <ul className={styles["saved-posts-list"]}>
-        {/* Should be max 3 */}
-        <BookmarkedPost />
-        <BookmarkedPost />
-        <BookmarkedPost />
-      </ul>
+      <ul className={styles["saved-posts-list"]}></ul>
     </div>
   );
 }

@@ -1,16 +1,16 @@
-import styles from "./UserPost.module.css";
-import { BookmarksIcon } from "../../shared/ui/svg/PostSvg";
-import { BookmarksSolidIcon } from "../../shared/ui/svg/PostSvg";
+import styles from "../UserPost.module.css";
+import { BookmarksIcon } from "../../../shared/ui/svg/PostSvg";
+import { BookmarksSolidIcon } from "../../../shared/ui/svg/PostSvg";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addBookmarkToUsersCollection } from "../../features/bookmarks/addBookmarkToUsersCollection";
-import { removeBookmarkFromUsersCollection } from "../../features/bookmarks/removeBookmarkFromUsersCollection";
-import { requestWithRetry } from "../../shared/util/requestWithRetry";
-import { activateAppError } from "../../entities/app-error/app-error-slice";
+import { addBookmarkToUsersCollection } from "../../../features/bookmarks/addBookmarkToUsersCollection";
+import { removeBookmarkFromUsersCollection } from "../../../features/bookmarks/removeBookmarkFromUsersCollection";
+import { requestWithRetry } from "../../../shared/util/requestWithRetry";
+import { activateAppError } from "../../../entities/app-error/app-error-slice";
 import {
   addBookmarkPost,
   removeBookmarkPost,
-} from "../../entities/posts/posts-slice";
+} from "../../../entities/posts/posts-slice";
 
 export default function BookmarkButton({
   postId,
