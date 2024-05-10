@@ -7,6 +7,8 @@ import { activateAppError } from "../../entities/app-error/app-error-slice.js";
 
 export default function RecentBookmarksContainer() {
   const dispatch = useDispatch();
+  const uid = useSelector((state) => state.user.info.uid);
+
   const bookmarkPosts = useSelector((state) => state.posts.bookmarkPosts);
   const recentThreeBookmarks = bookmarkPosts.slice(-3); // returns empty if none.
   // console.log(recentThreeBookmarks);
@@ -23,29 +25,29 @@ export default function RecentBookmarksContainer() {
   //   );
   // });
 
-  // useEffect(() => {
-  //   if (recentThreeBookmarkIds.length) {
-  //     return; // means recent bookmarks exist in redux.
-  //   }
+  useEffect(() => {
+    if (!uid) return; // redux not loaded yet.
 
-  //   const getBookmarkContetnt = async () => {
-  //     // try {
-  //     //   const bookmarkContents = await fetchBookmarkedPosts(
-  //     //     recentThreeBookmarkIds
-  //     //   );
-  //     //   console.log(bookmarkContents);
-  //     // } catch (error) {
-  //     //   console.error(error);
-  //     //   dispatch(
-  //     //     activateAppError({
-  //     //       title: "Failed to fetch your recent bookmarks",
-  //     //       message: "Please check your internet connection and try again.",
-  //     //     })
-  //     //   );
-  //     // }
-  //   };
-  //   // getBookmarkContetnt();
-  // }, []);
+    // if (recentThreeBookmarkIds.length || !)
+
+    const getBookmarkContetnt = async () => {
+      // try {
+      //   const bookmarkContents = await fetchBookmarkedPosts(
+      //     recentThreeBookmarkIds
+      //   );
+      //   console.log(bookmarkContents);
+      // } catch (error) {
+      //   console.error(error);
+      //   dispatch(
+      //     activateAppError({
+      //       title: "Failed to fetch your recent bookmarks",
+      //       message: "Please check your internet connection and try again.",
+      //     })
+      //   );
+      // }
+    };
+    // getBookmarkContetnt();
+  }, []);
 
   return (
     <div className={styles["saved-posts-container"]}>

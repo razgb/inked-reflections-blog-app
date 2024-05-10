@@ -3,7 +3,7 @@ import MainContent from "../../shared/ui/main-content/MainContent";
 import SidebarContent from "../../shared/ui/sidebar-content/SidebarContent";
 import UserPostExpanded from "../../widgets/user-post/expanded/UserPostExpanded";
 import ReflectionsPlusAdvert from "../../widgets/reflections-plus/ReflectionsPlusAdvert";
-import RecentBookmarksContainer from "../../widgets/bookmarked-posts/RecentBookmarksContainer";
+import RecentBookmarksContainer from "../../widgets/recent-bookmarks/RecentBookmarksContainer";
 
 export default function PostDetailsPage() {
   return (

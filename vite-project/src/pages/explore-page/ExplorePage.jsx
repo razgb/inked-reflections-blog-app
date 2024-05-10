@@ -4,7 +4,7 @@ import SidebarContent from "../../shared/ui/sidebar-content/SidebarContent";
 
 import Explore from "../../widgets/explore/Explore.jsx";
 import ReflectionsPlusAdvert from "../../widgets/reflections-plus/ReflectionsPlusAdvert";
-import RecentBookmarksContainer from "../../widgets/bookmarked-posts/RecentBookmarksContainer.jsx";
+import RecentBookmarksContainer from "../../widgets/recent-bookmarks/RecentBookmarksContainer.jsx";
 
 export default function ExplorePage() {
   return (
