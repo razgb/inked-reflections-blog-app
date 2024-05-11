@@ -1,4 +1,4 @@
-import styles from "../../../widgets/user-profile/UserProfileContainer.module.css";
+import styles from "../../../widgets/user-profile/ProfileFeedContainer.module.css";
 import { WriteIcon } from "../svg/NavigationSvg";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";

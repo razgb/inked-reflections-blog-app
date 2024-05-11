@@ -1,22 +1,18 @@
-import styles from "./PostFeedContainer.module.css";
+import styles from "./MainFeedContainer.module.css";
 import { useSelector } from "react-redux";
-import { updatePostsFeed } from "../../entities/posts/posts-slice.js";
 import { fetchPosts } from "../../features/user-posts/fetchPosts.js";
 // import { ErrorTriangleIcon } from "../../shared/ui/svg/PostSvg.jsx";
 import InfiniteScrollContainer from "../../shared/ui/infinite-scroll-container/InfiniteScrollContainer.jsx";
 
-export default function PostFeedContainer() {
-  const { postFeed } = useSelector((state) => state.posts);
+export default function MainFeedContainer() {
+  const { posts } = useSelector((state) => state.mainFeed);
 
   return (
     <div className={styles["user-posts-container"]}>
       <InfiniteScrollContainer
-        content={postFeed}
+        content={posts}
         fn={fetchPosts}
-        dispatchFn={updatePostsFeed}
-        observerName={"feed"}
-        isProfilePost={false}
-        postArrayName={"postFeed"}
+        parentArrayName={"mainFeed"}
       />
     </div>
   );

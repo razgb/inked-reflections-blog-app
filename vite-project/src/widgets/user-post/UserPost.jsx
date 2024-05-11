@@ -1,28 +1,28 @@
 import styles from "./UserPost.module.css";
-import { useNavigate } from "react-router-dom";
-import { changeCurrentPost } from "../../entities/posts/posts-slice";
-import { useDispatch } from "react-redux";
-
 import PostHeader from "./sub-components/PostHeader.jsx";
 import PostBody from "./sub-components/PostBody.jsx";
 import PostFooter from "./sub-components/PostFooter.jsx";
 
-export default function UserPost({
-  id,
-  postUid,
-  displayName,
-  createdAt,
-  postContent,
-  profilePhotoReference,
-  readingTime,
-  isProfilePost,
-  isBookmarked,
-  postArrayName,
-}) {
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { changeCurrentPost } from "../../entities/current-post/currentPostSlice.js";
+
+export default function UserPost({ parentArrayName, ...post }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const coverPhotoReference = postContent[0].firebaseStorageReference;
+  const {
+    id,
+    postUid,
+    displayName,
+    createdAt,
+    postContent,
+    profilePhotoReference,
+    readingTime,
+    isBookmarked,
+  } = post;
 
+  const isProfilePost = parentArrayName === "profilePosts";
+  const coverPhotoReference = postContent[0].firebaseStorageReference;
   const title = postContent[1].value;
   const abstractParagraph = postContent[2].value;
   const minutesToRead = `${readingTime}-min read`;
@@ -36,15 +36,7 @@ export default function UserPost({
     dispatch(
       changeCurrentPost({
         id,
-        postUid,
-        displayName,
-        createdAt,
-        postContent,
-        profilePhotoReference,
-        minutesToRead,
-        isBookmarked,
-        isProfilePost,
-        postArrayName,
+        ...post,
       })
     );
     navigate(`/posts/${id}`);
@@ -69,7 +61,7 @@ export default function UserPost({
           minutesToRead={minutesToRead}
           id={id}
           isBookmarked={isBookmarked}
-          postArrayName={postArrayName}
+          parentArrayName={parentArrayName}
           isProfilePost={isProfilePost}
           postUid={postUid}
         />

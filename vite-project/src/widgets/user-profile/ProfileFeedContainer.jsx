@@ -1,16 +1,15 @@
-import styles from "./UserProfileContainer.module.css";
+import styles from "./ProfileFeedContainer.module.css";
 import ReflectButton from "../../shared/ui/buttons/ReflectButton.jsx";
 import InfiniteScrollContainer from "../../shared/ui/infinite-scroll-container/InfiniteScrollContainer.jsx";
 import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage.jsx";
 
 import { fetchUserPosts } from "../../features/reflections/fetchUserPosts.js";
 import { useSelector } from "react-redux";
-import { updateProfilePosts } from "../../entities/posts/posts-slice.js";
 import Spinner from "../../shared/ui/spinner/Spinner.jsx";
 import Button from "../../shared/ui/buttons/Button.jsx";
 
-export default function UserProfileContainer() {
-  const { profilePosts } = useSelector((state) => state.posts);
+export default function ProfileFeedContainer() {
+  const { posts } = useSelector((state) => state.profileFeed);
   const { info } = useSelector((state) => state.user);
   const {
     uid,
@@ -68,12 +67,9 @@ export default function UserProfileContainer() {
         <div className={styles["posts"]}>
           {uid && (
             <InfiniteScrollContainer
-              content={profilePosts}
+              content={posts}
               fn={async () => await fetchUserPosts(uid)}
-              dispatchFn={updateProfilePosts}
-              observerName="profile"
-              postArrayName={"profilePosts"}
-              isProfilePost={true}
+              parentArrayName={"profileFeed"}
             />
           )}
         </div>

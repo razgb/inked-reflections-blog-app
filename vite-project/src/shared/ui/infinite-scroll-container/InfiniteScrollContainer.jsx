@@ -4,53 +4,55 @@ import UserPost from "../../../widgets/user-post/UserPost";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { activateAppError } from "../../../entities/app-error/app-error-slice";
-import { updateObserver } from "../../../entities/posts/posts-slice";
+
+import {
+  updateFeedObserver,
+  updateMainFeed,
+} from "../../../entities/posts/mainFeedSlice";
+import {
+  updateProfileObserver,
+  updateProfileFeed,
+} from "../../../entities/posts/profileFeedSlice";
+import {
+  updateBookmarkObserver,
+  updateBookmarkFeed,
+} from "../../../entities/posts/bookmarkFeedSlice";
+
+const observerMap = {
+  mainFeed: updateFeedObserver,
+  profileFeed: updateProfileObserver,
+  bookmarkFeed: updateBookmarkObserver,
+};
+
+const dispatchFunctionMap = {
+  mainFeed: updateMainFeed,
+  profileFeed: updateProfileFeed,
+  bookmarkFeed: updateBookmarkFeed,
+};
 
 /**
  * Custom infinite scrolling component that abstracts everything from fetching to rendering user posts.
  * @param {array} content Infinite scroll content such as posts, comments, bookmarks.
  * @param {function} fn Async function that fetches new content.
  * @param {function} dispatchFn Redux dispatch function that updates content state in application.
- * @param {Number} batchLimit Default value: 10, match this number to how many documents you request from firebase.
  * @param {string} observerName A unique name so that redux can keep track of observer state across component mounts and unmounts e.g. ['posts', 'profile', 'bookmark'].
+ * @param {boolean} isProfilePost Whether the post is a profile post.
  * @returns {Array} Content inside array that react renders.
  */
 export default function InfiniteScrollContainer({
   content,
   fn,
-  dispatchFn,
-  batchLimit = 10,
-  observerName,
-  postArrayName,
-  isProfilePost,
+  parentArrayName,
 }) {
-  if (!observerName) {
-    throw new Error(
-      "Please enter a container name for redux observer state functionality."
-    );
-  }
-
   const dispatch = useDispatch();
   const triggerRef = useRef();
   const uid = useSelector((state) => state.user.info.uid);
-  const observerState = useSelector(
-    (state) => state.posts.observers[observerName]
-  );
+
+  const { postBatchLimit, intersectionObserverState: observerState } =
+    useSelector((state) => state[parentArrayName]);
 
   const output = content.map((post) => (
-    <UserPost
-      key={post.id}
-      id={post.id}
-      postUid={post.uid}
-      displayName={post.displayName}
-      createdAt={post.createdAt}
-      postContent={post.postContent}
-      profilePhotoReference={post.profilePhotoReference}
-      readingTime={post.readingTime}
-      isProfilePost={isProfilePost}
-      isBookmarked={post.isBookmarked}
-      postArrayName={postArrayName}
-    />
+    <UserPost key={post.id} {...post} parentArrayName={parentArrayName} />
   ));
 
   const fetchContent = async () => {
@@ -58,18 +60,23 @@ export default function InfiniteScrollContainer({
       const newContentArray = await fn(uid);
       const newContentLength = newContentArray.length;
 
-      if (newContentLength < batchLimit) {
+      const observerUpdater = observerMap[parentArrayName];
+      const dispatchFn = dispatchFunctionMap[parentArrayName];
+
+      // No more content in firestore after this batch.
+      if (newContentLength < postBatchLimit) {
         dispatch(
-          updateObserver({
+          observerUpdater({
             bool: false,
-            name: observerName,
           })
-        ); // No more content in firestore.
-      } else
+        );
+      }
+
+      // There is more content in firestore after this batch.
+      else
         dispatch(
-          updateObserver({
+          observerUpdater({
             bool: true,
-            name: observerName,
           })
         );
 
@@ -86,7 +93,8 @@ export default function InfiniteScrollContainer({
   };
 
   useEffect(() => {
-    if (!observerState || !triggerRef.current || !uid) return;
+    if (!observerState || !triggerRef.current || !uid || !parentArrayName)
+      return;
 
     const targetRefCurrent = triggerRef.current;
 
@@ -128,5 +136,6 @@ export default function InfiniteScrollContainer({
     );
   }
 
+  // console.log(output);
   return output;
 }

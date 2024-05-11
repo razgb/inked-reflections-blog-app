@@ -6,49 +6,13 @@ import { fetchBookmarkIdsForUser } from "../../features/bookmarks/fetchBookmarkI
 import { activateAppError } from "../../entities/app-error/app-error-slice.js";
 
 export default function RecentBookmarksContainer() {
-  const dispatch = useDispatch();
-  const bookmarkPostsEmpty = useSelector(
-    (state) => state.posts.bookmarkPostsEmpty
-  );
+  // const dispatch = useDispatch();
+  // const bookmarkPostsEmpty = useSelector(
+  //   (state) => state.posts.bookmarkPostsEmpty
+  // );
 
-  const bookmarkPosts = useSelector((state) => state.posts.bookmarkPosts);
-  const recentThreeBookmarks = bookmarkPosts.slice(-3); // returns empty if none.
-
-  // console.log(recentThreeBookmarks);
-  // if no bookmarks, THEN USE USEEFFECT
-
-  // const bookmarkContents = recentThreeBookmarks.map((bookmarkPost) => {
-  //   const { id, displayName, postContent } = bookmarkPost;
-  //   return (
-  //     <BookmarkedPost
-  //       key={id}
-  //       displayName={displayName}
-  //       postContent={postContent}
-  //     />
-  //   );
-  // });
-
-  useEffect(() => {
-    if (bookmarkPostsEmpty === null) return; // redux for bookmarks not initialized yet.
-
-    const getBookmarkContent = async () => {
-      // try {
-      //   const bookmarkContents = await fetchBookmarkedPosts(
-      //     recentThreeBookmarkIds
-      //   );
-      //   console.log(bookmarkContents);
-      // } catch (error) {
-      //   console.error(error);
-      //   dispatch(
-      //     activateAppError({
-      //       title: "Failed to fetch your recent bookmarks",
-      //       message: "Please check your internet connection and try again.",
-      //     })
-      //   );
-      // }
-    };
-    // getBookmarkContetnt();
-  }, []);
+  // const bookmarkPosts = useSelector((state) => state.postFeed.bookmarkPosts);
+  // const recentThreeBookmarks = bookmarkPosts.slice(-3); // returns empty if none.
 
   return (
     <div className={styles["saved-posts-container"]}>

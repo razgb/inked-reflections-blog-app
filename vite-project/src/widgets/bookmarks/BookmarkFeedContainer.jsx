@@ -1,14 +1,13 @@
-import styles from "./Bookmarks.module.css";
+import styles from "./BookmarkFeedContainer.module.css";
 import SearchInput from "../../shared/ui/search-input/SearchInput";
 import Select from "../../shared/ui/select-element/Select";
 import InfiniteScrollContainer from "../../shared/ui/infinite-scroll-container/InfiniteScrollContainer";
 
 import { useSelector } from "react-redux";
-import { updateBookmarkPosts } from "../../entities/posts/posts-slice";
 import { fetchBookmarkPosts } from "../../features/bookmarks/fetchBookmarkPosts";
 
-export default function Bookmarks() {
-  const bookmarkPosts = useSelector((state) => state.posts.bookmarkPosts);
+export default function BookmarkFeedContainer() {
+  const { posts } = useSelector((state) => state.bookmarkFeed);
 
   return (
     <div className={styles["bookmarks"]}>
@@ -22,13 +21,9 @@ export default function Bookmarks() {
 
         <div className={styles["bookmarks__posts"]}>
           <InfiniteScrollContainer
-            content={bookmarkPosts}
+            content={posts}
             fn={fetchBookmarkPosts}
-            dispatchFn={updateBookmarkPosts}
-            batchLimit={10}
-            observerName="bookmark"
-            postArrayName={"bookmarkPosts"}
-            isProfilePost={false}
+            parentArrayName={"bookmarkFeed"}
           />
         </div>
       </div>

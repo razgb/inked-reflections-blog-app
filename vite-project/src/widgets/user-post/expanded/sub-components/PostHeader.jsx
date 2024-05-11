@@ -6,7 +6,7 @@ export default function PostHeader({
   title,
   id,
   isBookmarked,
-  postArrayName,
+  parentArrayName,
   isProfilePost,
   uid,
 }) {
@@ -17,7 +17,7 @@ export default function PostHeader({
         <BookmarkButton
           postId={id}
           isBookmarked={isBookmarked}
-          postArrayName={postArrayName}
+          parentArrayName={parentArrayName}
           size={22}
         />
         {isProfilePost && (

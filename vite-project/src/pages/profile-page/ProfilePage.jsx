@@ -3,13 +3,13 @@ import PageLayoutTemplate from "../../shared/ui/page-layout-template/PageLayoutT
 import SidebarContent from "../../shared/ui/sidebar-content/SidebarContent";
 // import ReflectionsPlusAdvert from "../../widgets/reflections-plus/ReflectionsPlusAdvert";
 import RecentBookmarksContainer from "../../widgets/recent-bookmarks/RecentBookmarksContainer";
-import UserProfileContainer from "../../widgets/user-profile/UserProfileContainer";
+import ProfileFeedContainer from "../../widgets/user-profile/ProfileFeedContainer";
 
 export default function ProfilePage() {
   return (
     <PageLayoutTemplate>
       <MainContent>
-        <UserProfileContainer />
+        <ProfileFeedContainer />
       </MainContent>
       <SidebarContent>
         <RecentBookmarksContainer />

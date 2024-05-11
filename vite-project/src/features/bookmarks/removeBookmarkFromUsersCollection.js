@@ -8,7 +8,6 @@ export async function removeBookmarkFromUsersCollection(uid, postId) {
       "Both uid and postId are required to remove a bookmark from the user's collection."
     );
 
-  console.log(uid, postId);
   const bookmarkRef = doc(db, "users", uid, "bookmarks", postId);
   const promise = deleteDoc(bookmarkRef);
 

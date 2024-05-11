@@ -1,21 +1,17 @@
 import styles from "./UserPostExpanded.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { formatDate } from "../../../shared/util/formatDate";
-import LazyLoadedImage from "../../lazy-loaded-image/LazyLoadedImage";
-import { useEffect, useState } from "react";
 import Spinner from "../../../shared/ui/spinner/Spinner";
-import { changeCurrentPost } from "../../../entities/posts/posts-slice";
-import { fetchSinglePost } from "../../../features/reflections/fetchSinglePost";
-// import { activateAppError } from "../../../entities/app-error/app-error-slice";
-import { useNavigate } from "react-router-dom";
-import BookmarkButton from "../action-components/BookmarkButton";
-import DeletePostButton from "../action-components/DeletePostButton";
-
 import UserContentExpanded from "./UserContentExpanded";
 import AuthorContainer from "./sub-components/AuthorContainer";
 import PostHeader from "./sub-components/PostHeader";
 import PostImageContainer from "./sub-components/PostImageContainer";
 import PostInfo from "./sub-components/PostInfo";
+
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+
+import { fetchSinglePost } from "../../../features/reflections/fetchSinglePost";
+import { changeCurrentPost } from "../../../entities/current-post/currentPostSlice.js";
 
 /**
  * This component displays a single post in full, with all its content and comments.
@@ -28,26 +24,21 @@ export default function UserPostExpanded() {
   const navigate = useNavigate();
   const uid = useSelector((state) => state.user.info.uid);
   const loginState = useSelector((state) => state.user.info.loginState);
-  const currentPost = useSelector((state) => state.posts.currentPost);
+  const currentPost = useSelector((state) => state.currentPost);
+
+  //prettier-ignore
   const {
-    id,
-    displayName,
-    createdAt,
-    postContent,
-    profilePhotoReference,
-    minutesToRead,
-    isBookmarked,
-    isProfilePost,
-    postArrayName,
+    id, displayName, createdAt, postContent, profilePhotoReference,
+    minutesToRead,isBookmarked, isProfilePost, parentArrayName 
   } = currentPost;
+
+  const title = postContent?.[1]?.value ?? null;
+  const coverPhotoReference =
+    postContent?.[0]?.firebaseStorageReference ?? null;
 
   const [noCurrentPost, setNoCurrentPost] = useState(
     displayName ? true : false
   );
-
-  const coverPhotoReference =
-    postContent?.[0]?.firebaseStorageReference ?? null;
-  const title = postContent?.[1]?.value ?? null;
 
   useEffect(() => {
     if (noCurrentPost) return;
@@ -68,7 +59,7 @@ export default function UserPostExpanded() {
 
     getSinglePost();
     setNoCurrentPost(false);
-  }, [dispatch, noCurrentPost]);
+  }, [dispatch, noCurrentPost, parentArrayName]);
 
   if (!displayName)
     return (
@@ -98,7 +89,7 @@ export default function UserPostExpanded() {
           title={title}
           id={id}
           isBookmarked={isBookmarked}
-          postArrayName={postArrayName}
+          parentArrayName={parentArrayName}
           isProfilePost={isProfilePost}
           uid={uid}
         />
@@ -114,7 +105,11 @@ export default function UserPostExpanded() {
 }
 
 {
-  /* <div className={styles["comments"]}>
+  /* 
+  one day
+
+  <div className={styles["comments"]}>
   <div className={styles["comments__container"]}></div>
-</div> */
+  </div>
+  */
 }

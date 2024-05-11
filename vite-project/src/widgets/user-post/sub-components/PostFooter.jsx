@@ -3,12 +3,12 @@ import BookmarkButton from "../action-components/BookmarkButton";
 import DeletePostButton from "../action-components/DeletePostButton";
 
 export default function PostFooter({
-  minutesToRead,
   id,
-  isBookmarked,
-  postArrayName,
-  isProfilePost,
   postUid,
+  parentArrayName,
+  minutesToRead,
+  isBookmarked,
+  isProfilePost,
 }) {
   return (
     <div className={styles["post__footer"]}>
@@ -16,7 +16,7 @@ export default function PostFooter({
       <BookmarkButton
         postId={id}
         isBookmarked={isBookmarked}
-        postArrayName={postArrayName}
+        parentArrayName={parentArrayName}
       />
       {isProfilePost && <DeletePostButton postId={id} postUid={postUid} />}
     </div>
