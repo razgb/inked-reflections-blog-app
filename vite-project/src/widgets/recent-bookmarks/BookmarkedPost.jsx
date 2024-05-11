@@ -1,38 +1,51 @@
 import styles from "./BookmarkedPost.module.css";
 import profileImg from "../../../public/default-profile.jpeg";
 import { Link } from "react-router-dom";
+import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { changeCurrentPost } from "../../entities/current-post/currentPostSlice";
 
 export default function BookmarkedPost({
   displayName,
   profilePhotoReference,
-  postContent,
+  post,
 }) {
-  function handlePostClick(event) {
-    if (event.target.tagName === "A") return;
-    window.location.href = `/posts/${123}`; // post id instead of 123
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const title = post?.postContent[1]?.value;
+
+  function onBookmarkClick() {
+    dispatch(
+      changeCurrentPost({
+        ...post,
+      })
+    );
+
+    navigate(`/posts/${post.id}`);
   }
 
   return (
-    <article onClick={handlePostClick} className={styles["saved-post"]}>
-      <div className={styles["post__container"]}>
-        <div className={styles["author__container"]}>
-          <Link to="#" className={styles["author__link"]}>
-            <img
-              src={profileImg}
-              alt="Post author profile pic"
-              className={styles["author__img"]}
-            />
-          </Link>
-          <Link to="#" className={styles["author__link"]}>
-            <span className={styles["author__name"]}>
-              {displayName || "test name"}
-            </span>
-          </Link>
+    <article onClick={onBookmarkClick} className={styles["bookmark__article"]}>
+      <div className={styles["bookmark__content"]}>
+        <div className={styles["bookmark__author-image"]}>
+          <LazyLoadedImage
+            reference={profilePhotoReference}
+            altText="Post author profile pic"
+            firebaseFolder="profile"
+            spinnerSize="small"
+          />
         </div>
 
-        <h4 className={styles["post__title"]}>
-          {postContent || "test post title"}
-        </h4>
+        <div className={styles["bookmark__author-details"]}>
+          <p className={styles["bookmark__author-text"]}>
+            <span className={styles["bookmark__author-name"]}>
+              {displayName}
+            </span>
+          </p>
+
+          <h4 className={styles["bookmark__title"]}>{title}</h4>
+        </div>
       </div>
     </article>
   );

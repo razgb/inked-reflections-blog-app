@@ -5,7 +5,7 @@ const bookmarkFeedSlice = createSlice({
   initialState: {
     postBatchLimit: 5,
     posts: [],
-    postsEmpty: null,
+    userHasBookmarks: null,
     deletedPosts: [],
     intersectionObserverState: true,
   },
@@ -16,9 +16,9 @@ const bookmarkFeedSlice = createSlice({
     },
     updateBookmarkFeed(state, action) {
       if (!state.posts.length && !action.payload.length) {
-        state.postsEmpty = true;
+        state.userHasBookmarks = false;
       } else {
-        state.postsEmpty = false;
+        state.userHasBookmarks = true;
       }
       state.posts.push(...action.payload);
     },

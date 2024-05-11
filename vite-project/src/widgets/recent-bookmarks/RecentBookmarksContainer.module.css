@@ -1,17 +1,28 @@
-.saved-posts-container {
+.recent-bookmarks__container {
   background-color: var(--color-primary-300);
   padding-top: var(--space-lg);
   border-radius: var(--space-lg);
   color: var(--color-primary-800);
 }
 
-.saved-posts-list {
+.recent-bookmarks__list {
   display: flex;
   flex-direction: column;
+  transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;
 }
 
-.saved-posts-heading {
+.recent-bookmarks__heading {
   font-size: var(--tertiary-heading);
   margin-bottom: var(--space-md);
   padding-inline: var(--space-lg);
+}
+
+.spinner-container {
+  padding: var(--space-lg);
+}
+
+.no-bookmarks-text {
+  text-align: center;
+  font-size: var(--text-sm);
+  padding: var(--space-md) var(--space-xl);
 }
