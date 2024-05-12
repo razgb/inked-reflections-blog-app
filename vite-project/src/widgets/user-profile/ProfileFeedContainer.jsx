@@ -49,6 +49,13 @@ export default function ProfileFeedContainer() {
 
           <div className={styles["profile__section-half-2"]}>
             <Button buttonType="button">Edit profile</Button>
+
+            {/* add a min width that matches the same as edit profile */}
+            {/* <Button buttonType="button">
+              <div className={styles["spinner-container"]}>
+                <Spinner size="small" contrastPrimaryColor={true} />
+              </div>
+            </Button> */}
           </div>
         </div>
 

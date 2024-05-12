@@ -8,14 +8,15 @@
 
   padding: var(--space-xl);
   background-color: var(--color-primary-300);
-  border-radius: var(--space-md);
-  border: 0.5px solid var(--color-primary-700);
+  border-radius: var(--space-lg);
+  border: 1px solid var(--color-primary-700);
   color: var(--color-primary-800);
 }
 
 .title {
   font-size: var(--secondary-heading);
   margin-bottom: var(--space-sm);
+  font-weight: 600;
 }
 .message {
   font-size: var(--text-sm);

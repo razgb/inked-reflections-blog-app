@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { resetDangerModal } from "../../entities/danger-modal/danger-modal-slice";
+import { resetDangerModal } from "../../entities/danger-modal/dangerModalSlice";
 
 export default function Overlay() {
   const dispatch = useDispatch();

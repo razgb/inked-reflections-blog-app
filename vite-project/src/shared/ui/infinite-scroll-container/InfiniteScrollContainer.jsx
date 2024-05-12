@@ -51,9 +51,17 @@ export default function InfiniteScrollContainer({
   const { postBatchLimit, intersectionObserverState: observerState } =
     useSelector((state) => state[parentArrayName]);
 
-  const output = content.map((post) => (
-    <UserPost key={post.id} {...post} parentArrayName={parentArrayName} />
-  ));
+  const output = content.map((post) => {
+    // postUid should be named autherUid in the future in the final stages of the app.
+    return (
+      <UserPost
+        key={post.id}
+        postUid={post.uid}
+        {...post}
+        parentArrayName={parentArrayName}
+      />
+    );
+  });
 
   const fetchContent = async () => {
     try {

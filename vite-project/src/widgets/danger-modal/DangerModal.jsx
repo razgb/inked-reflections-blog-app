@@ -1,62 +1,62 @@
 import styles from "./DangerModal.module.css";
 import Button from "../../shared/ui/buttons/Button";
+import Spinner from "../../shared/ui/spinner/Spinner.jsx";
 
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 import { activateAppError } from "../../entities/app-error/app-error-slice";
-import { resetDangerModal } from "../../entities/danger-modal/danger-modal-slice";
+import { resetDangerModal } from "../../entities/danger-modal/dangerModalSlice.js";
 
 // Danger functions:
 import { signoutUser } from "../../features/user-auth/signoutUser";
-import { deleteReflectionFromFirestore } from "../../features/reflections/deleteReflectionFromFirestore";
-import { useNavigate } from "react-router-dom";
+import { removePostFromAllFeedsAction } from "../../entities/posts/util-functions/removePostFromAllFeedsAction.js";
 
-/** REGISTRY OF ASYNC FUNCTIONS:
- * Registry that contains functions that are considered 'dangerous'
- * within the application. Functions are non-serializable, therefore,
- * this approach is appropriate.
- *
- * If multiple arguments need to be passed, they must be inserted inside an object
- * with their respective async function inside the registry to process that object too.
- */
+// Args need to be wrapped in an object and destructured in the danger function.
 const dangerFunctionRegistry = {
   signout: signoutUser,
-  deletePost: deleteReflectionFromFirestore,
-
-  testing: (...data) => {
-    console.log(...data);
-  },
+  deletePost: removePostFromAllFeedsAction,
 };
 
 export default function DangerModal() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const {
     showModal,
-    dangerFunctionReference,
     title,
     message,
+    dangerFunctionReference,
     dangerFunctionInput,
+    usesReduxDispatch,
+    successRedirectPath,
   } = useSelector((state) => state.danger);
 
   const handleCloseModal = () => dispatch(resetDangerModal());
-
   const handleDangerFunction = async () => {
+    setLoading(true);
+
     try {
       const dangerFunction = dangerFunctionRegistry[dangerFunctionReference];
+      const args = dangerFunctionInput.payload;
 
-      if (dangerFunctionInput.payload) {
-        await dangerFunction(dangerFunctionInput.payload);
+      if (usesReduxDispatch && args) {
+        await dispatch(dangerFunction(args));
+      } else if (args) {
+        await dangerFunction(args);
       } else {
         await dangerFunction();
       }
 
-      if (dangerFunctionReference === "deletePost") {
-        navigate("/profile");
-      }
-
       handleCloseModal();
+
+      if (successRedirectPath) {
+        navigate(successRedirectPath);
+      }
     } catch (error) {
       console.log(error);
+      handleCloseModal();
       dispatch(
         activateAppError({
           title: "Connection error",
@@ -64,6 +64,8 @@ export default function DangerModal() {
             "Seems to be a network issue, please check your internet connection and try again.",
         })
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -75,23 +77,14 @@ export default function DangerModal() {
       <button className={styles["close-button"]} onClick={handleCloseModal}>
         Cancel
       </button>
-      <Button onClick={handleDangerFunction}>Yes i&apos;m sure</Button>
+
+      <Button onClick={handleDangerFunction}>
+        {loading ? (
+          <Spinner size="small" contrastPrimaryColor={true} />
+        ) : (
+          "Yes I'm sure"
+        )}
+      </Button>
     </dialog>
   );
 }
-
-// async function handleSignout() {
-//   const signoutSuccess = await signoutUser();
-//   if (signoutSuccess) {
-//     navigate("/flow/login");
-//   } else {
-//     dispatch(
-//       activateAppError({
-//         title: "Sign out unsuccessful",
-//         message:
-//           "Seems to be a network issue, check your internet connection and try again.",
-//       })
-//     );
-//     // hideModal("close");
-//   }
-// }

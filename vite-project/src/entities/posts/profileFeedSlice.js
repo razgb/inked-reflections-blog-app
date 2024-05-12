@@ -26,6 +26,10 @@ const profileFeedSlice = createSlice({
       const post = state.posts.find((post) => post.id === postId);
       if (post) post.isBookmarked = toggleState;
     },
+    removePostFromProfileFeed(state, action) {
+      const postId = action.payload;
+      state.posts = state.posts.filter((post) => post.id !== postId);
+    },
   },
 });
 
@@ -34,4 +38,5 @@ export const {
   updateProfileObserver,
   updateProfileFeed,
   toggleBookmarkInProfileFeed,
+  removePostFromProfileFeed,
 } = profileFeedSlice.actions;

@@ -5,7 +5,7 @@ import styles from "./Spinner.module.css";
  * @param {string} size Large, medium, and small sizes
  * @returns
  */
-export default function Spinner({ size = "large" }) {
+export default function Spinner({ size = "large", contrastPrimaryColor }) {
   let spinnerStyles = `${styles["spinner"]}`;
   if (size === "large") {
     spinnerStyles += ` ${styles["large"]}`;
@@ -15,17 +15,24 @@ export default function Spinner({ size = "large" }) {
     spinnerStyles += ` ${styles["small"]}`;
   }
 
-  // let colorStyles = `${styles["path"]}`;
-  // if (color === "dark") {
-  //   colorStyles += ` ${styles["dark"]}`;
-  // } else if (color === "light") {
-  //   colorStyles += ` ${styles["light"]}`;
-  // }
+  let colorStyles = `${styles["path"]}`;
+  if (contrastPrimaryColor) {
+    colorStyles += ` ${styles["contrast-theme-color"]}`;
+  } else {
+    colorStyles += ` ${styles["match-theme-color"]}`;
+  }
 
   return (
     <div className={styles["loader"]}>
       <svg className={spinnerStyles} viewBox="0 0 50 50">
-        <circle className={styles['path']} cx="25" cy="25" r="20" fill="none" strokeWidth="5"></circle>
+        <circle
+          className={colorStyles}
+          cx="25"
+          cy="25"
+          r="20"
+          fill="none"
+          strokeWidth="5"
+        ></circle>
       </svg>
     </div>
   );

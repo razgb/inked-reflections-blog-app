@@ -6,9 +6,7 @@ import { requestWithRetry } from "../../shared/util/requestWithRetry";
  * Deletes a user's post if authorized. Known as a 'danger' function internally in this app (DangerModal.jsx).
  * @param {string} postId post id inside firestore posts collection.
  */
-export async function deleteReflectionFromFirestore(userAndPostIds) {
-  const { uid, postId, postUid } = userAndPostIds;
-
+export async function deleteReflectionFromFirestore({ uid, postId, postUid }) {
   if (uid !== postUid) throw new Error("Post does not belong to user.");
   const promise = deleteDoc(doc(db, "posts-new", postId));
 

@@ -36,6 +36,12 @@
   stroke-linecap: round;
   animation: dash 1.5s ease-in-out infinite;
 }
+.spinner .path.match-theme-color {
+  stroke: var(--color-primary-700);
+}
+.spinner .path.contrast-theme-color {
+  stroke: var(--color-primary-300);
+}
 
 @keyframes rotate {
   100% {

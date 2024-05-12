@@ -49,6 +49,10 @@ const bookmarkFeedSlice = createSlice({
         });
       }
     },
+    removePostFromBookmarkFeed(state, action) {
+      const postId = action.payload;
+      state.posts = state.posts.filter((post) => post.id !== postId);
+    },
   },
 });
 
@@ -57,4 +61,5 @@ export const {
   updateBookmarkFeed,
   toggleBookmarkInBookmarkFeed,
   updateBookmarkObserver,
+  removePostFromBookmarkFeed,
 } = bookmarkFeedSlice.actions;

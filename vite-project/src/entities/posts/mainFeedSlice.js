@@ -20,9 +20,17 @@ const mainFeedSlice = createSlice({
       const post = state.posts.find((post) => post.id === postId);
       if (post) post.isBookmarked = toggleState;
     },
+    removePostFromMainFeed(state, action) {
+      const postId = action.payload;
+      state.posts = state.posts.filter((post) => post.id !== postId);
+    },
   },
 });
 
 export default mainFeedSlice.reducer;
-export const { updateMainFeed, updateFeedObserver, toggleBookmarkInMainFeed } =
-  mainFeedSlice.actions;
+export const {
+  updateMainFeed,
+  updateFeedObserver,
+  toggleBookmarkInMainFeed,
+  removePostFromMainFeed,
+} = mainFeedSlice.actions;

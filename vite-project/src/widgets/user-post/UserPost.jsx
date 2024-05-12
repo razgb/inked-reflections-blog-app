@@ -21,7 +21,7 @@ export default function UserPost({ parentArrayName, ...post }) {
     isBookmarked,
   } = post;
 
-  const isProfilePost = parentArrayName === "profilePosts";
+  const isProfilePost = parentArrayName === "profileFeed";
   const coverPhotoReference = postContent[0].firebaseStorageReference;
   const title = postContent[1].value;
   const abstractParagraph = postContent[2].value;

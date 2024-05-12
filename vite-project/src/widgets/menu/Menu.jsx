@@ -26,7 +26,7 @@ import { useContext, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeLocationState } from "../../entities/url-location/location-slice";
 import { ThemeContext } from "../../entities/theme/ThemeContext";
-import { activateDangerModal } from "../../entities/danger-modal/danger-modal-slice";
+import { activateDangerModal } from "../../entities/danger-modal/dangerModalSlice.js";
 import { signoutUser } from "../../features/user-auth/signoutUser.js";
 
 const ICON_SIZE = 20;
@@ -41,6 +41,7 @@ export default function Menu({ menuOpenState, handleToggleMenuState }) {
       activateDangerModal({
         title: "Are you sure you want to logout?",
         dangerFunctionReference: "signout",
+        successRedirectPath: "/flow/login",
       })
     );
   };

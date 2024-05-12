@@ -209,25 +209,6 @@ export default function ProfileUploadUI() {
   );
 }
 
-/**
-  Notes: 
-
-  - The username check should be done per onchange but after a debounce (2 seconds); 
-  - The handleSubmit function should also check username. 
-  - DisplayName must be min 3 letters, can include 2 words, lower & uppercase letters only. 
-  no numbers. 
-
-
-  git commit -m "Development Version 1.2.1: 
-dquote> - Created working handleSubmission function for ProfileUploadUI.jsx
-dquote>   -> Huge restructure and cleanup of component. 
-dquote>   -> Function is structured so that image can be optional upon uploading.
-dquote>   -> Provided jsDocs for the 2 async functions used in the component.
-dquote>   -> uploadedImage gets a unique name comprised of uid, timestamp, and sanitized image name.
-dquote> - Created highly resusable useImageURL custom hook. 
-
- */
-
 // function handleFileChange(event) {
 //   setLoading(true);
 //   const file = event.target.files[0];

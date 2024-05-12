@@ -1,11 +1,9 @@
 import styles from "../UserPost.module.css";
 import { TrashIcon } from "../../../shared/ui/svg/PostSvg";
 import { useDispatch, useSelector } from "react-redux";
-import { activateDangerModal } from "../../../entities/danger-modal/danger-modal-slice";
-import { useNavigate } from "react-router-dom";
+import { activateDangerModal } from "../../../entities/danger-modal/dangerModalSlice";
 
 export default function DeletePostButton({ postId, postUid, size = 20 }) {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const uid = useSelector((state) => state.user.info.uid);
 
@@ -16,6 +14,8 @@ export default function DeletePostButton({ postId, postUid, size = 20 }) {
         message: "The post will be unrecoverable.",
         dangerFunctionReference: "deletePost",
         dangerFunctionInput: { uid, postId, postUid },
+        usesReduxDispatch: true,
+        successRedirectPath: "/profile",
       })
     );
   }

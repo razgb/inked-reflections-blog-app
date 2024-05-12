@@ -18,12 +18,17 @@ export default function RecentBookmarksContainer() {
   );
 
   const [loading, setLoading] = useState(false);
-
   const recentThreeBookmarks = posts.slice(-3); // returns empty if none.
-  // console.log(recentThreeBookmarks);
+  const insideBookmarksPage = window.location.pathname.includes("bookmarks");
 
   useEffect(() => {
-    if (!uid || posts.length || userHasBookmarks === false) return;
+    if (
+      !uid ||
+      posts.length ||
+      userHasBookmarks === false ||
+      insideBookmarksPage
+    )
+      return;
     setLoading(true);
 
     const fetchBookmarkedPosts = async () => {
@@ -38,7 +43,7 @@ export default function RecentBookmarksContainer() {
     };
 
     fetchBookmarkedPosts();
-  }, [dispatch, uid, posts.length, userHasBookmarks]);
+  }, [dispatch, uid, posts.length, userHasBookmarks, insideBookmarksPage]);
 
   let content;
 
