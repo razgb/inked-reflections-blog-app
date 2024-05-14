@@ -51,17 +51,33 @@ export default function InfiniteScrollContainer({
   const { postBatchLimit, intersectionObserverState: observerState } =
     useSelector((state) => state[parentArrayName]);
 
-  const output = content.map((post) => {
-    // postUid should be named autherUid in the future in the final stages of the app.
-    return (
-      <UserPost
-        key={post.id}
-        postUid={post.uid}
-        {...post}
-        parentArrayName={parentArrayName}
-      />
-    );
-  });
+  let output;
+  if (parentArrayName !== "bookmarkFeed") {
+    output = content.map((post) => {
+      // postUid should be named autherUid in the future in the final stages of the app.
+      return (
+        <UserPost
+          key={post.id}
+          postUid={post.uid}
+          {...post}
+          parentArrayName={parentArrayName}
+        />
+      );
+    });
+  } else
+    output = content
+      .slice()
+      .reverse()
+      .map((post) => {
+        return (
+          <UserPost
+            key={post.id}
+            postUid={post.uid}
+            {...post}
+            parentArrayName={parentArrayName}
+          />
+        );
+      });
 
   const fetchContent = async () => {
     try {

@@ -10,22 +10,24 @@ import { changeCurrentPost } from "../../entities/current-post/currentPostSlice.
 export default function UserPost({ parentArrayName, ...post }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {
-    id,
-    postUid,
-    displayName,
-    createdAt,
-    postContent,
-    profilePhotoReference,
-    readingTime,
-    isBookmarked,
-  } = post;
+  const { id, postContent, readingTime, isBookmarked } = post;
 
   const isProfilePost = parentArrayName === "profileFeed";
   const coverPhotoReference = postContent[0].firebaseStorageReference;
   const title = postContent[1].value;
   const abstractParagraph = postContent[2].value;
   const minutesToRead = `${readingTime}-min read`;
+
+  const postWithExtraData = {
+    ...post,
+    isBookmarked,
+    isProfilePost,
+    parentArrayName,
+    coverPhotoReference,
+    title,
+    abstractParagraph,
+    minutesToRead,
+  };
 
   function handlePostClick(event) {
     event.preventDefault();
@@ -34,37 +36,18 @@ export default function UserPost({ parentArrayName, ...post }) {
     if (ignoreElements.includes(tagName)) return;
 
     dispatch(
-      changeCurrentPost({
-        id,
-        ...post,
-      })
+      changeCurrentPost({ ...post, isBookmarked, readingTime, parentArrayName })
     );
+
     navigate(`/posts/${id}`);
   }
 
   return (
     <div onClick={handlePostClick} className={styles["post__wrapper"]}>
       <div className={styles["post__content"]}>
-        <PostHeader
-          profilePhotoReference={profilePhotoReference}
-          displayName={displayName}
-          createdAt={createdAt}
-        />
-
-        <PostBody
-          title={title}
-          abstractParagraph={abstractParagraph}
-          coverPhotoReference={coverPhotoReference}
-        />
-
-        <PostFooter
-          minutesToRead={minutesToRead}
-          id={id}
-          isBookmarked={isBookmarked}
-          parentArrayName={parentArrayName}
-          isProfilePost={isProfilePost}
-          postUid={postUid}
-        />
+        <PostHeader post={postWithExtraData} />
+        <PostBody post={postWithExtraData} />
+        <PostFooter post={postWithExtraData} />
       </div>
     </div>
   );

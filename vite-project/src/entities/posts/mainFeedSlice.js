@@ -11,6 +11,10 @@ const mainFeedSlice = createSlice({
     updateMainFeed(state, action) {
       state.posts.push(...action.payload);
     },
+    removePostFromMainFeed(state, action) {
+      const postId = action.payload;
+      state.posts = state.posts.filter((post) => post.id !== postId);
+    },
     updateFeedObserver(state, action) {
       const { bool } = action.payload;
       state.intersectionObserverState = bool;
@@ -19,10 +23,6 @@ const mainFeedSlice = createSlice({
       const { postId, toggleState } = action.payload;
       const post = state.posts.find((post) => post.id === postId);
       if (post) post.isBookmarked = toggleState;
-    },
-    removePostFromMainFeed(state, action) {
-      const postId = action.payload;
-      state.posts = state.posts.filter((post) => post.id !== postId);
     },
   },
 });

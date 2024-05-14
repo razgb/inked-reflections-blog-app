@@ -3,9 +3,10 @@ import { TrashIcon } from "../../../shared/ui/svg/PostSvg";
 import { useDispatch, useSelector } from "react-redux";
 import { activateDangerModal } from "../../../entities/danger-modal/dangerModalSlice";
 
-export default function DeletePostButton({ postId, postUid, size = 20 }) {
+export default function DeletePostButton({ post, size = 20 }) {
   const dispatch = useDispatch();
   const uid = useSelector((state) => state.user.info.uid);
+  const { id: postId, postUid } = post;
 
   function handleClick() {
     dispatch(

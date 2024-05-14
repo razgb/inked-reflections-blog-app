@@ -44,7 +44,7 @@ export default function BookmarkedPost({
             </span>
           </p>
 
-          <h4 className={styles["bookmark__title"]}>{title}</h4>
+          <p className={styles["bookmark__title"]}>{title}</p>
         </div>
       </div>
     </article>

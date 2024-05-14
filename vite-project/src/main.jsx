@@ -172,15 +172,15 @@ const randomTags = [
   "mindful living",
 ];
 */
-/*
-const dates = [];
-for (let i = 0; i < 50; i++) {
-  const date = new Date();
-  let timestamp = Math.floor(date.getTime());
 
-  timestamp = Math.floor(
-    timestamp - Math.random() * 1000 * 60 * 60 * 24 * 365 * 2
-  );
+// const dates = [];
+// for (let i = 0; i < 50; i++) {
+//   const date = new Date();
+//   let timestamp = Math.floor(date.getTime());
 
-  dates.push(timestamp);
-}
+//   timestamp = Math.floor(
+//     timestamp - Math.random() * 1000 * 60 * 60 * 24 * 365 * 2
+//   );
+
+//   dates.push(timestamp);
+// }

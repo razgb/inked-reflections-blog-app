@@ -17,6 +17,7 @@ const currentPostSlice = createSlice({
       return { ...action.payload };
     },
     toggleCurrentBookmark: (state, action) => {
+      console.log("changing bookmark to ", action.payload);
       state.isBookmarked = action.payload;
     },
   },

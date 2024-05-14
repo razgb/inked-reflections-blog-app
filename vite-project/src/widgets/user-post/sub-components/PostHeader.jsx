@@ -3,11 +3,9 @@ import { Link } from "react-router-dom";
 import LazyLoadedImage from "../../../widgets/lazy-loaded-image/LazyLoadedImage";
 import { formatDate } from "../../../shared/util/formatDate";
 
-export default function PostHeader({
-  profilePhotoReference,
-  displayName,
-  createdAt,
-}) {
+export default function PostHeader({ post }) {
+  const { displayName, profilePhotoReference, createdAt } = post;
+
   return (
     <div className={styles["post__header"]}>
       <Link to="123" className={styles["post__profile-photo-wrapper"]}>

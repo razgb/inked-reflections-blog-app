@@ -2,23 +2,17 @@ import styles from "../UserPost.module.css";
 import BookmarkButton from "../action-components/BookmarkButton";
 import DeletePostButton from "../action-components/DeletePostButton";
 
-export default function PostFooter({
-  id,
-  postUid,
-  parentArrayName,
-  minutesToRead,
-  isBookmarked,
-  isProfilePost,
-}) {
+// minutes to read will be part of the post soon so we'll ignore for now.
+export default function PostFooter({ post }) {
+  const { isProfilePost } = post;
+
   return (
     <div className={styles["post__footer"]}>
-      <span className={styles["post__reading-time"]}>{minutesToRead}</span>
-      <BookmarkButton
-        postId={id}
-        isBookmarked={isBookmarked}
-        parentArrayName={parentArrayName}
-      />
-      {isProfilePost && <DeletePostButton postId={id} postUid={postUid} />}
+      {/* <span className={styles["post__reading-time"]}>{minutesToRead}</span> */}
+
+      <BookmarkButton post={post} />
+
+      {isProfilePost && <DeletePostButton post={post} />}
     </div>
   );
 }

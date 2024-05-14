@@ -28,8 +28,8 @@ export async function fetchBookmarkPosts(uid, postsLimit = 10) {
   if (lastVisibleDoc) {
     q = query(
       postsRef,
-      startAfter(lastVisibleDoc),
       orderBy("createdAt", "desc"),
+      startAfter(lastVisibleDoc),
       limit(postsLimit),
       where(documentId(), "in", bookmarkIds)
     );

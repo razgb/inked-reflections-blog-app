@@ -28,8 +28,9 @@
 .bookmark__author-name {
   font-size: var(--text-sm);
   margin-bottom: var(--space-xs);
+  font-weight: 500;
 }
 .bookmark__title {
   font-size: var(--text-sm);
-  font-weight: 500;
+  line-height: 1.25;
 }

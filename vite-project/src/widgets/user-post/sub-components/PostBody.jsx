@@ -1,11 +1,8 @@
 import styles from "../UserPost.module.css";
 import LazyLoadedImage from "../../../widgets/lazy-loaded-image/LazyLoadedImage";
 
-export default function PostBody({
-  title,
-  abstractParagraph,
-  coverPhotoReference,
-}) {
+export default function PostBody({ post }) {
+  const { title, abstractParagraph, coverPhotoReference } = post;
   return (
     <div className={styles["post__body"]}>
       <div className={styles["post__details"]}>

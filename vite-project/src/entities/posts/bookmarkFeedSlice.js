@@ -6,7 +6,6 @@ const bookmarkFeedSlice = createSlice({
     postBatchLimit: 5,
     posts: [],
     userHasBookmarks: null,
-    deletedPosts: [],
     intersectionObserverState: true,
   },
   reducers: {
@@ -22,32 +21,12 @@ const bookmarkFeedSlice = createSlice({
       }
       state.posts.push(...action.payload);
     },
-    toggleBookmarkInBookmarkFeed(state, action) {
-      const { postId, toggleState } = action.payload;
-
-      if (toggleState) {
-        const { post, previousIndex } = state.deletedPosts.find(
-          (post) => post.id === postId
-        );
-
-        if (post) {
-          post.isBookmarked = true;
-          state.posts.splice(previousIndex, 1, post);
-        }
-      } else {
-        state.posts = state.posts.filter((post, index) => {
-          if (post.id === postId) {
-            state.deletedPosts.push({
-              previousIndex: index,
-              post,
-            });
-
-            return false; // filter out
-          }
-
-          return true; // keep
-        });
-      }
+    addPostToBookmarkFeed(state, action) {
+      const post = {
+        ...action.payload,
+        isBookmarked: true,
+      };
+      state.posts.push(post);
     },
     removePostFromBookmarkFeed(state, action) {
       const postId = action.payload;
@@ -59,7 +38,7 @@ const bookmarkFeedSlice = createSlice({
 export default bookmarkFeedSlice.reducer;
 export const {
   updateBookmarkFeed,
-  toggleBookmarkInBookmarkFeed,
-  updateBookmarkObserver,
+  addPostToBookmarkFeed,
   removePostFromBookmarkFeed,
+  updateBookmarkObserver,
 } = bookmarkFeedSlice.actions;

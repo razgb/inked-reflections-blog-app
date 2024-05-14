@@ -60,14 +60,17 @@ export default function RecentBookmarksContainer() {
       </p>
     );
   else if (userHasBookmarks === true)
-    content = recentThreeBookmarks.map((userPost) => (
-      <BookmarkedPost
-        key={userPost.id}
-        displayName={userPost.displayName}
-        profilePhotoReference={userPost.profilePhotoReference}
-        post={userPost}
-      />
-    ));
+    content = recentThreeBookmarks
+      .slice()
+      .reverse()
+      .map((userPost) => (
+        <BookmarkedPost
+          key={userPost.id}
+          displayName={userPost.displayName}
+          profilePhotoReference={userPost.profilePhotoReference}
+          post={userPost}
+        />
+      ));
 
   return (
     <div className={styles["recent-bookmarks__container"]}>

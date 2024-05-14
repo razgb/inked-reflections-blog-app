@@ -26,10 +26,13 @@ export default function UserPostExpanded() {
   const loginState = useSelector((state) => state.user.info.loginState);
   const currentPost = useSelector((state) => state.currentPost);
 
-  //prettier-ignore
   const {
-    id, displayName, createdAt, postContent, profilePhotoReference,
-    minutesToRead,isBookmarked, isProfilePost, parentArrayName 
+    displayName,
+    createdAt,
+    postContent,
+    profilePhotoReference,
+    minutesToRead,
+    parentArrayName,
   } = currentPost;
 
   const title = postContent?.[1]?.value ?? null;
@@ -41,7 +44,7 @@ export default function UserPostExpanded() {
   );
 
   useEffect(() => {
-    if (noCurrentPost) return;
+    if (noCurrentPost || !uid) return;
 
     const url = window.location.href;
     const urlAsArray = url.split("/");
@@ -50,7 +53,7 @@ export default function UserPostExpanded() {
 
     const getSinglePost = async () => {
       try {
-        const post = await fetchSinglePost(postId);
+        const post = await fetchSinglePost(uid, postId);
         dispatch(changeCurrentPost(post));
       } catch (error) {
         console.log(error);
@@ -59,7 +62,7 @@ export default function UserPostExpanded() {
 
     getSinglePost();
     setNoCurrentPost(false);
-  }, [dispatch, noCurrentPost, parentArrayName]);
+  }, [dispatch, noCurrentPost, parentArrayName, uid]);
 
   if (!displayName)
     return (
@@ -85,14 +88,7 @@ export default function UserPostExpanded() {
           <PostImageContainer coverPhotoReference={coverPhotoReference} />
         )}
 
-        <PostHeader
-          title={title}
-          id={id}
-          isBookmarked={isBookmarked}
-          parentArrayName={parentArrayName}
-          isProfilePost={isProfilePost}
-          uid={uid}
-        />
+        <PostHeader post={currentPost} title={title} uid={uid} />
 
         <PostInfo minutesToRead={minutesToRead} createdAt={createdAt} />
 
@@ -102,14 +98,4 @@ export default function UserPostExpanded() {
       </div>
     </article>
   );
-}
-
-{
-  /* 
-  one day
-
-  <div className={styles["comments"]}>
-  <div className={styles["comments__container"]}></div>
-  </div>
-  */
 }
