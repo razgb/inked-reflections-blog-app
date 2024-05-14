@@ -36,7 +36,13 @@ export default function UserPost({ parentArrayName, ...post }) {
     if (ignoreElements.includes(tagName)) return;
 
     dispatch(
-      changeCurrentPost({ ...post, isBookmarked, readingTime, parentArrayName })
+      changeCurrentPost({
+        ...post,
+        isBookmarked,
+        readingTime,
+        parentArrayName,
+        isProfilePost,
+      })
     );
 
     navigate(`/posts/${id}`);

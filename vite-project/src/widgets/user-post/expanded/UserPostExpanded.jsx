@@ -33,6 +33,7 @@ export default function UserPostExpanded() {
     profilePhotoReference,
     minutesToRead,
     parentArrayName,
+    isProfilePost,
   } = currentPost;
 
   const title = postContent?.[1]?.value ?? null;

@@ -2,8 +2,9 @@ import styles from "../UserPostExpanded.module.css";
 import BookmarkButton from "../../action-components/BookmarkButton";
 import DeletePostButton from "../../action-components/DeletePostButton";
 
-export default function PostHeader({ post, uid, title }) {
-  const { isProfilePost, id: postId } = post;
+export default function PostHeader({ post, title }) {
+  const { isProfilePost } = post;
+  console.log(isProfilePost);
 
   return (
     <div className={styles["post__header"]}>
@@ -12,9 +13,7 @@ export default function PostHeader({ post, uid, title }) {
       <div className={styles["post__actions"]}>
         <BookmarkButton post={post} size={22} />
 
-        {isProfilePost && (
-          <DeletePostButton postId={postId} postUid={uid} size={22} />
-        )}
+        {isProfilePost && <DeletePostButton post={post} size={22} />}
       </div>
     </div>
   );
