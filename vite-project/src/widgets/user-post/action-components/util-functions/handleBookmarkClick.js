@@ -11,11 +11,6 @@ import {
 import { toggleBookmarkInProfileFeed } from "../../../../entities/posts/profileFeedSlice";
 import { toggleBookmarkInMainFeed } from "../../../../entities/posts/mainFeedSlice";
 
-const bookmarkDispatchMap = {
-  mainFeed: toggleBookmarkInMainFeed,
-  profileFeed: toggleBookmarkInProfileFeed,
-};
-
 /**
  * Thunk function to handle bookmark click asynchronously.
  * Also reflects the app state with optimistic updates.
@@ -35,9 +30,6 @@ export const handleBookmarkClick = createAsyncThunk(
       promise = addBookmarkToUsersCollection(uid, postId);
     }
 
-    const bookmarkMapReference = bookmarkDispatchMap[parentArrayName];
-    const toggleBookmark = (payload) => bookmarkMapReference(payload);
-
     const actionMap = {
       currentPost: {
         update: userViewingExpandedPost
@@ -47,20 +39,40 @@ export const handleBookmarkClick = createAsyncThunk(
           ? () => dispatch(toggleCurrentBookmark(isBookmarked))
           : null,
       },
-      parentFeed: {
+      mainFeed: {
         update: () =>
-          parentArrayName && parentArrayName !== "bookmarkFeed"
+          parentArrayName
             ? dispatch(
-                toggleBookmark({
+                toggleBookmarkInMainFeed({
                   postId,
                   toggleState: !isBookmarked,
                 })
               )
             : null,
         reverse: () =>
-          parentArrayName && parentArrayName !== "bookmarkFeed"
+          parentArrayName
             ? dispatch(
-                toggleBookmark({
+                toggleBookmarkInMainFeed({
+                  postId,
+                  toggleState: isBookmarked,
+                })
+              )
+            : null,
+      },
+      profileFeed: {
+        update: () =>
+          parentArrayName
+            ? dispatch(
+                toggleBookmarkInProfileFeed({
+                  postId,
+                  toggleState: !isBookmarked,
+                })
+              )
+            : null,
+        reverse: () =>
+          parentArrayName
+            ? dispatch(
+                toggleBookmarkInProfileFeed({
                   postId,
                   toggleState: isBookmarked,
                 })
@@ -87,14 +99,16 @@ export const handleBookmarkClick = createAsyncThunk(
 
     try {
       actionMap.currentPost.update?.();
-      actionMap.parentFeed.update?.();
+      actionMap.mainFeed.update?.();
+      actionMap.profileFeed.update?.();
       actionMap.bookmarkFeed.update?.();
 
       await requestWithRetry(promise);
     } catch (error) {
       console.log(error);
       actionMap.currentPost.reverse?.();
-      actionMap.parentFeed.reverse?.();
+      actionMap.mainFeed.reverse?.();
+      actionMap.profileFeed.reverse?.();
       actionMap.bookmarkFeed.reverse?.();
 
       const errorDetails = JSON.parse(error.message);

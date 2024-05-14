@@ -141,7 +141,7 @@ export default function CreateReflectionPage() {
       console.log(error);
       dispatch(activateAppError(error));
     } else {
-      console.log(post);
+      // console.log(post);
       dispatch(addPostToProfileFeed(post));
       navigate("/profile");
     }

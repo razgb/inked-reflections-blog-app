@@ -4,7 +4,6 @@ import DeletePostButton from "../../action-components/DeletePostButton";
 
 export default function PostHeader({ post, title }) {
   const { isProfilePost } = post;
-  console.log(isProfilePost);
 
   return (
     <div className={styles["post__header"]}>

@@ -18,8 +18,14 @@ const bookmarkFeedSlice = createSlice({
         state.userHasBookmarks = false;
       } else {
         state.userHasBookmarks = true;
+
+        const existingPostIds = new Set(state.posts.map((post) => post.id));
+        const newPosts = action.payload.filter(
+          (newPost) => !existingPostIds.has(newPost.id)
+        );
+
+        state.posts.push(...newPosts);
       }
-      state.posts.push(...action.payload);
     },
     addPostToBookmarkFeed(state, action) {
       const post = {
@@ -27,10 +33,18 @@ const bookmarkFeedSlice = createSlice({
         isBookmarked: true,
       };
       state.posts.push(post);
+
+      if (!state.userHasBookmarks) {
+        state.userHasBookmarks = true;
+      }
     },
     removePostFromBookmarkFeed(state, action) {
       const postId = action.payload;
       state.posts = state.posts.filter((post) => post.id !== postId);
+
+      if (state.posts.length === 0) {
+        state.userHasBookmarks = false;
+      }
     },
   },
 });

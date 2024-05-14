@@ -60,7 +60,7 @@ export async function submitReflectionToFirestore({
   if (imagePromises.length) {
     try {
       const uploadObject = await requestWithRetry(imagePromises);
-      console.log("Upload Object:", uploadObject);
+      // console.log("Upload Object:", uploadObject);
 
       uploadObject.forEach((item) => imageNames.push(item.fileName));
     } catch (error) {
@@ -101,9 +101,10 @@ export async function submitReflectionToFirestore({
 
     const post = {
       id,
+      createdAt,
       displayName,
       profilePhotoReference,
-      createdAt,
+      postUid: uid,
       postContent: userContentToUpload,
     };
 

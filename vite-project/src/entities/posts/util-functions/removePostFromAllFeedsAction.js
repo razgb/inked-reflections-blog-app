@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { deleteReflectionFromFirestore } from "../../../features/reflections/deleteReflectionFromFirestore.js";
+import { removeBookmarkFromUsersCollection } from "../../../features/bookmarks/removeBookmarkFromUsersCollection.js";
 
 import { removePostFromMainFeed } from "../mainFeedSlice";
 import { removePostFromProfileFeed } from "../profileFeedSlice";
@@ -18,6 +19,7 @@ export const removePostFromAllFeedsAction = createAsyncThunk(
 
     try {
       await deleteReflectionFromFirestore({ uid, postId, postUid });
+      await removeBookmarkFromUsersCollection(uid, postId);
 
       if (mainFeed.posts.some((post) => post.id === postId)) {
         dispatch(removePostFromMainFeed(postId));
