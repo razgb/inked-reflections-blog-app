@@ -1,6 +1,5 @@
 import {
   collection,
-  doc,
   documentId,
   getDocs,
   limit,
@@ -12,12 +11,11 @@ import {
 import { db } from "../../main";
 import { requestWithRetry } from "../../shared/util/requestWithRetry";
 import { fetchBookmarkIdsForUser } from "./fetchBookmarkIdsForUser";
-import { filterTextAndEstimateReadingTime } from "../reflections/submission/util/filterTextAndEstimateReadingTime";
 
 let lastVisibleDoc = null;
 
-export async function fetchBookmarkPosts(uid, postsLimit = 10) {
-  if (!uid) throw new Error("uid is required inside fetchBookmarkPosts");
+export async function fetchBookmarkFeedPosts(uid, postsLimit = 10) {
+  if (!uid) throw new Error("uid is required inside fetchBookmarkFeedPosts");
 
   const bookmarkIds = await fetchBookmarkIdsForUser(uid, limit);
   if (!bookmarkIds.length) return [];

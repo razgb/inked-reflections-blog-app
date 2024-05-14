@@ -3,7 +3,7 @@ import ReflectButton from "../../shared/ui/buttons/ReflectButton.jsx";
 import InfiniteScrollContainer from "../../shared/ui/infinite-scroll-container/InfiniteScrollContainer.jsx";
 import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage.jsx";
 
-import { fetchUserPosts } from "../../features/reflections/fetchUserPosts.js";
+import { fetchProfileFeedPosts } from "../../features/reflections/fetchProfileFeedPosts.js";
 import { useSelector } from "react-redux";
 import Spinner from "../../shared/ui/spinner/Spinner.jsx";
 import Button from "../../shared/ui/buttons/Button.jsx";
@@ -75,7 +75,7 @@ export default function ProfileFeedContainer() {
           {uid && (
             <InfiniteScrollContainer
               content={posts}
-              fn={async () => await fetchUserPosts(uid)}
+              fn={async () => await fetchProfileFeedPosts(uid)}
               parentArrayName={"profileFeed"}
             />
           )}

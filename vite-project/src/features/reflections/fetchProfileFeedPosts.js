@@ -9,7 +9,6 @@ import {
   where,
 } from "firebase/firestore";
 import { requestWithRetry } from "../../shared/util/requestWithRetry";
-import { filterTextAndEstimateReadingTime } from "./submission/util/filterTextAndEstimateReadingTime";
 import { fetchBookmarkIdsForPostIds } from "../bookmarks/fetchBookmarkIdsForPostIds";
 
 let lastVisibleDoc = null;
@@ -19,23 +18,9 @@ let lastVisibleDoc = null;
  * @param {string} uid Universal ID contained in every post/reflection. Uid matches the uid of the author of the post.
  * @returns {object} returnObject: error (bool), title (str), message (str), and posts (array).
  */
-export async function fetchUserPosts(uid) {
+export async function fetchProfileFeedPosts(uid) {
   if (!uid) return;
 
-  try {
-    return await fetchUserPostsBasedOnId(uid);
-  } catch (error) {
-    console.log(error);
-    return {
-      error: true,
-      title: "Connection issues loading posts.",
-      message:
-        "Please check your internet connection and try again in a couple minutes.",
-    };
-  }
-}
-
-async function fetchUserPostsBasedOnId(uid) {
   const postsRef = collection(db, "posts-new");
   let q;
 
@@ -69,8 +54,20 @@ async function fetchUserPostsBasedOnId(uid) {
   const bookmarkIdsPromise = fetchBookmarkIdsForPostIds(uid, postIds);
   const bookmarkIds = await requestWithRetry(bookmarkIdsPromise);
 
-  return postsData.map((post) => ({
+  const postDataWthBookmarks = postsData.map((post) => ({
     ...post,
     isBookmarked: bookmarkIds.includes(post.id),
   }));
+
+  try {
+    return postDataWthBookmarks;
+  } catch (error) {
+    console.log(error);
+    return {
+      error: true,
+      title: "Connection issues loading posts.",
+      message:
+        "Please check your internet connection and try again in a couple minutes.",
+    };
+  }
 }

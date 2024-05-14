@@ -1,32 +1,25 @@
-import { db } from "../../main";
+import { db } from "../../main.jsx";
 import {
   collection,
   getDocs,
   query,
   limit,
   startAfter,
-  orderBy,
 } from "firebase/firestore";
-import { filterTextAndEstimateReadingTime } from "../reflections/submission/util/filterTextAndEstimateReadingTime.js";
 import { fetchBookmarkIdsForPostIds } from "../bookmarks/fetchBookmarkIdsForPostIds.js";
 import { requestWithRetry } from "../../shared/util/requestWithRetry.js";
 
 let lastVisibleDoc = null;
 let fetchCount = 0;
-export async function fetchPosts(uid) {
+export async function fetchMainFeedPosts(uid) {
   // const postsRef = collection(db, "posts");
   const postsRef = collection(db, "posts-new");
   let q;
 
   if (lastVisibleDoc) {
-    q = query(
-      postsRef,
-      orderBy("createdAt", "desc"),
-      startAfter(lastVisibleDoc),
-      limit(10)
-    );
+    q = query(postsRef, startAfter(lastVisibleDoc), limit(10));
   } else {
-    q = query(postsRef, orderBy("createdAt", "desc"), limit(10));
+    q = query(postsRef, limit(10));
   }
   const querySnapshot = await getDocs(q);
   lastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1]; // last document in the last received set of posts
@@ -40,10 +33,19 @@ export async function fetchPosts(uid) {
   const bookmarkIdsPromise = fetchBookmarkIdsForPostIds(uid, postIds);
   const bookmarkIds = await requestWithRetry(bookmarkIdsPromise);
 
-  return postsData.map((post) => ({
+  const posts = postsData.map((post) => ({
     ...post,
     isBookmarked: bookmarkIds.includes(post.id),
   }));
 
-  // ++fetchCount;
+  shuffleArray(posts);
+  return posts;
+}
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 }

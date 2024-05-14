@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { activateAppError } from "../../entities/app-error/app-error-slice.js";
 
-import { fetchBookmarkPosts } from "../../features/bookmarks/fetchBookmarkPosts.js";
+import { fetchBookmarkFeedPosts } from "../../features/bookmarks/fetchBookmarkFeedPosts.js";
 import { updateBookmarkFeed } from "../../entities/posts/bookmarkFeedSlice.js";
 import Spinner from "../../shared/ui/spinner/Spinner.jsx";
 
@@ -33,7 +33,7 @@ export default function RecentBookmarksContainer() {
 
     const fetchBookmarkedPosts = async () => {
       try {
-        const bookmarkedPosts = await fetchBookmarkPosts(uid);
+        const bookmarkedPosts = await fetchBookmarkFeedPosts(uid);
         dispatch(updateBookmarkFeed(bookmarkedPosts));
       } catch (error) {
         dispatch(activateAppError(error));

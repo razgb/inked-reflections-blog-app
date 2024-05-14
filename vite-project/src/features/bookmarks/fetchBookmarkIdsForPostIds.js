@@ -37,7 +37,6 @@ export async function fetchBookmarkIdsForPostIds(uid, postIds) {
   } catch (error) {
     console.error(error);
 
-    // Used inside fetchPosts function for isBookmarked checks.
     throw new Error({
       title: "Failed to fetch posts",
       message: "Please check internet connection and try again.",
