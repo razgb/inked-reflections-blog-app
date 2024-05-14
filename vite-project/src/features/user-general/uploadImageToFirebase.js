@@ -24,6 +24,7 @@ export async function uploadImageToFirebase(file, uid, storageReference) {
     name: file.name,
     size: file.size,
   };
+
   const imageRef = ref(reference, uniqueFileName);
 
   try {

@@ -1,5 +1,5 @@
-import { db } from "../../main";
-import { collection, addDoc } from "firebase/firestore";
+import { db } from "../../../main";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 /**
  * Creates a new post document in firestore with the user's reflection.
@@ -10,7 +10,6 @@ import { collection, addDoc } from "firebase/firestore";
  */
 export async function uploadReflectionToFirestore(data) {
   const createdAt = new Date().getTime();
-
   const post = {
     ...data,
     createdAt,
@@ -18,9 +17,10 @@ export async function uploadReflectionToFirestore(data) {
   };
 
   try {
-    const id = await addDoc(collection(db, "posts-new"), post);
-    console.log("Sent post to firestore.");
-    return id;
+    const docRef = await addDoc(collection(db, "posts-new"), post);
+    const id = docRef.id;
+
+    return { id, createdAt };
   } catch (error) {
     console.log(error);
     return false;

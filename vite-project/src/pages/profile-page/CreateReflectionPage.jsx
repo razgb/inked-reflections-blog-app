@@ -1,19 +1,21 @@
 import styles from "./CreateReflectionPage.module.css";
 import Button from "../../shared/ui/buttons/Button.jsx";
 
-import { useCallback, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
 import ReflectionsTools from "../../widgets/create-reflection-widgets/ReflectionsTools.jsx";
 import ReflectionTitle from "../../widgets/create-reflection-widgets/ReflectionTitle";
 import ReflectionParagraph from "../../widgets/create-reflection-widgets/ReflectionParagraph";
 import ReflectionBlockQuote from "../../widgets/create-reflection-widgets/ReflectionBlockQuote.jsx";
 import ReflectionImage from "../../widgets/create-reflection-widgets/ReflectionImage.jsx";
 
-import { activateAppError } from "../../entities/app-error/app-error-slice.js";
-import { checkMaxContentCount } from "../../features/reflections/checkMaxContentCount.js";
-import { submitReflectionToFirestore } from "../../features/reflections/submitReflectionToFirestore.js";
+import { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
+import { activateAppError } from "../../entities/app-error/app-error-slice.js";
+import { addPostToProfileFeed } from "../../entities/posts/profileFeedSlice.js";
+
+import { checkMaxContentCount } from "../../features/reflections/checkMaxContentCount.js";
+import { submitReflectionToFirestore } from "../../features/reflections/submission/submitReflectionToFirestore.js";
 
 const maxContentCount = {
   images: 3,
@@ -60,61 +62,59 @@ export default function CreateReflectionPage() {
     },
   ]);
 
-  function handleAddWidget(widget = "paragraph") {
-    const acceptedWidgets = ["paragraph", "quote", "image"];
-    if (!acceptedWidgets.includes(widget)) return; // guard
+  const handleAddWidget = useCallback(
+    (widget = "paragraph") => {
+      const acceptedWidgets = ["paragraph", "quote", "image"];
+      if (!acceptedWidgets.includes(widget)) return;
 
-    const timestamp = new Date().getTime();
-    const inputId = `${widget}__${timestamp}`; // unique name for FormData object
+      const timestamp = new Date().getTime();
+      const inputId = `${widget}__${timestamp}`; // unique name for FormData object
 
-    const widgetProperty = `${widget}s`;
-    const { passed, title, message } = checkMaxContentCount(
-      widget,
-      contentCount[widgetProperty],
-      maxContentCount[widgetProperty]
-    );
-
-    if (passed && title) {
-      dispatch(
-        activateAppError({
-          title,
-          message,
-        })
+      const widgetProperty = `${widget}s`;
+      const { passed, title, message } = checkMaxContentCount(
+        widget,
+        contentCount[widgetProperty],
+        maxContentCount[widgetProperty]
       );
-    } else if (!passed) {
-      dispatch(
-        activateAppError({
-          title,
-          message,
-        })
-      );
-      return; // exits function to not add to count.
-    }
 
-    setContentCount((prev) => {
-      return {
+      if (passed && title) {
+        dispatch(
+          activateAppError({
+            title,
+            message,
+          })
+        );
+      } else if (!passed) {
+        dispatch(
+          activateAppError({
+            title,
+            message,
+          })
+        );
+        return; // exits function to not add to count.
+      }
+
+      setContentCount((prev) => ({
         ...prev,
         [widgetProperty]: prev[widgetProperty] + 1,
-      };
-    });
-    setUserContent((prev) => {
-      const newWidget = {
-        component: widget,
-        id: inputId,
-        title: widget,
-      };
-      if (widget === "image") {
-        newWidget.fileInput = {
-          file: null,
-          src: null,
-        };
-      }
-      return [...prev, newWidget];
-    });
-  }
+      }));
+
+      setUserContent((prev) => [
+        ...prev,
+        {
+          component: widget,
+          id: inputId,
+          title: widget,
+          ...(widget === "image" && { fileInput: { file: null, src: null } }),
+        },
+      ]);
+    },
+    [contentCount, dispatch]
+  );
 
   function handleDeleteWidget(widget, id) {
     const widgetProperty = `${widget}s`;
+
     setContentCount((prev) => ({
       ...prev,
       [widgetProperty]: --prev[widgetProperty],
@@ -122,40 +122,27 @@ export default function CreateReflectionPage() {
     setUserContent((prev) => prev.filter((widget) => widget.id !== id));
   }
 
-  /**
-   * Uses id to update image widget with new file upload.
-   * @param {File} File Contains sanitized file object form useFileValidator.
-   */
-  const addFileToState = useCallback(function (file, id) {
-    setUserContent((prev) => {
-      return prev.map((widget) => {
-        if (widget.id === id) {
-          return {
-            ...widget,
-            file,
-          };
-        } else return widget; // leave textComponents as they are.
-      });
-    });
+  const addFileToState = useCallback((file, id) => {
+    setUserContent((prev) =>
+      prev.map((widget) => (widget.id === id ? { ...widget, file } : widget))
+    );
   }, []);
 
   async function handleSubmit(event) {
-    const { error, title, message } = await submitReflectionToFirestore(event, {
+    const { error, post } = await submitReflectionToFirestore({
+      event,
       uid,
       displayName,
       profilePhotoReference,
       userContent,
     });
 
-    if (error) {
-      dispatch(
-        activateAppError({
-          title,
-          message,
-        })
-      );
+    if (error.isError) {
+      console.log(error);
+      dispatch(activateAppError(error));
     } else {
-      // in the future try and 'refresh' the profile posts with the newly added post.
+      console.log(post);
+      dispatch(addPostToProfileFeed(post));
       navigate("/profile");
     }
   }
@@ -168,10 +155,11 @@ export default function CreateReflectionPage() {
     const props = {
       id: item.id,
       title: item.title,
+      ...(component !== "title" && {
+        deleteWidget: handleDeleteWidget,
+      }),
+      ...(component === "image" && { addFileToState }),
     };
-
-    if (component !== "title") props.deleteWidget = handleDeleteWidget;
-    if (component === "image") props.addFileToState = addFileToState;
 
     return <ReflectionComponent key={item.id} {...props} />;
   });
@@ -187,12 +175,7 @@ export default function CreateReflectionPage() {
           <div className={styles["heading__container"]}>
             <h2 className={styles["heading"]}>Write a reflection</h2>
             <div className={styles["preview-save-container"]}>
-              <Button type="button">Preview</Button>
-
-              {/* We need a drafts section in the user collection */}
-              {/* <Button type="button">Save</Button> */}
-
-              <Button>Save & Publish</Button>
+              <Button type="submit">Save & Publish</Button>
             </div>
           </div>
           {output}

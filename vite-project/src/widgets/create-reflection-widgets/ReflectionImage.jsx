@@ -15,37 +15,9 @@ export default function ReflectionsImage({
   const { fileInput, error, handleFileChange } = useFileValidator({
     maxSizeBytes: 5,
   });
+
   function handleInputClick() {
     inputRef.current.click();
-  }
-
-  let output;
-  if (fileInput.file) {
-    output = (
-      <img
-        src={fileInput.src}
-        alt={fileInput.file.name}
-        className={styles["image"]}
-      />
-    );
-  } else {
-    output = (
-      <div className={styles["no-image__container"]}>
-        <div className={styles["image-icon-container"]}>
-          <ImageIcon className="icon" size={48} />
-        </div>
-
-        {error.isError ? (
-          <p
-            className={`${styles["image-text"]} ${styles["image-error-text"]}`}
-          >
-            {error.message}
-          </p>
-        ) : (
-          <p className={styles["image-text"]}>{title}</p>
-        )}
-      </div>
-    );
   }
 
   useEffect(() => {
@@ -58,6 +30,7 @@ export default function ReflectionsImage({
   return (
     <div>
       <label htmlFor={id}></label>
+
       <input
         className={styles["image-input"]}
         id={id}
@@ -66,7 +39,14 @@ export default function ReflectionsImage({
         ref={inputRef}
         onChange={handleFileChange}
       />
-      <div className={styles["image-input__container"]}>{output}</div>
+
+      <div className={styles["image-input__container"]}>
+        {fileInput.file ? (
+          <ImageOutput fileInput={fileInput} />
+        ) : (
+          <NoImageOutput error={error} title={title} />
+        )}
+      </div>
 
       <div className={styles["image-input__buttons"]}>
         {id === "cover-image" ? null : (
@@ -83,6 +63,34 @@ export default function ReflectionsImage({
           {fileInput.src ? "Change" : "Add"} image
         </Button>
       </div>
+    </div>
+  );
+}
+
+function ImageOutput({ fileInput }) {
+  return (
+    <img
+      src={fileInput.src}
+      alt={fileInput.file.name}
+      className={styles["image"]}
+    />
+  );
+}
+
+function NoImageOutput({ error, title }) {
+  return (
+    <div className={styles["no-image__container"]}>
+      <div className={styles["image-icon-container"]}>
+        <ImageIcon className="icon" size={48} />
+      </div>
+
+      {error.isError ? (
+        <p className={`${styles["image-text"]} ${styles["image-error-text"]}`}>
+          {error.message}
+        </p>
+      ) : (
+        <p className={styles["image-text"]}>{title}</p>
+      )}
     </div>
   );
 }

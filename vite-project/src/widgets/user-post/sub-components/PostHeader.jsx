@@ -5,6 +5,7 @@ import { formatDate } from "../../../shared/util/formatDate";
 
 export default function PostHeader({ post }) {
   const { displayName, profilePhotoReference, createdAt } = post;
+  const formattedDate = formatDate(createdAt);
 
   return (
     <div className={styles["post__header"]}>
@@ -20,7 +21,7 @@ export default function PostHeader({ post }) {
           {displayName}
         </Link>
       </h3>
-      <span className={styles["post__date"]}>{formatDate(createdAt)}</span>
+      <span className={styles["post__date"]}>{formattedDate}</span>
     </div>
   );
 }
