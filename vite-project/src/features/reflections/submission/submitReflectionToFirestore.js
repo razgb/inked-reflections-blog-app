@@ -97,7 +97,7 @@ export async function submitReflectionToFirestore({
       postContent: userContentToUpload,
     });
 
-    const { id, createdAt } = await requestWithRetry(promise); // auto-gen post id by firestore.
+    const { id, createdAt, readingTime } = await requestWithRetry(promise); // auto-gen post id by firestore.
 
     const post = {
       id,
@@ -105,6 +105,7 @@ export async function submitReflectionToFirestore({
       displayName,
       profilePhotoReference,
       postUid: uid,
+      readingTime,
       postContent: userContentToUpload,
     };
 

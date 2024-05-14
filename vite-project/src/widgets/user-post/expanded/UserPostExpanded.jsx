@@ -31,9 +31,8 @@ export default function UserPostExpanded() {
     createdAt,
     postContent,
     profilePhotoReference,
-    minutesToRead,
+    readingTime,
     parentArrayName,
-    isProfilePost,
   } = currentPost;
 
   const title = postContent?.[1]?.value ?? null;
@@ -43,6 +42,8 @@ export default function UserPostExpanded() {
   const [noCurrentPost, setNoCurrentPost] = useState(
     displayName ? true : false
   );
+
+  const minutesToRead = `${readingTime}-min read`;
 
   useEffect(() => {
     if (noCurrentPost || !uid) return;

@@ -16,7 +16,6 @@ export default function UserPost({ parentArrayName, ...post }) {
   const coverPhotoReference = postContent[0].firebaseStorageReference;
   const title = postContent[1].value;
   const abstractParagraph = postContent[2].value;
-  const minutesToRead = `${readingTime}-min read`;
 
   const postWithExtraData = {
     ...post,
@@ -26,7 +25,7 @@ export default function UserPost({ parentArrayName, ...post }) {
     coverPhotoReference,
     title,
     abstractParagraph,
-    minutesToRead,
+    readingTime,
   };
 
   function handlePostClick(event) {

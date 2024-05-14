@@ -7,7 +7,7 @@ import {
   startAfter,
   orderBy,
 } from "firebase/firestore";
-import { filterTextAndEstimateReadingTime } from "../../shared/util/filterTextAndEstimateReadingTime.js";
+import { filterTextAndEstimateReadingTime } from "../reflections/submission/util/filterTextAndEstimateReadingTime.js";
 import { fetchBookmarkIdsForPostIds } from "../bookmarks/fetchBookmarkIdsForPostIds.js";
 import { requestWithRetry } from "../../shared/util/requestWithRetry.js";
 
@@ -40,21 +40,10 @@ export async function fetchPosts(uid) {
   const bookmarkIdsPromise = fetchBookmarkIdsForPostIds(uid, postIds);
   const bookmarkIds = await requestWithRetry(bookmarkIdsPromise);
 
-  const postIdsWithBookmarkBools = postsData.map((post) => ({
+  return postsData.map((post) => ({
     ...post,
     isBookmarked: bookmarkIds.includes(post.id),
   }));
 
-  const postDataWithReadingTime = postIdsWithBookmarkBools.map((doc) => {
-    const readingTime = filterTextAndEstimateReadingTime(doc.postContent);
-    return {
-      ...doc,
-      readingTime,
-    };
-  });
-
-  ++fetchCount;
-  // console.log(`fetchPosts function invoked: ${fetchCount}x`);
-  // console.log(postDataWithReadingTime);
-  return postDataWithReadingTime;
+  // ++fetchCount;
 }

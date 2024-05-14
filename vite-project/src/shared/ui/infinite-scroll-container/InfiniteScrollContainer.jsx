@@ -54,7 +54,6 @@ export default function InfiniteScrollContainer({
   let output;
   if (parentArrayName !== "bookmarkFeed") {
     output = content.map((post) => {
-      // postUid should be named autherUid in the future in the final stages of the app.
       return (
         <UserPost
           key={post.id}

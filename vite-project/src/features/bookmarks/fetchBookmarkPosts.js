@@ -12,7 +12,7 @@ import {
 import { db } from "../../main";
 import { requestWithRetry } from "../../shared/util/requestWithRetry";
 import { fetchBookmarkIdsForUser } from "./fetchBookmarkIdsForUser";
-import { filterTextAndEstimateReadingTime } from "../../shared/util/filterTextAndEstimateReadingTime";
+import { filterTextAndEstimateReadingTime } from "../reflections/submission/util/filterTextAndEstimateReadingTime";
 
 let lastVisibleDoc = null;
 
@@ -46,19 +46,9 @@ export async function fetchBookmarkPosts(uid, postsLimit = 10) {
   const querySnapshots = await requestWithRetry(postsPromise);
   lastVisibleDoc = querySnapshots.docs[querySnapshots.docs.length - 1];
 
-  const posts = querySnapshots.docs.map((doc) => ({
+  return querySnapshots.docs.map((doc) => ({
     id: doc.id,
     isBookmarked: true,
     ...doc.data(),
   }));
-
-  const postDataWithReadingTime = posts.map((doc) => {
-    const readingTime = filterTextAndEstimateReadingTime(doc.postContent);
-    return {
-      ...doc,
-      readingTime,
-    };
-  });
-
-  return postDataWithReadingTime;
 }

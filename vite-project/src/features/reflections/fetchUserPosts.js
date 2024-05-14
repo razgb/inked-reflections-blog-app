@@ -9,7 +9,7 @@ import {
   where,
 } from "firebase/firestore";
 import { requestWithRetry } from "../../shared/util/requestWithRetry";
-import { filterTextAndEstimateReadingTime } from "../../shared/util/filterTextAndEstimateReadingTime";
+import { filterTextAndEstimateReadingTime } from "./submission/util/filterTextAndEstimateReadingTime";
 import { fetchBookmarkIdsForPostIds } from "../bookmarks/fetchBookmarkIdsForPostIds";
 
 let lastVisibleDoc = null;
@@ -69,18 +69,8 @@ async function fetchUserPostsBasedOnId(uid) {
   const bookmarkIdsPromise = fetchBookmarkIdsForPostIds(uid, postIds);
   const bookmarkIds = await requestWithRetry(bookmarkIdsPromise);
 
-  const postIdsWithBookmarkBools = postsData.map((post) => ({
+  return postsData.map((post) => ({
     ...post,
     isBookmarked: bookmarkIds.includes(post.id),
   }));
-
-  const postDataWithReadingTime = postIdsWithBookmarkBools.map((doc) => {
-    const readingTime = filterTextAndEstimateReadingTime(doc.postContent);
-    return {
-      ...doc,
-      readingTime,
-    };
-  });
-
-  return postDataWithReadingTime;
 }
