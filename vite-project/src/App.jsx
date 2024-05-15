@@ -101,11 +101,6 @@ const router = createBrowserRouter([
                 path: "edit",
                 element: <></>,
               },
-              {
-                // Not sure if I like this.
-                path: "draft",
-                element: <></>,
-              },
             ],
           },
         ],
@@ -115,11 +110,7 @@ const router = createBrowserRouter([
         element: <BookmarksPage />,
       },
       {
-        path: "settings",
-        element: <ErrorMessage />,
-      },
-      {
-        path: "help",
+        path: "info",
         element: <ErrorMessage />,
       },
     ],

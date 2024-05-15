@@ -50,6 +50,10 @@ export async function fetchProfileFeedPosts(uid) {
     id: doc.id,
   }));
 
+  if (postsData.length === 0) {
+    return [];
+  }
+
   const postIds = postsData.map((post) => post.id);
   const bookmarkIdsPromise = fetchBookmarkIdsForPostIds(uid, postIds);
   const bookmarkIds = await requestWithRetry(bookmarkIdsPromise);

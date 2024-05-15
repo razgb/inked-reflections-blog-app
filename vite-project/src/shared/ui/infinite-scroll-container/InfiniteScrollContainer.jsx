@@ -1,42 +1,16 @@
+import styles from "./InfiniteScrollContainer.module.css";
 import Spinner from "../spinner/Spinner";
-import UserPost from "../../../widgets/user-post/UserPost";
+import UserPost from "../../../widgets/user-post/UserPost.jsx";
+import { InfiniteScrollContainerText } from "./InfiniteScrollContainerText.jsx";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { activateAppError } from "../../../entities/app-error/app-error-slice";
-
-import {
-  updateFeedObserver,
-  updateMainFeed,
-} from "../../../entities/posts/mainFeedSlice";
-import {
-  updateProfileObserver,
-  updateProfileFeed,
-} from "../../../entities/posts/profileFeedSlice";
-import {
-  updateBookmarkObserver,
-  updateBookmarkFeed,
-} from "../../../entities/posts/bookmarkFeedSlice";
-
-const observerMap = {
-  mainFeed: updateFeedObserver,
-  profileFeed: updateProfileObserver,
-  bookmarkFeed: updateBookmarkObserver,
-};
-
-const dispatchFunctionMap = {
-  mainFeed: updateMainFeed,
-  profileFeed: updateProfileFeed,
-  bookmarkFeed: updateBookmarkFeed,
-};
+import { fetchContentUtil } from "./fetchContentUtil";
 
 /**
  * Custom infinite scrolling component that abstracts everything from fetching to rendering user posts.
  * @param {array} content Infinite scroll content such as posts, comments, bookmarks.
  * @param {function} fn Async function that fetches new content.
- * @param {function} dispatchFn Redux dispatch function that updates content state in application.
- * @param {string} observerName A unique name so that redux can keep track of observer state across component mounts and unmounts e.g. ['posts', 'profile', 'bookmark'].
- * @param {boolean} isProfilePost Whether the post is a profile post.
  * @returns {Array} Content inside array that react renders.
  */
 export default function InfiniteScrollContainer({
@@ -47,9 +21,13 @@ export default function InfiniteScrollContainer({
   const dispatch = useDispatch();
   const triggerRef = useRef();
   const uid = useSelector((state) => state.user.info.uid);
+  const {
+    userHasPosts,
+    completedFeed,
+    intersectionObserverState: observerState,
+  } = useSelector((state) => state[parentArrayName]);
 
-  const { postBatchLimit, intersectionObserverState: observerState } =
-    useSelector((state) => state[parentArrayName]);
+  const [loading, setLoading] = useState(false);
 
   let output;
   if (parentArrayName !== "bookmarkFeed") {
@@ -78,45 +56,14 @@ export default function InfiniteScrollContainer({
         );
       });
 
-  const fetchContent = async () => {
-    try {
-      const newContentArray = await fn(uid);
-      const newContentLength = newContentArray.length;
-
-      const observerUpdater = observerMap[parentArrayName];
-      const dispatchFn = dispatchFunctionMap[parentArrayName];
-
-      // No more content in firestore after this batch.
-      if (newContentLength < postBatchLimit) {
-        dispatch(
-          observerUpdater({
-            bool: false,
-          })
-        );
-      }
-
-      // There is more content in firestore after this batch.
-      else
-        dispatch(
-          observerUpdater({
-            bool: true,
-          })
-        );
-
-      dispatch(dispatchFn(newContentArray));
-    } catch (error) {
-      console.log(error);
-      dispatch(
-        activateAppError({
-          title: "Error loading posts",
-          message: "Check your internet connection and try again.",
-        })
-      );
-    }
-  };
-
   useEffect(() => {
-    if (!observerState || !triggerRef.current || !uid || !parentArrayName)
+    if (
+      !observerState ||
+      !triggerRef.current ||
+      !uid ||
+      loading ||
+      completedFeed === true
+    )
       return;
 
     const targetRefCurrent = triggerRef.current;
@@ -125,7 +72,10 @@ export default function InfiniteScrollContainer({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            fetchContent();
+            setLoading(true);
+            dispatch(fetchContentUtil({ fn, parentArrayName, uid })).then(() =>
+              setLoading(false)
+            );
             observer.unobserve(targetRefCurrent);
           }
         });
@@ -145,20 +95,66 @@ export default function InfiniteScrollContainer({
         observer.unobserve(targetRefCurrent);
       }
     };
-  });
+  }, [
+    observerState,
+    triggerRef,
+    uid,
+    loading,
+    completedFeed,
+    dispatch,
+    fn,
+    parentArrayName,
+  ]);
 
   if (observerState) {
     output.push(
       <div
-        className="infinite-scroll-target"
+        className={styles["intersection-observer-target"]}
         ref={triggerRef}
-        key={"trigger-element"}
+        key={"intersection-observer-target"}
+      ></div>
+    );
+  }
+
+  if (loading) {
+    output.push(
+      <div
+        className={styles["infinite-scroll-spinner-container"]}
+        key={"infinite-scroll-spinner-container"}
       >
         <Spinner size="large" />
       </div>
     );
+  } else if (userHasPosts === false && parentArrayName !== "mainFeed") {
+    const message =
+      parentArrayName !== "bookmarkFeed"
+        ? "Write a new reflection to see it here"
+        : "Bookmark a post to see it here";
+
+    output.push(
+      <InfiniteScrollContainerText key="no-owned-posts">
+        {message}
+      </InfiniteScrollContainerText>
+    );
+  } else if (completedFeed) {
+    let containerLocation = "";
+
+    switch (parentArrayName) {
+      case "mainFeed":
+        containerLocation = "home";
+        break;
+      case "profileFeed":
+        containerLocation = "profile";
+        break;
+      case "bookmarkFeed":
+        containerLocation = "bookmarks";
+        break;
+    }
+
+    output.push(
+      <InfiniteScrollContainerText key="no-more-posts">{`You've viewed all the posts in your ${containerLocation} feed`}</InfiniteScrollContainerText>
+    );
   }
 
-  // console.log(output);
   return output;
 }

@@ -109,6 +109,8 @@ export async function submitReflectionToFirestore({
       postContent: userContentToUpload,
     };
 
+    console.log(post.readingTime);
+
     return {
       error: {
         isError: false,

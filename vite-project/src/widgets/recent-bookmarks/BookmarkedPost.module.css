@@ -18,11 +18,10 @@
 .bookmark__author-image,
 .bookmark__author-image {
   position: relative;
-  width: 4rem;
+  min-width: 4rem;
   padding-bottom: 4rem;
   border-radius: 100%;
   overflow: hidden;
-  margin-bottom: var(--space-sm);
 }
 
 .bookmark__author-name {

@@ -5,11 +5,27 @@ const mainFeedSlice = createSlice({
   initialState: {
     posts: [],
     postBatchLimit: 10,
+    completedFeed: null,
     intersectionObserverState: true,
   },
   reducers: {
     updateMainFeed(state, action) {
-      state.posts.push(...action.payload);
+      if (!state.posts.length && !action.payload.length) {
+        state.completedFeed = true;
+        state.intersectionObserverState = false;
+      } else if (action.payload.length < state.postBatchLimit) {
+        state.completedFeed = true;
+        state.intersectionObserverState = false;
+      } else {
+        state.completedFeed = false;
+      }
+
+      const existingPostIds = new Set(state.posts.map((post) => post.id));
+      const newPosts = action.payload.filter(
+        (newPost) => !existingPostIds.has(newPost.id)
+      );
+
+      state.posts.push(...newPosts);
     },
     removePostFromMainFeed(state, action) {
       const postId = action.payload;

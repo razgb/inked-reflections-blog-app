@@ -82,8 +82,8 @@
 }
 
 ::selection {
-  background-color: var(--color-primary-500);
-  color: var(--color-primary-900);
+  background-color: var(--color-primary-900);
+  color: var(--color-primary-200);
 }
 
 html {
@@ -248,9 +248,4 @@ body {
 .rotate45 {
   transform: rotate(45deg);
   transition: transform 0.15s ease-in;
-}
-.infinite-scroll-target {
-  margin-top: 30%;
-  width: 100%;
-  padding-bottom: 50rem; /* Height trick for div with no content */
 }

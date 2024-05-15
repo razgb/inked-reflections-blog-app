@@ -1,0 +1,18 @@
+.intersection-observer-target {
+  width: 100%;
+  padding-bottom: 5rem;
+}
+.infinite-scroll-spinner-container {
+  margin-top: 10%;
+  width: 100%;
+}
+.infinite-scroll-container-text {
+  width: 100%;
+  background: var(--color-primary-400);
+  font-size: var(--text);
+  color: var(--color-primary-900);
+  text-align: center;
+  border-radius: var(--space-md);
+  padding: var(--space-sm);
+  margin-block: var(--space-lg) var(--space-xl);
+}

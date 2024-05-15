@@ -114,19 +114,11 @@ export default function Menu({ menuOpenState, handleToggleMenuState }) {
           </MenuButton>
 
           <MenuButton
-            destination="/settings"
-            title="Settings"
+            destination="/info"
+            title="Project-info"
             open={menuOpenState}
           >
-            {urlLocationName.includes("settings") ? (
-              <SettingsSolidIcon size={ICON_SIZE} />
-            ) : (
-              <SettingsIcon size={ICON_SIZE} />
-            )}
-          </MenuButton>
-
-          <MenuButton destination="/help" title="Help" open={menuOpenState}>
-            {urlLocationName.includes("help") ? (
+            {urlLocationName.includes("info") ? (
               <HelpSolidIcon size={ICON_SIZE} />
             ) : (
               <HelpIcon size={ICON_SIZE} />
@@ -135,7 +127,7 @@ export default function Menu({ menuOpenState, handleToggleMenuState }) {
         </div>
 
         <div className={styles["menu-actions-2"]}>
-          <div className={styles["theme-icon__container"]}>
+          {/* <div className={styles["theme-icon__container"]}>
             <MenuActionButton title="Theme" menuOpenState={menuOpenState}>
               {theme === "light" ? (
                 <SunIcon size={24} />
@@ -143,7 +135,7 @@ export default function Menu({ menuOpenState, handleToggleMenuState }) {
                 <MoonIcon size={ICON_SIZE} />
               )}
             </MenuActionButton>
-          </div>
+          </div> */}
 
           <MenuActionButton
             title="Sign out"

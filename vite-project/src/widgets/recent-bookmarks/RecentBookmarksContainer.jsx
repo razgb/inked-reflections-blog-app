@@ -13,7 +13,7 @@ import Spinner from "../../shared/ui/spinner/Spinner.jsx";
 export default function RecentBookmarksContainer() {
   const dispatch = useDispatch();
   const uid = useSelector((state) => state.user.info.uid);
-  const { userHasBookmarks, posts } = useSelector(
+  const { userHasPosts: userHasBookmarks, posts } = useSelector(
     (state) => state.bookmarkFeed
   );
 

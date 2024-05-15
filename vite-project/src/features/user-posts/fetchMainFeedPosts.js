@@ -10,9 +10,8 @@ import { fetchBookmarkIdsForPostIds } from "../bookmarks/fetchBookmarkIdsForPost
 import { requestWithRetry } from "../../shared/util/requestWithRetry.js";
 
 let lastVisibleDoc = null;
-let fetchCount = 0;
 export async function fetchMainFeedPosts(uid) {
-  // const postsRef = collection(db, "posts");
+  if (!uid) return;
   const postsRef = collection(db, "posts-new");
   let q;
 
@@ -28,6 +27,10 @@ export async function fetchMainFeedPosts(uid) {
     id: doc.id,
     ...doc.data(),
   }));
+
+  if (!postsData.length) {
+    return [];
+  }
 
   const postIds = postsData.map((post) => post.id);
   const bookmarkIdsPromise = fetchBookmarkIdsForPostIds(uid, postIds);

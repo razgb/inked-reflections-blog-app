@@ -5,7 +5,8 @@ const bookmarkFeedSlice = createSlice({
   initialState: {
     postBatchLimit: 5,
     posts: [],
-    userHasBookmarks: null,
+    userHasPosts: null,
+    completedFeed: null,
     intersectionObserverState: true,
   },
   reducers: {
@@ -15,17 +16,24 @@ const bookmarkFeedSlice = createSlice({
     },
     updateBookmarkFeed(state, action) {
       if (!state.posts.length && !action.payload.length) {
-        state.userHasBookmarks = false;
+        state.userHasPosts = false;
+        state.completedFeed = true;
+        state.intersectionObserverState = false;
+      } else if (action.payload.length < state.postBatchLimit) {
+        state.completedFeed = true;
+        state.userHasPosts = true;
+        state.intersectionObserverState = false;
       } else {
-        state.userHasBookmarks = true;
-
-        const existingPostIds = new Set(state.posts.map((post) => post.id));
-        const newPosts = action.payload.filter(
-          (newPost) => !existingPostIds.has(newPost.id)
-        );
-
-        state.posts.push(...newPosts);
+        state.userHasPosts = true;
+        state.completedFeed = false;
       }
+
+      const existingPostIds = new Set(state.posts.map((post) => post.id));
+      const newPosts = action.payload.filter(
+        (newPost) => !existingPostIds.has(newPost.id)
+      );
+
+      state.posts.push(...newPosts);
     },
     addPostToBookmarkFeed(state, action) {
       const post = {
@@ -34,16 +42,16 @@ const bookmarkFeedSlice = createSlice({
       };
       state.posts.push(post);
 
-      if (!state.userHasBookmarks) {
-        state.userHasBookmarks = true;
+      if (!state.userHasPosts) {
+        state.userHasPosts = true;
       }
     },
     removePostFromBookmarkFeed(state, action) {
       const postId = action.payload;
       state.posts = state.posts.filter((post) => post.id !== postId);
 
-      if (state.posts.length === 0) {
-        state.userHasBookmarks = false;
+      if (!state.posts.length) {
+        state.userHasPosts = false;
       }
     },
   },

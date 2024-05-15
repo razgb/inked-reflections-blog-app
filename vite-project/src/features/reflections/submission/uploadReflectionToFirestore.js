@@ -32,7 +32,7 @@ export async function uploadReflectionToFirestore({
     const docRef = await addDoc(collection(db, "posts-new"), post);
     const id = docRef.id;
 
-    return { id, createdAt };
+    return { id, createdAt, readingTime };
   } catch (error) {
     console.log(error);
   }

@@ -13,9 +13,6 @@ export default function MainNavigation() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const appErrorObj = useSelector((state) => state.error);
-  const { photoURL: profilePhotoReference } = useSelector(
-    (state) => state.user.info
-  );
 
   function handleLocationChange() {
     dispatch(changeLocationState("/posts"));
@@ -41,7 +38,7 @@ export default function MainNavigation() {
       <div className={styles["main-nav-actions"]}>
         <ReflectButton size={20} />
 
-        <button className={styles["main-nav-profile__button"]}>
+        {/* <button className={styles["main-nav-profile__button"]}>
           <div className={styles["profile-image-container"]}>
             <LazyLoadedImage
               reference={profilePhotoReference}
@@ -49,7 +46,7 @@ export default function MainNavigation() {
               altText="User profile photo"
             />
           </div>
-        </button>
+        </button> */}
       </div>
 
       {appErrorObj.errorState && <AppError />}

@@ -60,7 +60,7 @@
   align-items: center;
   gap: var(--space-sm);
   background-color: transparent;
-  background-color: var(--color-primary-300);
+  background-color: var(--color-primary-400);
   cursor: pointer;
   padding: var(--space-md);
   border-radius: var(--space-sm);
@@ -70,7 +70,7 @@
   transition: all 0.1s ease-in;
 }
 .reflect-button:hover {
-  background-color: var(--color-primary-400);
+  background-color: var(--color-primary-500);
 }
 
 .reflect-text {
