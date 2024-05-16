@@ -1,6 +1,6 @@
 .bookmark__article {
   border-radius: var(--space-lg);
-  transition: background-color 0.1s ease-in;
+  transition: background-color 0.15s ease-in;
   min-width: 20rem;
 }
 .bookmark__article:hover {

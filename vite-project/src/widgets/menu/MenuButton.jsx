@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import styles from "./MenuButton.module.css";
+import styles from "./Menu.module.css";
 import { Link } from "react-router-dom";
 import { changeLocationState } from "../../entities/url-location/location-slice";
 

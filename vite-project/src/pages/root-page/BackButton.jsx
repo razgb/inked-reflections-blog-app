@@ -9,7 +9,9 @@ export const BackButton = () => {
   }
 
   const condition =
-    pathname.includes("/posts/") || pathname === "/profile/reflect";
+    pathname.includes("/posts/") ||
+    pathname === "/profile/reflect" ||
+    pathname === "/profile/edit";
 
   return (
     <button

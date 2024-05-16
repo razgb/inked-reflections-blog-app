@@ -13,7 +13,7 @@ export default function ReflectionsImage({
 }) {
   const inputRef = useRef();
   const { fileInput, error, handleFileChange } = useFileValidator({
-    maxSizeBytes: 5,
+    maxSizeBytes: 2,
   });
 
   function handleInputClick() {
@@ -22,7 +22,6 @@ export default function ReflectionsImage({
 
   useEffect(() => {
     if (fileInput.file) {
-      // CreateReflectionPage only needs file not src.
       addFileToState(fileInput.file, id);
     }
   }, [fileInput, addFileToState, id]);

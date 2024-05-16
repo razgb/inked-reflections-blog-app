@@ -6,7 +6,8 @@ import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage.jsx";
 import { fetchProfileFeedPosts } from "../../features/reflections/fetchProfileFeedPosts.js";
 import { useSelector } from "react-redux";
 import Spinner from "../../shared/ui/spinner/Spinner.jsx";
-import Button from "../../shared/ui/buttons/Button.jsx";
+// import Button from "../../shared/ui/buttons/Button.jsx";
+import LinkButton from "../../shared/ui/buttons/LinkButton.jsx";
 
 export default function ProfileFeedContainer() {
   const { posts } = useSelector((state) => state.profileFeed);
@@ -48,7 +49,7 @@ export default function ProfileFeedContainer() {
           </div>
 
           <div className={styles["profile__section-half-2"]}>
-            <Button buttonType="button">Edit profile</Button>
+            <LinkButton path="/profile/edit">Edit profile</LinkButton>
 
             {/* add a min width that matches the same as edit profile */}
             {/* <Button buttonType="button">

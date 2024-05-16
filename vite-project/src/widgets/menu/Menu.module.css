@@ -42,15 +42,20 @@
   display: flex;
   gap: var(--space-md);
   align-items: center;
-  font-size: var(--tertiary-heading);
+  font-size: var(--fs-lg);
 }
 .menu-button:focus {
   outline-color: var(--color-primary-800);
   outline-width: 2px;
 }
 .menu-button:hover {
-  /* background-color: var(--color-primary-300); */
+  background-color: var(--color-primary-500);
 }
 .menu-button.menu-button__active {
   font-weight: 700;
+  fill: var(--color-primary-800);
+}
+
+.menu-button__title {
+  color: var(--color-primary-800);
 }

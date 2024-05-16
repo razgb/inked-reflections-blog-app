@@ -24,6 +24,7 @@ import FlowPage from "./pages/flow-login-signup/FlowPage.jsx";
 import LoginAccountUI from "./widgets/login-create-account/LoginAccountUI.jsx";
 import CreateAccountUI from "./widgets/login-create-account/CreateAccountUI.jsx";
 import ProfileUploadUI from "./widgets/login-create-account/ProfileUploadUI.jsx";
+import EditUserProfilePage from "./pages/profile-page/EditUserProfilePage.jsx";
 import CreateReflectionPage from "./pages/profile-page/CreateReflectionPage.jsx";
 
 const router = createBrowserRouter([
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <ProfilePage />,
+          },
+          {
+            path: "edit",
+            element: <EditUserProfilePage />,
           },
           {
             path: "reflect",
