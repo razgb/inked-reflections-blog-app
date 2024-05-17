@@ -10,8 +10,9 @@ import { activateAppError } from "../../entities/app-error/app-error-slice";
 import { resetDangerModal } from "../../entities/danger-modal/dangerModalSlice.js";
 
 // Danger functions:
-import { signoutUser } from "../../features/user-auth/signoutUser";
+import { signoutUser } from "../../features/user-auth/signoutUser.js";
 import { removePostFromAllFeedsAction } from "../../entities/posts/util-functions/removePostFromAllFeedsAction.js";
+import { closeAppOverlay } from "../../entities/overlay/overlaySlice.js";
 
 // Args need to be wrapped in an object and destructured in the danger function.
 const dangerFunctionRegistry = {
@@ -33,7 +34,10 @@ export default function DangerModal() {
     successRedirectPath,
   } = useSelector((state) => state.danger);
 
-  const handleCloseModal = () => dispatch(resetDangerModal());
+  const handleCloseModal = () => {
+    dispatch(closeAppOverlay());
+    dispatch(resetDangerModal());
+  };
   const handleDangerFunction = async () => {
     setLoading(true);
 

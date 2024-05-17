@@ -1,20 +1,26 @@
 import Button from "../../shared/ui/buttons/Button";
 import styles from "./LoginAccountUI.module.css";
 import Spinner from "../../shared/ui/spinner/Spinner";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { validateEmail } from "../../features/user-auth/loginFlowUtil";
 import { loginUser } from "../../features/user-auth/loginUser";
+import { reAuthenticateUser } from "../../features/user-auth/reAuthenticateUser";
 
-export default function LoginAccountUI() {
+export default function LoginAccountUI({
+  navigatePath = "/profile",
+  functionRef = "login",
+}) {
   const emailRef = useRef(null); // used to auto focus email input (UX)
+
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [loginDetails, setLoginDetails] = useState({
     initialEmailFocus: true,
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
 
   function onEmailClick(event) {
     setLoginDetails((prev) => ({ ...prev, email: event.target.value }));
@@ -22,16 +28,25 @@ export default function LoginAccountUI() {
   function onPasswordClick(event) {
     setLoginDetails((prev) => ({ ...prev, password: event.target.value }));
   }
+
   async function handleSubmit(event) {
     event.preventDefault();
     setError(false);
     setLoading(true);
-    const loginState = await loginUser(
-      loginDetails.email,
-      loginDetails.password
-    );
+
+    const { email, password } = loginDetails;
+    let loginState = false;
+
+    if (functionRef === "login") {
+      loginState = await loginUser(email, password);
+    } else if (functionRef === "reauth") {
+      loginState = await reAuthenticateUser(email, password);
+    } else {
+      throw new Error("Invalid function reference.");
+    }
+
     if (loginState.success) {
-      console.log("Login successful");
+      navigate(navigatePath);
     } else {
       setError(true);
     }
@@ -48,7 +63,9 @@ export default function LoginAccountUI() {
 
   return (
     <div>
-      <h2 className={styles["login__heading"]}>Start reflecting</h2>
+      {functionRef === "login" && (
+        <h2 className={styles["login__heading"]}>Start reflecting</h2>
+      )}
 
       <div className={styles["login"]}>
         <form onSubmit={handleSubmit} className={styles["login__container"]}>

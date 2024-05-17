@@ -2,6 +2,7 @@ import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
+  useNavigate,
 } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -78,10 +79,10 @@ const router = createBrowserRouter([
           },
         ],
       },
-      {
-        path: "explore",
-        element: <ExplorePage />,
-      },
+      // {
+      //   path: "explore",
+      //   element: <ExplorePage />,
+      // },
       {
         path: "profile",
         children: [

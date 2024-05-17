@@ -22,7 +22,7 @@ export default function ChangeProfilePhotoForm() {
 
   useEffect(() => {
     if (fileInput.file) {
-      console.log("File input has changed:", fileInput.file);
+      // console.log("File input has changed:", fileInput.file);
     }
   }, [fileInput]);
 

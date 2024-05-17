@@ -1,4 +1,5 @@
 .edit-profile-container {
+  position: relative;
   margin: var(--space-xl);
 }
 
@@ -11,6 +12,8 @@
 .edit-profile-title {
   margin-bottom: var(--space-lg);
   font-size: var(--secondary-heading);
+  color: var(--color-primary-900);
+  font-weight: 700;
 }
 
 .form-item {
@@ -99,4 +102,13 @@
   position: absolute;
   top: 0;
   left: 0;
+}
+
+/* RE AUTHENTICATION STYLES */
+.login-account-container {
+  position: absolute;
+  top: 50%;
+  left: 65%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
 }

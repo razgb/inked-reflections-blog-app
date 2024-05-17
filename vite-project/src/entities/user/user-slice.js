@@ -3,13 +3,21 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   info: {
     uid: "",
-    loginState: false,
+    loginState: null,
     email: "",
     displayName: "",
     emailVerified: false,
     photoURL: "",
     createdAt: 0,
     dateAccountedCreated: "month year",
+  },
+  edit: {
+    showLoginModal: false,
+    reAuthed: false,
+    newPhotoURL: "",
+    newPhotoFile: "",
+    newEmail: "",
+    newDisplayName: "",
   },
 };
 
@@ -20,24 +28,18 @@ const userSlice = createSlice({
     addUserToState(state, action) {
       state.info = action.payload;
     },
-    removeUserFromState() {
-      return {
-        ...initialState,
+    removeUserFromState(state) {
+      state.info = {
+        ...initialState.info,
+        loginState: false,
       };
+    },
+    setLoginModal(state, action) {
+      state.edit.showLoginModal = action.payload;
     },
   },
 });
 
-export const { addUserToState, removeUserFromState } = userSlice.actions;
+export const { addUserToState, removeUserFromState, setLoginModal } =
+  userSlice.actions;
 export default userSlice.reducer;
-
-/**
- *  These functions should not be in the state slice. Create feature functions instead: 
- *   
-    // sendVerificationEmail(state, action) {},
-    // resetUserEmail(state, action) {},
-    // resetUserPassword(state, action) {},
-    // reAuthenticateUser(state, action) {},
-    // deleteUser(state, action) {},
- * 
- * */

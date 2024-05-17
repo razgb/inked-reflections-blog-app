@@ -1,42 +1,35 @@
 import styles from "./Menu.module.css";
 import {
   HomeSolidIcon,
-  SearchSolidIcon,
   HamburgerSolidIcon,
   HelpSolidIcon,
   BookmarksSolidIcon,
   ProfileSolidIcon,
-  SettingsSolidIcon,
 } from "../../shared/ui/svg-solid/MenuSvgSolid";
 import {
   HomeIcon,
-  SearchIcon,
   ProfileIcon,
   BookmarksIcon,
-  SettingsIcon,
   HelpIcon,
-  SunIcon,
-  MoonIcon,
   SignoutIcon,
 } from "../../shared/ui/svg/MenuSvg";
 import MenuButton from "./MenuButton";
 import MenuActionButton from "./MenuActionButton";
 
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeLocationState } from "../../entities/url-location/location-slice";
-import { ThemeContext } from "../../entities/theme/ThemeContext";
 import { activateDangerModal } from "../../entities/danger-modal/dangerModalSlice.js";
-import { signoutUser } from "../../features/user-auth/signoutUser.js";
+import { openAppOverlay } from "../../entities/overlay/overlaySlice.js";
 
 const ICON_SIZE = 20;
 
 export default function Menu({ menuOpenState, handleToggleMenuState }) {
   const dispatch = useDispatch();
   const urlLocationName = useSelector((state) => state.location.locationName);
-  const { theme, toggleTheme } = useContext(ThemeContext);
 
   const handleOpenLogout = () => {
+    dispatch(openAppOverlay({ modalToClose: "dangerModal" }));
     dispatch(
       activateDangerModal({
         title: "Are you sure you want to logout?",
@@ -77,7 +70,7 @@ export default function Menu({ menuOpenState, handleToggleMenuState }) {
             )}
           </MenuButton>
 
-          <MenuButton
+          {/* <MenuButton
             destination="/explore"
             title="Explore"
             open={menuOpenState}
@@ -87,7 +80,7 @@ export default function Menu({ menuOpenState, handleToggleMenuState }) {
             ) : (
               <SearchIcon size={ICON_SIZE} />
             )}
-          </MenuButton>
+          </MenuButton> */}
 
           <MenuButton
             destination="/profile"

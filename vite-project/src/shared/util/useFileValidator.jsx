@@ -32,7 +32,7 @@ export default function useFileValidator(options) {
 
       image.onload = function () {
         const validator = validateFile(file, image, options);
-        console.log("Validator result: ", validator.valid);
+        // console.log("Validator result: ", validator.valid);
 
         if (validator.valid === false) {
           setError({
