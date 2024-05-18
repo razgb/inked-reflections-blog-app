@@ -2,12 +2,24 @@ import styles from "../EditUserProfile.module.css";
 import Button from "../../../shared/ui/buttons/Button";
 import LazyLoadedImage from "../../../widgets/lazy-loaded-image/LazyLoadedImage.jsx";
 
-import { useEffect } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import useFileValidator from "../../../shared/util/useFileValidator";
-import { useSelector } from "react-redux";
+import Spinner from "../../../shared/ui/spinner/Spinner.jsx";
+
+import { handleProfilePhotoChange } from "../util/handleProfilePhotoChange.js";
 
 export default function ChangeProfilePhotoForm() {
-  const { photoURL } = useSelector((state) => state.user.info);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [loading, setLoading] = useState(false);
+
+  const { photoURL, displayName, uid } = useSelector(
+    (state) => state.user.info
+  );
+
   const { fileInput, handleFileChange } = useFileValidator({
     maxSizeBytes: 2,
   });
@@ -20,14 +32,22 @@ export default function ChangeProfilePhotoForm() {
     currentPhotoReference = photoURL;
   }
 
-  useEffect(() => {
-    if (fileInput.file) {
-      // console.log("File input has changed:", fileInput.file);
-    }
-  }, [fileInput]);
+  const handleSubmit = (event) =>
+    dispatch(
+      handleProfilePhotoChange({
+        event,
+        file: fileInput.file,
+        uid,
+        displayName,
+        currentPhotoReference,
+        dispatch,
+        navigate,
+        setLoading,
+      })
+    );
 
   return (
-    <div className={styles["profile-photo-form"]}>
+    <form onSubmit={handleSubmit} className={styles["profile-photo-form"]}>
       <div className={styles["profile-photo-wrapper"]}>
         {fileInput.src ? (
           <div className={styles["profile-photo-container"]}>
@@ -59,10 +79,16 @@ export default function ChangeProfilePhotoForm() {
       <div>
         <div>
           <div className={styles["button-container"]}>
-            <Button type="submit">Update Profile Photo</Button>
+            <Button type="submit">
+              {loading ? (
+                <Spinner size="small" contrastPrimaryColor />
+              ) : (
+                "Update Profile Photo"
+              )}
+            </Button>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 }

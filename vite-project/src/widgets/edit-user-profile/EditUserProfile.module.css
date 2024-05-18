@@ -53,6 +53,7 @@
   color: var(--color-gray-500);
 }
 
+/* Spinner style needs to be changed which needs an entire app refactor */
 .button-container {
   max-width: 30rem;
 }

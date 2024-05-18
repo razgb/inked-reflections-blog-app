@@ -56,6 +56,17 @@ const profileFeedSlice = createSlice({
         state.userHasPosts = false;
       }
     },
+    addNewUserValueToProfileFeed(state, action) {
+      const { uid, ...userValues } = action.payload;
+      state.posts = state.posts.map((post) => {
+        if (post.uid === uid) {
+          return {
+            ...post,
+            ...userValues,
+          };
+        } else return post;
+      });
+    },
   },
 });
 
@@ -66,4 +77,5 @@ export const {
   toggleBookmarkInProfileFeed,
   addPostToProfileFeed,
   removePostFromProfileFeed,
+  addNewUserValueToProfileFeed,
 } = profileFeedSlice.actions;

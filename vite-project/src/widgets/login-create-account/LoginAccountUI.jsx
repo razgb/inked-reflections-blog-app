@@ -1,5 +1,5 @@
-import Button from "../../shared/ui/buttons/Button";
 import styles from "./LoginAccountUI.module.css";
+import Button from "../../shared/ui/buttons/Button";
 import Spinner from "../../shared/ui/spinner/Spinner";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
@@ -7,13 +7,22 @@ import { validateEmail } from "../../features/user-auth/loginFlowUtil";
 import { loginUser } from "../../features/user-auth/loginUser";
 import { reAuthenticateUser } from "../../features/user-auth/reAuthenticateUser";
 
+/**
+ * This component renders different UIs depending on the 'parent' container received from the overlaySlice.
+ * The parent can either be login or editUserProfile.
+ * The login parent is the initial login form in the flow path.
+ * The editUserProfile parent is the form to edit the user's profile.
+ *
+ * @param {string} navigatePath - The path to navigate to after successful login.
+ * @param {string} functionRef - The function reference to use.
+ * @returns {JSX.Element} - The JSX element.
+ */
 export default function LoginAccountUI({
   navigatePath = "/profile",
   functionRef = "login",
 }) {
-  const emailRef = useRef(null); // used to auto focus email input (UX)
-
   const navigate = useNavigate();
+  const emailRef = useRef(null); // used to auto focus email input (UX)
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [loginDetails, setLoginDetails] = useState({
@@ -21,6 +30,8 @@ export default function LoginAccountUI({
     email: "",
     password: "",
   });
+
+  const buttonText = functionRef === "login" ? "Sign in" : "Authenticate";
 
   function onEmailClick(event) {
     setLoginDetails((prev) => ({ ...prev, email: event.target.value }));
@@ -68,6 +79,10 @@ export default function LoginAccountUI({
       )}
 
       <div className={styles["login"]}>
+        <h2 className={styles["login__heading"]}>
+          Apologies, we just need to know it&apos;s you again
+        </h2>
+
         <form onSubmit={handleSubmit} className={styles["login__container"]}>
           <div className={styles["label-input-container"]}>
             <label className={styles["label-email"]} htmlFor="email">
@@ -112,17 +127,24 @@ export default function LoginAccountUI({
           </div>
 
           <Button disabled={loading}>
-            {loading ? <Spinner size="small" color="light" /> : "Sign in"}
+            {loading ? (
+              <Spinner size="small" contrastPrimaryColor />
+            ) : (
+              buttonText
+            )}
           </Button>
 
-          <div>
-            <span className={styles["no-account-text"]}>
-              Don&apos;t have an account?
-            </span>
-            <Link to="/flow/signup" className={styles["no-account-link"]}>
-              Sign up
-            </Link>
-          </div>
+          {functionRef === "login" && (
+            <div>
+              <span className={styles["no-account-text"]}>
+                Don&apos;t have an account?
+              </span>
+
+              <Link to="/flow/signup" className={styles["no-account-link"]}>
+                Sign up
+              </Link>
+            </div>
+          )}
         </form>
       </div>
     </div>

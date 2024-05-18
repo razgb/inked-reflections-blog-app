@@ -54,6 +54,17 @@ const bookmarkFeedSlice = createSlice({
         state.userHasPosts = false;
       }
     },
+    addNewUserValueToBookmarkFeed(state, action) {
+      const { uid, ...userValues } = action.payload;
+      state.posts = state.posts.map((post) => {
+        if (post.uid === uid) {
+          return {
+            ...post,
+            ...userValues,
+          };
+        } else return post;
+      });
+    },
   },
 });
 
@@ -63,4 +74,5 @@ export const {
   addPostToBookmarkFeed,
   removePostFromBookmarkFeed,
   updateBookmarkObserver,
+  addNewUserValueToBookmarkFeed,
 } = bookmarkFeedSlice.actions;

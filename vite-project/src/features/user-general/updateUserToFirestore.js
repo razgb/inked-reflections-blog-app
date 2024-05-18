@@ -2,17 +2,16 @@ import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../../main";
 
 /**
- * Updates a user document in the Firestore database with new information.
- * @param {object} userData Copy of user info from the signup forms in the flow components.
+ * General user updating function that can take in single fields to update too.
+ * Used in both creating user and updating in profile/edit path.
+ * @param {object} updatedUserData Copy of user info from the signup forms in the flow components. Consists of uid: "", email: "", displayName: "", emailVerified: false, photoURL: "",
  * @returns {object} An object with `success` (boolean) and `message` (string) properties.
  */
-export async function updateUserInFirebase(updatedUserData) {
-  if (!updatedUserData || !updatedUserData.uid) {
-    console.log("Error: No user data or user ID provided.");
-    return {
-      success: false,
-      message: "Error: No user data or user ID provided.",
-    };
+export async function updateUserInUsersCollection(updatedUserData) {
+  if (!updatedUserData.uid) {
+    throw new Error(
+      "Please include a uid in order to update the user in firestore. "
+    );
   }
 
   const userRef = doc(db, "users", updatedUserData.uid);
@@ -21,16 +20,9 @@ export async function updateUserInFirebase(updatedUserData) {
     await updateDoc(userRef, {
       ...updatedUserData,
     });
-    console.log("Success: User document updated.");
-    return {
-      success: true,
-      message: "Success: User document updated.",
-    };
+    return true;
   } catch (error) {
     console.error("Error updating user document:", error);
-    return {
-      success: false,
-      message: "Error: Unable to update user document. Please try again later.",
-    };
+    return false;
   }
 }

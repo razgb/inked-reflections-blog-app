@@ -40,6 +40,17 @@ const mainFeedSlice = createSlice({
       const post = state.posts.find((post) => post.id === postId);
       if (post) post.isBookmarked = toggleState;
     },
+    addNewUserValueToMainFeed(state, action) {
+      const { uid, ...userValues } = action.payload;
+      state.posts = state.posts.map((post) => {
+        if (post.uid === uid) {
+          return {
+            ...post,
+            ...userValues,
+          };
+        } else return post;
+      });
+    },
   },
 });
 
@@ -49,4 +60,5 @@ export const {
   updateFeedObserver,
   toggleBookmarkInMainFeed,
   removePostFromMainFeed,
+  addNewUserValueToMainFeed,
 } = mainFeedSlice.actions;

@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   info: {
-    uid: "",
     loginState: null,
+    uid: "",
     email: "",
     displayName: "",
     emailVerified: false,
@@ -13,7 +13,7 @@ const initialState = {
   },
   edit: {
     showLoginModal: false,
-    reAuthed: false,
+    // reAuthed: false,
     newPhotoURL: "",
     newPhotoFile: "",
     newEmail: "",
@@ -37,9 +37,17 @@ const userSlice = createSlice({
     setLoginModal(state, action) {
       state.edit.showLoginModal = action.payload;
     },
+    // General single updates inside profile/edit path.
+    addNewUserDetail(state, action) {
+      state.info = { ...state.info, ...action.payload };
+    },
   },
 });
 
-export const { addUserToState, removeUserFromState, setLoginModal } =
-  userSlice.actions;
+export const {
+  addUserToState,
+  removeUserFromState,
+  setLoginModal,
+  addNewUserDetail,
+} = userSlice.actions;
 export default userSlice.reducer;
