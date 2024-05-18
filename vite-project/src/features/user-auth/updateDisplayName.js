@@ -1,6 +1,7 @@
 import { auth } from "../../main";
 import { updateProfile } from "firebase/auth";
 import { updateUserInUsersCollection } from "../user-general/updateUserToFirestore";
+import { requestWithRetry } from "../../shared/util/requestWithRetry";
 
 /**
  * Sends request to firebase to update user displayName and profile. (does not update username)
@@ -14,17 +15,19 @@ export async function updateDisplayNameAndProfile(
   firebaseImageReference
 ) {
   try {
-    await updateProfile(auth.currentUser, {
-      displayName: name,
-      photoURL: firebaseImageReference,
-    });
+    await requestWithRetry(
+      updateProfile(auth.currentUser, {
+        displayName: name,
+        photoURL: firebaseImageReference,
+      })
+    );
 
-    await updateUserInUsersCollection({
-      uid: uid,
-      photoURL: firebaseImageReference,
-    });
-
-    // send new displayName to users collection.
+    await requestWithRetry(
+      updateUserInUsersCollection({
+        uid: uid,
+        photoURL: firebaseImageReference,
+      })
+    );
 
     return "success";
   } catch (error) {

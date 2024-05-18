@@ -6,19 +6,19 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
+import { requestWithRetry } from "../../../shared/util/requestWithRetry.js";
 
-export async function updateAllPostsWithNewValues(newUserData) {
+export async function updateAllPostsWithNewValues({ uid, ...newUserData }) {
   const postsRef = collection(db, "posts-new");
-  const q = query(postsRef, where("uid", "==", newUserData.uid));
+  const q = query(postsRef, where("uid", "==", uid));
 
   try {
-    const querySnapshot = await getDocs(q);
-
+    const querySnapshot = await requestWithRetry(getDocs(q));
     const promises = querySnapshot.docs.map((doc) =>
       updateDoc(doc.ref, { ...newUserData })
     );
 
-    await Promise.all(promises);
+    await requestWithRetry(promises);
     return true;
   } catch (error) {
     console.error("Error updating all posts:", error);

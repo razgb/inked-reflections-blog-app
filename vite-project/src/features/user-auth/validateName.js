@@ -17,17 +17,18 @@ export function validateName(name) {
   } else if (!lengthValidated && alphabeticalValidated) {
     return {
       success: false,
-      message: "Name is too long! (max 3 words)",
+      message: "Your name must be maximum 3 words.",
     };
   } else if (lengthValidated && !alphabeticalValidated) {
     return {
       success: false,
-      message: "Only alphabetical characters allowed.",
+      message: "Your name must contain only alphabetical characters.",
     };
   } else {
     return {
       success: false,
-      message: "Use max 3 alphabetic words for your name.",
+      message:
+        "Your name must contain only alphabetical characters and maximum 3 words.",
     };
   }
 }

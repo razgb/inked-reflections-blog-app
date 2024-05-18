@@ -13,11 +13,10 @@ const initialState = {
   },
   edit: {
     showLoginModal: false,
-    // reAuthed: false,
-    newPhotoURL: "",
-    newPhotoFile: "",
-    newEmail: "",
-    newDisplayName: "",
+    // newPhotoURL: "",
+    // newPhotoFile: "",
+    // newEmail: "",
+    // newDisplayName: "",
   },
 };
 

@@ -5,28 +5,18 @@
  * @returns {promise} - Returns what the function passed in returns.
  */
 export async function requestWithRetry(promiseOrBatch, maxAttempts = 3) {
-  let promise = null;
-  if (Array.isArray(promiseOrBatch)) {
-    promise = Promise.all(promiseOrBatch);
-  } else {
-    promise = promiseOrBatch;
-  }
+  let promise = Array.isArray(promiseOrBatch)
+    ? Promise.all(promiseOrBatch)
+    : promiseOrBatch;
+  let attempts = 0;
 
-  async function attemptAsyncRequest() {
-    return await promise;
-  }
-
-  let attempts = 1;
-  try {
-    // console.log(`Attempt ${attempts}`);
-    return await attemptAsyncRequest();
-  } catch (error) {
-    if (attempts > maxAttempts) {
+  while (attempts < maxAttempts) {
+    try {
+      return await promise;
+    } catch (error) {
       attempts++;
-      throw new Error();
-    } else {
+      if (attempts >= maxAttempts) throw error;
       await new Promise((resolve) => setTimeout(resolve, 500));
-      await attemptAsyncRequest();
     }
   }
 }

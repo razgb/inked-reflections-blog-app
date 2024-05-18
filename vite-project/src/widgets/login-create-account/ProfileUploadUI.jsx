@@ -9,7 +9,6 @@ import { uploadImageToFirebase } from "../../features/user-general/uploadImageTo
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { validateName } from "../../features/user-auth/validateName.js";
-import { validateUsername } from "../../features/user-auth/validateUsername.js";
 import { updateDisplayNameAndProfile } from "../../features/user-auth/updateDisplayName.js";
 import { addUserToState } from "../../entities/user/user-slice.js";
 import useFileValidator from "../../shared/util/useFileValidator.jsx";

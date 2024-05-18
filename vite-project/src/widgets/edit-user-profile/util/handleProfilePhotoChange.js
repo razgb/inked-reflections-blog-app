@@ -16,15 +16,7 @@ import { updateAllPostsWithNewValues } from "../../../features/edit-profile/user
 import { uploadImageToFirebase } from "../../../features/user-general/uploadImageToFirebase.js";
 import { deleteImageFromFirebase } from "../../../features/user-general/deleteImageFromFirebase.js";
 import { requestWithRetry } from "../../../shared/util/requestWithRetry.js";
-
-function setDefaultAppError(dispatch) {
-  dispatch(
-    activateAppError({
-      title: "Error updating your profile",
-      description: "Please check your internet connection and try again.",
-    })
-  );
-}
+import { setDefaultAppError } from "./setDefaultAppError.js";
 
 /**
  * Uploads image to firebase, deletes current image from firebase,
@@ -41,7 +33,6 @@ function setDefaultAppError(dispatch) {
 export const handleProfilePhotoChange = createAsyncThunk(
   "user/handleProfilePhotoChange",
   async ({
-    event,
     file,
     uid,
     displayName,
@@ -50,8 +41,6 @@ export const handleProfilePhotoChange = createAsyncThunk(
     navigate,
     setLoading,
   }) => {
-    event.preventDefault();
-
     setLoading(true);
     if (!file) {
       dispatch(

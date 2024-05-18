@@ -32,10 +32,10 @@ export default function ChangeProfilePhotoForm() {
     currentPhotoReference = photoURL;
   }
 
-  const handleSubmit = (event) =>
+  const handleSubmit = (event) => {
+    event.preventDefault();
     dispatch(
       handleProfilePhotoChange({
-        event,
         file: fileInput.file,
         uid,
         displayName,
@@ -45,6 +45,7 @@ export default function ChangeProfilePhotoForm() {
         setLoading,
       })
     );
+  };
 
   return (
     <form onSubmit={handleSubmit} className={styles["profile-photo-form"]}>

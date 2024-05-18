@@ -12,8 +12,6 @@ export async function signupUser(email, password) {
     const user = userCredential.user;
     console.log(user);
 
-    // CREATE USER IN FIRESTORE
-
     return {
       isValidated: user.emailVerified,
     };
@@ -24,11 +22,3 @@ export async function signupUser(email, password) {
     throw error;
   }
 }
-
-/*
-Notes: 
-
-1. name upload as displayName to userauth. 
-2. username upload to user collections. 
-3. maybe rearange data structure in firebase? 
-*/
