@@ -9,6 +9,7 @@ import errorReducer from "../entities/app-error/app-error-slice.js";
 import dangerModalReducer from "../entities/danger-modal/dangerModalSlice.js";
 import locationReducer from "../entities/url-location/location-slice.js";
 import overlayReducer from "../entities/overlay/overlaySlice.js";
+import successReducer from "../entities/app-success/app-success-slice.js";
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     profileFeed: profileFeedReducer,
     bookmarkFeed: bookmarkFeedReducer,
     imageCache: imageCacheReducer,
+    success: successReducer,
     error: errorReducer,
     danger: dangerModalReducer,
     overlay: overlayReducer,

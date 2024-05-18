@@ -19,6 +19,6 @@ export async function signupUser(email, password) {
     const errorCode = error.code;
     const errorMessage = error.message;
     console.log(errorCode, errorMessage);
-    throw error;
+    return null;
   }
 }

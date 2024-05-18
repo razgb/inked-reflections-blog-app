@@ -11,8 +11,9 @@ export default function ChangeDisplayNameForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const nameRef = useRef(null);
-  const { displayName, photoURL } = useSelector((state) => state.user.info);
-  const { uid } = useSelector((state) => state.user.info);
+  const { displayName, photoURL, uid } = useSelector(
+    (state) => state.user.info
+  );
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = (event) => {

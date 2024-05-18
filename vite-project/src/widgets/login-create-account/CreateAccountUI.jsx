@@ -18,6 +18,7 @@ export default function CreateAccountUI() {
     password: "",
     confirmPassword: "",
   });
+
   const [error, setError] = useState({
     emailError: false,
     emailMessage: "",
@@ -58,7 +59,6 @@ export default function CreateAccountUI() {
 
     try {
       const user = await signupUser(email, password);
-      const accessToken = await user.getIdToken(); // why?
       dispatch(
         addUserToState({
           email: user.email,
@@ -66,9 +66,6 @@ export default function CreateAccountUI() {
           uid: user.uid,
           photoURL: user.providerData[0].photoURL,
           isVerified: user.emailVerified,
-          // accessToken: user.accessToken,
-          accessToken: accessToken,
-          refreshToken: user.refreshToken,
         })
       );
     } catch (error) {
