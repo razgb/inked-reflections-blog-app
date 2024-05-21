@@ -1,17 +1,17 @@
 import styles from "./ProfileUploadUI.module.css";
-import Button from "../../shared/ui/buttons/Button.jsx";
-import Spinner from "../../shared/ui/spinner/Spinner.jsx";
-import defaultProfile from "../../../public/default-profile.jpeg";
+import Button from "../../../shared/ui/buttons/Button.jsx";
+import Spinner from "../../../shared/ui/spinner/Spinner.jsx";
+
 import { useRef, useState } from "react";
-import { AtSymbolIcon } from "../../shared/ui/svg/LoginSvg.jsx";
-import { ProfileIcon } from "../../shared/ui/svg/MenuSvg.jsx";
-import { uploadImageToFirebase } from "../../features/user-general/uploadImageToFirebase.js";
+import { AtSymbolIcon } from "../../../shared/ui/svg/LoginSvg.jsx";
+import { ProfileIcon } from "../../../shared/ui/svg/MenuSvg.jsx";
+import { uploadImageToFirebase } from "../../../features/user-general/uploadImageToFirebase.js";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { validateName } from "../../features/user-auth/validateName.js";
-import { updateDisplayNameAndProfile } from "../../features/user-auth/updateDisplayName.js";
-import { addUserToState } from "../../entities/user/user-slice.js";
-import useFileValidator from "../../shared/util/useFileValidator.jsx";
+import { validateName } from "../../../features/user-auth/validateName.js";
+import { updateDisplayNameAndProfile } from "../../../features/user-auth/updateDisplayName.js";
+import { addUserToState } from "../../../entities/user/user-slice.js";
+import useFileValidator from "../../../shared/util/useFileValidator.jsx";
 
 const initialErrorState = {
   uploadError: false,

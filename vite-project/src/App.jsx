@@ -2,7 +2,6 @@ import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
-  useNavigate,
 } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -18,13 +17,12 @@ import RootLayout from "./pages/root-page/RootPage.jsx";
 import HomePage from "./pages/home-page/HomePage";
 import PostDetails from "./pages/post-details-page/PostDetailsPage.jsx";
 import BookmarksPage from "./pages/bookmarks-page/BookmarksPage.jsx";
-import ExplorePage from "./pages/explore-page/ExplorePage.jsx";
 import ErrorMessage from "./widgets/error-message/ErrorMessage.jsx";
 import ProfilePage from "./pages/profile-page/ProfilePage.jsx";
 import FlowPage from "./pages/flow-login-signup/FlowPage.jsx";
-import LoginAccountUI from "./widgets/login-create-account/LoginAccountUI.jsx";
-import CreateAccountUI from "./widgets/login-create-account/CreateAccountUI.jsx";
-import ProfileUploadUI from "./widgets/login-create-account/ProfileUploadUI.jsx";
+import LoginAccountUI from "./widgets/login-create-account/login-account/LoginAccountUI.jsx";
+import CreateAccountUI from "./widgets/login-create-account/create-account/CreateAccountUI.jsx";
+import ProfileUploadUI from "./widgets/login-create-account/profile-upload/ProfileUploadUI.jsx";
 import EditUserProfilePage from "./pages/profile-page/EditUserProfilePage.jsx";
 import CreateReflectionPage from "./pages/profile-page/CreateReflectionPage.jsx";
 

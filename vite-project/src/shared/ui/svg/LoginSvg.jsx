@@ -2,13 +2,11 @@ const EyeIcon = ({ size }) => {
   return (
     <svg
       className="icon"
-      xmlns="http://www.w3.org/2000/svg"
       version="1.1"
       id="Capa_1"
       x="0px"
       y="0px"
       viewBox="0 0 512.19 512.19"
-      style="enable-background:new 0 0 512.19 512.19;"
       width={size}
       height={size}
     >
@@ -24,13 +22,11 @@ const EyeCrossedIcon = ({ size }) => {
   return (
     <svg
       className="icon"
-      xmlns="http://www.w3.org/2000/svg"
       version="1.1"
       id="Capa_1"
       x="0px"
       y="0px"
       viewBox="0 0 512.19 512.19"
-      style="enable-background:new 0 0 512.19 512.19;"
       width={size}
       height={size}
     >

@@ -1,11 +1,12 @@
 import styles from "./LoginAccountUI.module.css";
-import Button from "../../shared/ui/buttons/Button";
-import Spinner from "../../shared/ui/spinner/Spinner";
+import Button from "../../../shared/ui/buttons/Button";
+import Spinner from "../../../shared/ui/spinner/Spinner";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { validateEmail } from "../../features/user-auth/loginFlowUtil";
-import { loginUser } from "../../features/user-auth/loginUser";
-import { reAuthenticateUser } from "../../features/user-auth/reAuthenticateUser";
+import { validateEmail } from "../../../features/user-auth/validateSignupCredentials";
+import { loginUser } from "../../../features/user-auth/loginUser";
+import { reAuthenticateUser } from "../../../features/user-auth/reAuthenticateUser";
+import { useSelector } from "react-redux";
 
 /**
  * This component renders different UIs depending on the 'parent' container received from the overlaySlice.
@@ -21,6 +22,7 @@ export default function LoginAccountUI({
   navigatePath = "/profile",
   functionRef = "login",
 }) {
+  const uid = useSelector((state) => state.user.info.uid);
   const navigate = useNavigate();
   const emailRef = useRef(null); // used to auto focus email input (UX)
   const [loading, setLoading] = useState(false);
@@ -66,11 +68,16 @@ export default function LoginAccountUI({
   }
 
   useEffect(() => {
+    if (uid && functionRef === "login") {
+      console.log("should navigate");
+      navigate("/profile");
+    }
+
     if (loginDetails.initialEmailFocus) {
       setLoginDetails((prev) => ({ ...prev, initialEmailFocus: false }));
       emailRef.current.focus();
     }
-  }, [loginDetails.initialEmailFocus]);
+  }, [loginDetails.initialEmailFocus, uid, navigate, functionRef]);
 
   return (
     <div>
@@ -79,9 +86,11 @@ export default function LoginAccountUI({
       )}
 
       <div className={styles["login"]}>
-        <h2 className={styles["login__heading"]}>
-          Apologies, we just need to know it&apos;s you again
-        </h2>
+        {functionRef === "editUserProfile" && (
+          <h2 className={styles["login__heading"]}>
+            Apologies, we just need to know it&apos;s you again
+          </h2>
+        )}
 
         <form onSubmit={handleSubmit} className={styles["login__container"]}>
           <div className={styles["label-input-container"]}>

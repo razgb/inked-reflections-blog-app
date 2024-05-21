@@ -22,7 +22,6 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loginState === false) {
-      console.log(loginState);
       navigate("/flow/login");
     }
   }, [navigate, loginState]);

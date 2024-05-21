@@ -19,7 +19,8 @@
 
 .profile__image {
   position: relative;
-  border-radius: 100%;
+  /* border-radius: 50%; */
+  border-radius: var(--space-md);
   overflow: hidden;
   max-width: 20rem;
   padding-bottom: 20rem;

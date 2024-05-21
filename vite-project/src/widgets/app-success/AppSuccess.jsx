@@ -22,7 +22,7 @@ export default function AppSuccess() {
         </div>
 
         <button className={styles["cross-button"]} onClick={handleClose}>
-          <CrossIcon size={32} />
+          <CrossIcon size={40} />
         </button>
       </div>
     </div>

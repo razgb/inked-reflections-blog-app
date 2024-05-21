@@ -1,24 +1,27 @@
-.signup__heading {
-  font-size: var(--secondary-heading);
-  text-align: center;
-  margin-bottom: var(--space-lg);
-}
 .signup {
   background-color: var(--color-primary-500);
   padding: var(--space-xl);
   border-radius: var(--space-md);
+
+  width: 50dvw;
+  max-width: 70rem;
 }
+
+.signup__heading {
+  font-size: var(--secondary-heading);
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
 .signup__container {
   display: grid;
   grid-template-columns: 3fr 2fr;
-  gap: var(--space-xl);
+  gap: var(--space-2xl);
 }
 
 .signup__form {
   font-size: var(--text);
-  min-width: 30rem;
   color: var(--color-primary-700);
-
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
@@ -27,20 +30,18 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
+  font-size: var(--tertiary-heading);
 }
-
-/* Future me create a input password container that includes both 
-the input and the eye icon that shows the user what their password 
-looks like before submission. */
 
 .input-email,
 .input-password {
   color: var(--color-primary-800);
-  padding: var(--space-xs);
+  padding: var(--space-sm);
   font-size: var(--text);
   border-radius: var(--space-xs);
   outline: 0.5px solid var(--color-primary-800);
   background-color: var(--color-primary-200);
+  width: 100%;
 }
 .input-email:focus,
 .input-password:focus {
@@ -51,23 +52,27 @@ looks like before submission. */
 .label-password-error {
   color: var(--color-error-500);
 }
-.strength-forgot-box {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--space-md);
+
+.input-icon-container {
+  position: relative;
 }
-.strength.weak {
-  color: var(--color-error-500);
+.eye-button {
+  position: absolute;
+  top: 50%;
+  right: var(--space-sm);
+  transform: translateY(-50%);
+
+  cursor: pointer;
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  background-color: transparent;
 }
-.strength.good {
-  /* temp color */
-  color: orange;
+
+.forgot-password-text {
+  margin-left: auto;
 }
-.strength.strong {
-  /* this looks fucking disgusting */
-  color: green;
-}
+
 .forgot-password-text,
 .no-account-text:link,
 .no-account-link:link {
@@ -87,13 +92,11 @@ looks like before submission. */
   margin-right: var(--space-sm);
 }
 
-.rules {
-}
 .rules__container {
   height: 100%;
 }
 .rules__heading {
-  font-size: var(--text-sm);
+  font-size: var(--tertiary-heading);
   margin-bottom: var(--space-sm);
 }
 .rules__list {
@@ -101,6 +104,6 @@ looks like before submission. */
   list-style: disc;
 }
 .rules__item {
-  font-size: var(--text-sm);
+  font-size: var(--text);
   margin-bottom: var(--space-xs);
 }

@@ -69,12 +69,15 @@
   --color-error-700: #f97373;
   --color-error-900: #fb5858;
 
-  --color-success-100: #e8f0ff;
+  /* --color-success-100: #e8f0ff;
   --color-success-200: #ccd9fb;
   --color-success-300: #bdcfff;
   --color-success-500: #92bfff;
   --color-success-700: #7393f9;
-  --color-success-900: #101d4a;
+  --color-success-900: #101d4a; */
+
+  --white: #fff;
+  --black: #000;
 
   --color-choice-1: #f8e6f3;
   --color-choice-2: #e2eaf7;

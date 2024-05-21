@@ -1,6 +1,6 @@
 .login__heading {
   font-size: var(--secondary-heading);
-  /* text-align: center; */
+  text-align: center;
   margin-bottom: var(--space-lg);
   color: var(--color-primary-800);
 }

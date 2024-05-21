@@ -1,15 +1,14 @@
 .success {
   position: absolute;
-  top: 50%;
+  top: 25%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 999;
-
-  min-width: 30rem;
-  max-width: 60rem;
-  background-color: var(--color-success-100);
-  border: 1px solid var(--color-success-700);
+  width: 100%;
+  max-width: 70rem;
+  background-color: var(--black);
   border-radius: var(--space-lg);
+  color: var(--white);
 }
 .success-container {
   display: flex;
@@ -17,21 +16,18 @@
   justify-content: space-between;
   gap: var(--space-md);
 
-  padding: var(--space-lg);
-  color: var(--color-primary-800);
+  padding: var(--space-md) var(--space-lg);
 }
 
 .heading {
   font-size: var(--secondary-heading);
   margin-bottom: var(--space-xs);
-  color: var(--color-success-900);
 }
 .message {
   font-size: var(--text);
-  color: var(--color-success-900);
 }
 .cross-button {
   cursor: pointer;
   background-color: transparent;
-  fill: var(--color-success-900);
+  fill: var(--white);
 }

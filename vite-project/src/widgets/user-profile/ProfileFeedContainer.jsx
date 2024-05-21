@@ -6,18 +6,14 @@ import LazyLoadedImage from "../lazy-loaded-image/LazyLoadedImage.jsx";
 import { fetchProfileFeedPosts } from "../../features/reflections/fetchProfileFeedPosts.js";
 import { useSelector } from "react-redux";
 import Spinner from "../../shared/ui/spinner/Spinner.jsx";
-// import Button from "../../shared/ui/buttons/Button.jsx";
 import LinkButton from "../../shared/ui/buttons/LinkButton.jsx";
 
 export default function ProfileFeedContainer() {
+  const { uid, photoURL, displayName, dateAccountedCreated } = useSelector(
+    (state) => state.user.info
+  );
+
   const { posts } = useSelector((state) => state.profileFeed);
-  const { info } = useSelector((state) => state.user);
-  const {
-    uid,
-    photoURL: profilePhotoReference,
-    displayName,
-    dateAccountedCreated,
-  } = info;
 
   if (!uid) {
     return (
@@ -27,6 +23,9 @@ export default function ProfileFeedContainer() {
     );
   }
 
+  const profilePhotoReference = photoURL || "posts/default-profile.jpeg";
+  const profileFolderReference = photoURL ? "profile" : "assets";
+
   return (
     <div className={styles["profile"]}>
       <div className={styles["profile__container"]}>
@@ -35,8 +34,8 @@ export default function ProfileFeedContainer() {
             <div className={styles["profile__image"]}>
               <LazyLoadedImage
                 reference={profilePhotoReference}
+                firebaseFolder={profileFolderReference}
                 altText="User's profile photo."
-                firebaseFolder="profile"
               />
             </div>
 
@@ -50,13 +49,6 @@ export default function ProfileFeedContainer() {
 
           <div className={styles["profile__section-half-2"]}>
             <LinkButton path="/profile/edit">Edit profile</LinkButton>
-
-            {/* add a min width that matches the same as edit profile */}
-            {/* <Button buttonType="button">
-              <div className={styles["spinner-container"]}>
-                <Spinner size="small" contrastPrimaryColor={true} />
-              </div>
-            </Button> */}
           </div>
         </div>
 
@@ -69,8 +61,6 @@ export default function ProfileFeedContainer() {
             <ReflectButton size={20}>Write a reflection</ReflectButton>
           </div>
         </div>
-
-        {/* <SearchInput placeholder="Search your reflections" /> */}
 
         <div className={styles["posts"]}>
           {uid && (

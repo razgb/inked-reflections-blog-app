@@ -4,7 +4,7 @@ import ChangeEmailForm from "./sub-components/ChangeEmailForm";
 import ChangePasswordForm from "./sub-components/ChangePasswordForm";
 import ChangeProfilePhotoForm from "./sub-components/ChangeProfilePhotoForm";
 import DeleteAccountForm from "./sub-components/DeleteAccountForm";
-import LoginAccountUI from "../login-create-account/LoginAccountUI";
+import LoginAccountUI from "../login-create-account/login-account/LoginAccountUI";
 
 import { useSelector } from "react-redux";
 
