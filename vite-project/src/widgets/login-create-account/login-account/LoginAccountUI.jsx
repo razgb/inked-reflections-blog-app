@@ -1,12 +1,17 @@
 import styles from "./LoginAccountUI.module.css";
 import Button from "../../../shared/ui/buttons/Button";
 import Spinner from "../../../shared/ui/spinner/Spinner";
-import { Link, useNavigate } from "react-router-dom";
+import PasswordInput from "./sub-components/PasswordInput.jsx";
+import EmailInput from "./sub-components/EmailInput.jsx";
+import NoAccountContainer from "./sub-components/NoAccountContainer.jsx";
+
+import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { validateEmail } from "../../../features/user-auth/validateSignupCredentials";
-import { loginUser } from "../../../features/user-auth/loginUser";
-import { reAuthenticateUser } from "../../../features/user-auth/reAuthenticateUser";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { ForgotPasswordContainer } from "./sub-components/ForgotPasswordContainer";
+import { handleLoginSubmission } from "./handleLoginSubmission.js";
 
 /**
  * This component renders different UIs depending on the 'parent' container received from the overlaySlice.
@@ -24,7 +29,8 @@ export default function LoginAccountUI({
 }) {
   const uid = useSelector((state) => state.user.info.uid);
   const navigate = useNavigate();
-  const emailRef = useRef(null); // used to auto focus email input (UX)
+  const dispatch = useDispatch();
+  const emailRef = useRef(null); // auto focus email input on mount.
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [loginDetails, setLoginDetails] = useState({
@@ -42,42 +48,35 @@ export default function LoginAccountUI({
     setLoginDetails((prev) => ({ ...prev, password: event.target.value }));
   }
 
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
-    setError(false);
-    setLoading(true);
-
-    const { email, password } = loginDetails;
-    let loginState = false;
-
-    if (functionRef === "login") {
-      loginState = await loginUser(email, password);
-    } else if (functionRef === "reauth") {
-      loginState = await reAuthenticateUser(email, password);
-    } else {
-      throw new Error("Invalid function reference.");
-    }
-
-    if (loginState.success) {
-      navigate(navigatePath);
-    } else {
-      setError(true);
-    }
-
-    setLoading(false);
+    handleLoginSubmission({
+      setError,
+      setLoading,
+      functionRef,
+      navigate,
+      loginDetails,
+      navigatePath,
+      dispatch,
+    });
   }
 
   useEffect(() => {
     if (uid && functionRef === "login") {
-      console.log("should navigate");
-      navigate("/profile");
+      navigate(navigatePath);
     }
 
     if (loginDetails.initialEmailFocus) {
       setLoginDetails((prev) => ({ ...prev, initialEmailFocus: false }));
       emailRef.current.focus();
     }
-  }, [loginDetails.initialEmailFocus, uid, navigate, functionRef]);
+  }, [
+    loginDetails.initialEmailFocus,
+    uid,
+    navigate,
+    functionRef,
+    navigatePath,
+  ]);
 
   return (
     <div>
@@ -93,47 +92,19 @@ export default function LoginAccountUI({
         )}
 
         <form onSubmit={handleSubmit} className={styles["login__container"]}>
-          <div className={styles["label-input-container"]}>
-            <label className={styles["label-email"]} htmlFor="email">
-              Email
-            </label>
-            <input
-              required
-              className={styles["input-email"]}
-              type="email"
-              value={loginDetails.email}
-              onChange={onEmailClick}
-              onBlur={() => validateEmail(loginDetails.email)}
-              ref={emailRef}
-            />
-          </div>
+          <EmailInput
+            loginDetails={loginDetails}
+            onValueChange={onEmailClick}
+            emailRef={emailRef}
+            validateEmail={validateEmail}
+          />
 
-          <div className={styles["label-input-container"]}>
-            <label className={styles["label-password"]} htmlFor="password">
-              Password
-            </label>
-            <input
-              required
-              className={styles["input-password"]}
-              type="password"
-              value={loginDetails.password}
-              onChange={onPasswordClick}
-            />
-          </div>
+          <PasswordInput
+            loginDetails={loginDetails}
+            onValueChange={onPasswordClick}
+          />
 
-          <div className={styles["forgot-password__container"]}>
-            {error && (
-              <p className={styles["invalid-credentials"]}>
-                Invalid Credentials, try again
-              </p>
-            )}
-
-            <div className={styles["forgot-password"]}>
-              <Link className={styles["forgot-password-text"]}>
-                Forgot password?
-              </Link>
-            </div>
-          </div>
+          <ForgotPasswordContainer error={error} />
 
           <Button disabled={loading}>
             {loading ? (
@@ -143,30 +114,9 @@ export default function LoginAccountUI({
             )}
           </Button>
 
-          {functionRef === "login" && (
-            <div>
-              <span className={styles["no-account-text"]}>
-                Don&apos;t have an account?
-              </span>
-
-              <Link to="/flow/signup" className={styles["no-account-link"]}>
-                Sign up
-              </Link>
-            </div>
-          )}
+          <NoAccountContainer functionRef={functionRef} />
         </form>
       </div>
     </div>
   );
 }
-
-/**
- * Notes & todo:
- *
- * Import eye and crossed-eye icons for the password section.
- *
- * If user doesn't have a username -> send user to flow/userinfo.
- * If user tries to navigate to another tab -> navigate user on every component page
- * towards flow/userinfo.
- *
- */

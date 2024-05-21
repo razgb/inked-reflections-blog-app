@@ -14,6 +14,7 @@ export async function updateUserInUsersCollection(updatedUserData) {
     );
   }
 
+  console.log(updatedUserData);
   const userRef = doc(db, "users", updatedUserData.uid);
 
   try {
@@ -22,7 +23,7 @@ export async function updateUserInUsersCollection(updatedUserData) {
     });
     return true;
   } catch (error) {
-    console.error("Error updating user document:", error);
+    console.error(error);
     return false;
   }
 }

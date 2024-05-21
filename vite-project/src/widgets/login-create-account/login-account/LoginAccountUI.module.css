@@ -27,6 +27,7 @@
 
 .label-email,
 .label-password {
+  font-size: var(--tertiary-heading);
 }
 .input-email,
 .input-password {

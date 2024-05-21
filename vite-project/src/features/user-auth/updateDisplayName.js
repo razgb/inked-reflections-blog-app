@@ -1,6 +1,6 @@
 import { auth } from "../../main";
 import { updateProfile } from "firebase/auth";
-import { updateUserInUsersCollection } from "../user-general/updateUserToFirestore";
+import { updateUserInUsersCollection } from "../user-general/updateUserInUsersCollection";
 import { requestWithRetry } from "../../shared/util/requestWithRetry";
 
 /**
@@ -11,20 +11,21 @@ import { requestWithRetry } from "../../shared/util/requestWithRetry";
  */
 export async function updateDisplayNameAndProfile(
   uid,
-  name,
+  displayName,
   firebaseImageReference
 ) {
   try {
     await requestWithRetry(
       updateProfile(auth.currentUser, {
-        displayName: name,
+        displayName,
         photoURL: firebaseImageReference,
       })
     );
 
     await requestWithRetry(
       updateUserInUsersCollection({
-        uid: uid,
+        uid,
+        displayName,
         photoURL: firebaseImageReference,
       })
     );

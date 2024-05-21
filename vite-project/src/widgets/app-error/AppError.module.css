@@ -10,8 +10,13 @@
   background-color: var(--color-error-300);
   border: 1px solid var(--color-error-700);
   border-radius: var(--space-lg);
-  /* box-shadow: 2px 2px 10px 5px var(--color-error-shadow-300); */
 }
+.error.flow {
+  top: var(--space-xl);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .error-container {
   display: flex;
   align-items: center;

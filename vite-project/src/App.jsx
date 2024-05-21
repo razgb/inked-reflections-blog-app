@@ -2,6 +2,7 @@ import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
+  useNavigate,
 } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -57,7 +58,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate to="/posts" />,
+        element: <Navigate to="/flow/login" />,
       },
       {
         path: "reflect",
@@ -77,10 +78,6 @@ const router = createBrowserRouter([
           },
         ],
       },
-      // {
-      //   path: "explore",
-      //   element: <ExplorePage />,
-      // },
       {
         path: "profile",
         children: [
@@ -128,8 +125,8 @@ export default function App() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const { uid, email, emailVerified, displayName, photoURL } = user;
-        const createdAt = Number(user.metadata.createdAt);
 
+        const createdAt = Number(user.metadata.createdAt);
         const dateAccountedCreated =
           convertMillisTimestampToMonthAndYear(createdAt);
 

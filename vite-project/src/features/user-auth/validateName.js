@@ -1,11 +1,12 @@
 /**
  * Checks whether the name received contains only alphabetical chars and max 3 words in length.
  * @param {string} name User's displayName.
- * @returns {Object} Retuns success boolean & message as string.
+ * @returns {Object} Returns success boolean & message as string.
  */
 export function validateName(name) {
   const regex = /^[a-zA-Z]+$/;
-  const nameArray = name.split(" ");
+  const trimmedName = name.trim();
+  const nameArray = trimmedName.split(/\s+/);
   const lengthValidated = nameArray.length <= 3;
   const alphabeticalValidated = nameArray.every((name) => regex.test(name));
 

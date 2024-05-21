@@ -24,14 +24,3 @@ export async function loginUser(email, password) {
     // }
   }
 }
-
-/*
-{
-  loginState: true,
-  uid: user.uid,
-  email: user.email,
-  emailVerified: user.emailVerified,
-  displayName: user.displayName,
-  photoURL: user.photoURL,
-};
-*/

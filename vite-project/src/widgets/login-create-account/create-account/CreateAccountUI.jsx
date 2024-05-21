@@ -6,9 +6,9 @@ import PasswordInput from "./sub-components/PasswordInput";
 import EmailInput from "./sub-components/EmailInput";
 import NoAccountContainer from "./sub-components/NoAccountContainer";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useReducer, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { initialState, signupReducer } from "./signupReducer";
 import { handleSignup } from "./handleSignup";
@@ -16,7 +16,8 @@ import { handleSignup } from "./handleSignup";
 export default function CreateAccountUI() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const emailRef = useRef(null); // used to auto focus email input (UX)
+  const emailRef = useRef(null); // used to auto focus email input
+  const { loginState } = useSelector((state) => state.user.info);
 
   const [signupState, dispatchSignupState] = useReducer(
     signupReducer,
@@ -53,11 +54,15 @@ export default function CreateAccountUI() {
   }
 
   useEffect(() => {
+    if (loginState) {
+      navigate("/profile");
+    }
+
     if (signupState.initialEmailFocus) {
       dispatchSignupState({ type: "initialEmailFocus", payload: false });
       emailRef.current.focus();
     }
-  }, [signupState]);
+  }, [signupState, loginState, navigate]);
 
   return (
     <div className={styles["signup"]}>
@@ -82,10 +87,6 @@ export default function CreateAccountUI() {
             onValueChange={onConfirmPasswordValueChange}
             labelText="confirmPassword"
           />
-
-          <Link className={styles["forgot-password-text"]}>
-            Forgot password?
-          </Link>
 
           <Button type="submit">
             {signupState.loading ? (

@@ -11,7 +11,9 @@ import { useSelector } from "react-redux";
 
 export default function RootLayout() {
   const navigate = useNavigate();
-  const { loginState } = useSelector((state) => state.user.info);
+  const { loginState, uid, displayName } = useSelector(
+    (state) => state.user.info
+  );
 
   const [menuOpenState, setMenuOpenState] = useState(false);
   function handleToggleMenuState() {
@@ -24,7 +26,12 @@ export default function RootLayout() {
     if (loginState === false) {
       navigate("/flow/login");
     }
-  }, [navigate, loginState]);
+
+    if (uid && !displayName) {
+      navigate("/flow/userinfo");
+      return;
+    }
+  }, [navigate, loginState, uid, displayName]);
 
   return (
     <div className={`${""} ${menuClasses} layout__container`}>

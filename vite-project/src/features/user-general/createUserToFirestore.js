@@ -7,23 +7,20 @@ import { requestWithRetry } from "../../shared/util/requestWithRetry";
  * @param {object} userDataFromSignup Copy of user info from the signup forms in the flow components.
  * @returns {object} success bool & message
  */
-export async function createUserToFirebase(userData) {
+export async function createUserToFirestore(userData) {
   if (!userData) {
     console.warn("Error no user data to send.");
     return;
   }
 
-  const { uid, email, displayName, emailVerified, photoURL } = userData;
+  const { uid, displayName, photoURL } = userData;
   const userRef = doc(db, "users", uid);
 
   try {
     const promise = setDoc(userRef, {
       uid,
-      email,
       displayName,
-      emailVerified,
       photoURL: photoURL || null,
-      bookmarks: [],
     });
     await requestWithRetry(promise);
     console.log("Success upload of user.");
@@ -33,6 +30,7 @@ export async function createUserToFirebase(userData) {
       message: "Success",
     };
   } catch (error) {
+    console.log(error);
     return {
       success: false,
       message:

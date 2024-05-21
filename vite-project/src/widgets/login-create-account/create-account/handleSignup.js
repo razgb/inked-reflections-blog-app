@@ -3,6 +3,9 @@ import { addUserToState } from "../../../entities/user/user-slice";
 import { validateSignupCredentials } from "../../../features/user-auth/validateSignupCredentials";
 import { signupUser } from "../../../features/user-auth/signupUser";
 
+import { createUserToFirestore } from "../../../features/user-general/createUserToFirestore.js";
+import { activateAppError } from "../../../entities/app-error/app-error-slice.js";
+
 export async function handleSignup({
   signupState,
   dispatchSignupState,
@@ -38,19 +41,30 @@ export async function handleSignup({
 
   try {
     const user = await signupUser(email, password);
+    const { uid, emailVerified, photoURL } = user;
+    const createdAt = Number(user.metadata.createdAt);
 
-    dispatch(addUserToState(user));
+    const essentialUserInfo = {
+      uid,
+      emailVerified,
+      photoURL,
+      createdAt,
+      displayName: null,
+    };
 
-    dispatch(
-      activateAppSuccess({
-        title: "Welcome to Inked Reflections!",
-        message: "Please verify your email to enable all app features. ",
-      })
-    );
+    dispatch(addUserToState(essentialUserInfo));
 
-    navigate("/posts");
+    await createUserToFirestore(essentialUserInfo);
+    navigate("/flow/userinfo");
   } catch (error) {
     console.log(error);
+
+    dispatch(
+      activateAppError({
+        title: "Connection problem",
+        message: "Please check your internet connection and try again.",
+      })
+    );
   } finally {
     dispatchSignupState({ type: "loading", payload: false });
   }
